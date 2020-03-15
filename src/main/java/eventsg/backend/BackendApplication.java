@@ -8,12 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class BackendApplication {
-
 	/**
 	 * A private constructor that's never called.
 	 */
 	private BackendApplication() { }
 
+	/**
+	 * The main function.
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
