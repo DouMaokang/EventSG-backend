@@ -21,7 +21,6 @@ public class Event {
     // private Time endTime;
     // private Time registrationDeadline;
 
-
     /** The maximum number of people the event can hold. */
     private int maxCapacity;
     /** The number of people who signed up for the event. */
@@ -69,6 +68,7 @@ public class Event {
      * Calculates the duration of an event.
      * @return the duration of the event.
      */
+    // TODO: Complete calculateDuration() method
     public Object calculateDuration() {
         return null;
     }
