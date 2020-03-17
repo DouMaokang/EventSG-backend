@@ -58,11 +58,13 @@ public class EventController {
         return eventService.getSavedEvent(userId);
     }
 
-    public List<Event> getUpcomingEvent(UUID userId) // registered events
+    @GetMapping(path = "upcoming/{userId}")
+    public List<Event> getUpcomingEvent(@PathVariable("userId") UUID userId) // registered events
     {
         return eventService.getUpcomingEvent(userId);
     }
 
+    @GetMapping(path = "popular")
     public List<Event> getPopularEvent() // based on likes/saves
     {
         return eventService.getPopularEvent();

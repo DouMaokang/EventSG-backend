@@ -136,8 +136,14 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getUpcomingEvent(UUID userId) {
         final String sql = "SELECT * FROM event " +
                 "WHERE eventId IN (SELECT eventId FROM eventRegistration WHERE userId = ?) "+
-                "AND startTime < DATE(NOW()) + INTERVAL  7 DAY AND startTime >= DATE(NOW())";
-        return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
+                "AND startTime < DATE(NOW()) + INTERVAL  '7 DAY' AND startTime >= DATE(NOW())";
+
+        final String fakeSql = "SELECT * FROM event " +
+                "WHERE startTime < DATE(NOW()) + INTERVAL '7 DAY'" +
+                "AND startTime >= DATE(NOW())";
+        return jdbcTemplate.query(fakeSql, new EventRowMapper()); // fakeReturn
+
+        // return jdbcTemplate.query(fakeSql, new Object[]{userId}, new EventRowMapper());
     }
 
     // TODO: To have an additional attribute "numOfSaves"?
@@ -159,7 +165,7 @@ public class EventDaoImpl implements EventDao {
     public List<Event> searchEventByTitle(String keyword) {
         final String sql = "SELECT * FROM event WHERE title LIKE '%" + keyword + "%'";
         // return events whose title contains the keyword
-        return jdbcTemplate.query(sql, new Object[]{keyword}, new EventRowMapper());
+        return jdbcTemplate.query(sql, new EventRowMapper());
 
     }
 }
