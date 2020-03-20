@@ -1,14 +1,15 @@
 package eventsg.backend.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eventsg.backend.model.User;
 import eventsg.backend.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
+@RequestMapping("api/v1/user")
 @RestController
 public class UserController {
 
@@ -19,58 +20,60 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public void insertUser(User user) {
+    @PostMapping(path = "insertUser")
+    public void insertUser(@RequestBody User user) {
         userService.insertUser(user);
     }
 
-    @GetMapping
-    public Optional<UUID> login(String emailAddress, String password){
-        return userService.login(emailAddress, password);
+    @GetMapping(path = "login/{email}/{password}")
+    public UUID login(@PathVariable("email") String emailAddress, @PathVariable("password") String password){
+        return userService.login(emailAddress, password)
+                .orElse(null);
     }
 
-    @GetMapping
-    public Optional<User> getUserById(UUID id){
-        return userService.getUserById(id);
+    @GetMapping(path = "getUser/{id}")
+    public User getUserById(@PathVariable("id") UUID id){
+        return userService.getUserById(id)
+                .orElse(null);
     }
 
-    @PutMapping
-    public void updateUserById(UUID id, User user){
+    @PutMapping(path = "updateUser/{id}")
+    public void updateUserById(@PathVariable("id")UUID id, @RequestBody User user){
         userService.updateUserById(id, user);
     }
 
-    @DeleteMapping
-    public void deleteUserById(UUID id){
+    @DeleteMapping(path = "deleteUser/{id}")
+    public void deleteUserById(@PathVariable("id") UUID id){
         userService.deleteUserById(id);
     }
 
-    @PostMapping
-    public void addInterestedCategory (UUID userid, String category){
+    @PostMapping(path = "addCategory/{id}")
+    public void addInterestedCategory (@PathVariable("id") UUID userid, @RequestBody @JsonProperty("category") String category){
         userService.addInterestedCategory(userid, category);
     }
 
-    @DeleteMapping
-    public void deleteInterestedCategory (UUID userid, String category){
+    @DeleteMapping(path = "deleteCategory/{id}")
+    public void deleteInterestedCategory (@PathVariable("id") UUID userid, @RequestBody @JsonProperty("category") String category){
         userService.deleteInterestedCategory(userid, category);
     }
 
-    @GetMapping
-    public List<String> getInterestedCategories(UUID userid){
+    @GetMapping(path = "getCategories/{id}")
+    public List<String> getInterestedCategories(@PathVariable("id") UUID userid){
         return userService.getInterestedCategories(userid);
     }
 
-    @PostMapping
-    public void saveEvent(UUID userid, UUID eventid){
+    @PostMapping(path = "saveEvent/{userId}/{eventId}")
+    public void saveEvent(@PathVariable("userId") UUID userid, @PathVariable("eventId") UUID eventid){
         userService.saveEvent(userid, eventid);
     };
 
-    @DeleteMapping
-    public void unsaveEvent(UUID userid, UUID eventid){
+    @DeleteMapping(path = "unsaveEvent/{userId}/{eventId}")
+    public void unsaveEvent(@PathVariable("userId") UUID userid, @PathVariable("eventId")UUID eventid){
         userService.unsaveEvent(userid, eventid);
     };
 
-    @GetMapping
-    public List<UUID> getSavedEvents(UUID userId){
+    @GetMapping(path = "getSavedEvents/{userId}")
+    public List<UUID> getSavedEvents(@PathVariable("userId") UUID userId){
         return userService.getSavedEvents(userId);
     }
 

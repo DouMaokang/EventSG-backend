@@ -1,8 +1,8 @@
 package eventsg.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -63,8 +63,16 @@ public class User {
 //    private List<UUID> savedEvents; // separate table needed: userid vs event id
 
 
-    public User(UUID userId, String userName, String firstName, String lastName, String email, String password,
-                LocalDate birthday, int phoneNum, String occupation, String organization) {
+    public User(@JsonProperty("userId") UUID userId,
+                @JsonProperty("userName") String userName,
+                @JsonProperty("firstName") String firstName,
+                @JsonProperty("lastName") String lastName,
+                @JsonProperty("email") String email,
+                @JsonProperty("password") String password,
+                @JsonProperty("birthday") LocalDate birthday,
+                @JsonProperty("phoneNum") int phoneNum,
+                @JsonProperty("occupation") String occupation,
+                @JsonProperty("organization") String organization) {
         this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
