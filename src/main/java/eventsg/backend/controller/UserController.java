@@ -47,13 +47,13 @@ public class UserController {
         userService.deleteUserById(id);
     }
 
-    @PostMapping(path = "addCategory/{id}")
-    public void addInterestedCategory (@PathVariable("id") UUID userid, @RequestBody @JsonProperty("category") String category){
+    @PostMapping(path = "addCategory/{id}/{category}")
+    public void addInterestedCategory (@PathVariable("id") UUID userid, @PathVariable("category") String category){
         userService.addInterestedCategory(userid, category);
     }
 
-    @DeleteMapping(path = "deleteCategory/{id}")
-    public void deleteInterestedCategory (@PathVariable("id") UUID userid, @RequestBody @JsonProperty("category") String category){
+    @DeleteMapping(path = "deleteCategory/{id}/{category}")
+    public void deleteInterestedCategory (@PathVariable("id") UUID userid, @PathVariable("category") String category){
         userService.deleteInterestedCategory(userid, category);
     }
 

@@ -21,45 +21,45 @@ public class UserServiceImpl {
 
     public int insertUser(User user){
         return userDao.insertUser(user);
-    };
+    }
 
     public Optional<UUID> login(String email, String password){
         return userDao.login(email, password);
-    };
+    }
 
     public Optional<User> getUserById(UUID id){
         return userDao.getUserById(id);
-    };
+    }
 
     public int updateUserById(UUID id, User user){
         return userDao.updateUserById(id, user);
-    };
+    }
 
     public int deleteUserById(UUID id){
-        return deleteUserById(id);
-    };
+        return userDao.deleteUserById(id);
+    }
 
     public int addInterestedCategory (UUID userid, String category){
-        return addInterestedCategory(userid, category);
-    };
+        return userDao.addInterestedCategory(userid, category);
+    }
 
     public int deleteInterestedCategory (UUID userid, String category){
-        return deleteInterestedCategory(userid, category);
-    };
+        return userDao.deleteInterestedCategory(userid, category);
+    }
 
     public List<String> getInterestedCategories(UUID userid){
-        return getInterestedCategories(userid);
-    };
+        return userDao.getInterestedCategories(userid);
+    }
 
     public int saveEvent(UUID userid, UUID eventid){
-        return saveEvent(userid, eventid);
-    };
+        return userDao.saveEvent(userid, eventid);
+    }
 
     public int unsaveEvent(UUID userid, UUID eventid){
-        return unsaveEvent(userid, eventid);
-    };
+        return userDao.unsaveEvent(userid, eventid);
+    }
 
     public List<UUID> getSavedEvents(UUID userId){
-        return getSavedEvents(userId);
-    };
+        return userDao.getSavedEvents(userId);
+    }
 }

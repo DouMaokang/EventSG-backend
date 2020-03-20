@@ -25,7 +25,7 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public int insertUser(User user) {
-        return this.jdbcTemplate.update("INSERT INTO user(userId, userName, firstName, lastName, email, password, " +
+        return this.jdbcTemplate.update("INSERT INTO users(userId, userName, firstName, lastName, email, password, " +
                 "birthday,phoneNum, occupation, organization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", user.getUserId(),
                 user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),
                 user.getBirthday(), user.getPhoneNum(), user.getOccupation(), user.getOrganization());
@@ -40,7 +40,7 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public Optional<UUID> login(String email, String password) {
-        final String sql = "SELECT userId FROM user WHERE email = ? AND password = ? ";
+        final String sql = "SELECT userId FROM users WHERE email = ? AND password = ? ";
 
         UUID uuid = jdbcTemplate.queryForObject(
                 sql,
@@ -59,7 +59,7 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public Optional<User> getUserById(UUID id) {
-        final String sql = "SELECT * FROM user WHERE userId = ?";
+        final String sql = "SELECT * FROM users WHERE userId = ?";
 
         User user = jdbcTemplate.queryForObject(
                 sql,
@@ -89,15 +89,15 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public int updateUserById(UUID id, User user) {
-        this.jdbcTemplate.update("update user set userName = ? where userId = ?", user.getUserName(), id);
-        this.jdbcTemplate.update("update user set firstName = ? where userId = ?", user.getFirstName(), id);
-        this.jdbcTemplate.update("update user set lastName = ? where userId = ?", user.getLastName(), id);
-        this.jdbcTemplate.update("update user set email = ? where userId = ?", user.getEmail(), id);
-        this.jdbcTemplate.update("update user set password = ? where userId = ?", user.getPassword(), id);
-        this.jdbcTemplate.update("update user set birthday = ? where userId = ?", user.getBirthday(), id);
-        this.jdbcTemplate.update("update user set phoneNum = ? where userId = ?", user.getPhoneNum(), id);
-        this.jdbcTemplate.update("update user set occupation = ? where userId = ?", user.getOccupation(), id);
-        this.jdbcTemplate.update("update user set organization = ? where userId = ?", user.getOrganization(), id);
+        this.jdbcTemplate.update("update users set userName = ? where userId = ?", user.getUserName(), id);
+        this.jdbcTemplate.update("update users set firstName = ? where userId = ?", user.getFirstName(), id);
+        this.jdbcTemplate.update("update users set lastName = ? where userId = ?", user.getLastName(), id);
+        this.jdbcTemplate.update("update users set email = ? where userId = ?", user.getEmail(), id);
+        this.jdbcTemplate.update("update users set password = ? where userId = ?", user.getPassword(), id);
+        this.jdbcTemplate.update("update users set birthday = ? where userId = ?", user.getBirthday(), id);
+        this.jdbcTemplate.update("update users set phoneNum = ? where userId = ?", user.getPhoneNum(), id);
+        this.jdbcTemplate.update("update users set occupation = ? where userId = ?", user.getOccupation(), id);
+        this.jdbcTemplate.update("update users set organization = ? where userId = ?", user.getOrganization(), id);
         return 0;
     }
 
@@ -108,7 +108,7 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public int deleteUserById(UUID id) {
-        return jdbcTemplate.update("DELETE FROM user WHERE id = ?", id);
+        return jdbcTemplate.update("DELETE FROM users WHERE userId = ?", id);
     }
 
     /**
