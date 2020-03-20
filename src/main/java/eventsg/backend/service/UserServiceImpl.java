@@ -2,15 +2,20 @@ package eventsg.backend.service;
 
 import eventsg.backend.dao.UserDao;
 import eventsg.backend.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class UserServiceImpl {
     private final UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao) {
+    @Autowired
+    public UserServiceImpl(@Qualifier("postgres") UserDao userDao) {
         this.userDao = userDao;
     }
 
