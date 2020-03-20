@@ -14,47 +14,47 @@ public class UserServiceImpl {
         this.userDao = userDao;
     }
 
-    int insertUser(User user){
+    public int insertUser(User user){
         return userDao.insertUser(user);
     };
 
-    Optional<UUID> login(String email, String password){
+    public Optional<UUID> login(String email, String password){
         return userDao.login(email, password);
     };
 
-    Optional<User> getUserById(UUID id){
+    public Optional<User> getUserById(UUID id){
         return userDao.getUserById(id);
     };
 
-    int updateUserById(UUID id, User user){
+    public int updateUserById(UUID id, User user){
         return userDao.updateUserById(id, user);
     };
 
-    int deleteUserById(UUID id){
+    public int deleteUserById(UUID id){
         return deleteUserById(id);
     };
 
-    int addInterestedCategory (UUID userid, String category){
+    public int addInterestedCategory (UUID userid, String category){
         return addInterestedCategory(userid, category);
     };
 
-    int deleteInterestedCategory (UUID userid, String category){
+    public int deleteInterestedCategory (UUID userid, String category){
         return deleteInterestedCategory(userid, category);
     };
 
-    List<String> getInterestedCategories(UUID userid){
+    public List<String> getInterestedCategories(UUID userid){
         return getInterestedCategories(userid);
     };
 
-    int saveEvent(UUID userid, UUID eventid){
+    public int saveEvent(UUID userid, UUID eventid){
         return saveEvent(userid, eventid);
     };
 
-    int unsaveEvent(UUID userid, UUID eventid){
+    public int unsaveEvent(UUID userid, UUID eventid){
         return unsaveEvent(userid, eventid);
     };
 
-    List<UUID> getSavedEvents(UUID userId){
+    public List<UUID> getSavedEvents(UUID userId){
         return getSavedEvents(userId);
     };
 }
