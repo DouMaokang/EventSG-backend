@@ -27,13 +27,18 @@ public class ReviewController {
         reviewService.addReview(review);
     }
 
-    @GetMapping(path = "{reviewId}")
+    @GetMapping(path = "reviewId/{selectedReviewId}")
     public Optional<Review> getReviewById(@PathVariable UUID selectedReviewId) {
         return reviewService.getReviewById(selectedReviewId);
     }
 
-    @GetMapping(path = "{subjectId}")
+    @GetMapping(path = "subjectId/{selectedSubjectId}")
     public List<Review> getReviewsBySubjectId(@PathVariable UUID selectedSubjectId) {
         return reviewService.getReviewsBySubjectId(selectedSubjectId);
+    }
+
+    @GetMapping
+    public List<Review> getAllReviews() {
+        return reviewService.getAllReviews();
     }
 }

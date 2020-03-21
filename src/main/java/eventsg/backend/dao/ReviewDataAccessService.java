@@ -72,4 +72,18 @@ public class ReviewDataAccessService implements ReviewDao{
                 });
         return reviews;
     }
+
+    @Override
+    public List<Review> getAllReviews() {
+        final String sql = "SELECT * FROM review";
+        List<Review> reviews = jdbcTemplate.query(sql, (resultSet, i) -> {
+            UUID reviewId = UUID.fromString(resultSet.getString("reviewId"));
+            UUID reviewerId = UUID.fromString(resultSet.getString("reviewerId"));
+            UUID subjectId = UUID.fromString(resultSet.getString("subjectId"));
+            int rating = Integer.parseInt(resultSet.getString("rating"));
+            String content = resultSet.getString("content");
+            return new Review(reviewId, reviewerId, subjectId, rating, content);
+        });
+        return reviews;
+    }
 }

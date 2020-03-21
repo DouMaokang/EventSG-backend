@@ -21,4 +21,6 @@ public interface ReviewDao {
 
     List<Review> getReviewsBySubjectId(UUID selectedSubjectId);
 
+    List<Review> getAllReviews();
+
 }

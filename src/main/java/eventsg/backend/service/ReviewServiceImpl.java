@@ -32,4 +32,8 @@ public class ReviewServiceImpl {
         return reviewDao.getReviewsBySubjectId(selectedSubjectId);
     }
 
+    public List<Review> getAllReviews() {
+        return reviewDao.getAllReviews();
+    }
+
 }

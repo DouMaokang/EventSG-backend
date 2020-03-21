@@ -47,7 +47,7 @@ public class VenueController {
         return venueService.getAllVenues();
     }
 
-    @GetMapping(path = "{venueId}")
+    @GetMapping(path = "{ownerId}")
     public List<Venue> getVenuesBasedOnOwnerId(@PathVariable UUID ownerId) {
         return venueService.getVenuesBasedOnOwnerId(ownerId);
     }
