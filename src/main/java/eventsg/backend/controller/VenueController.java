@@ -37,7 +37,7 @@ public class VenueController {
         venueService.updateVenueById(venueId, venue);
     }
 
-    @GetMapping(path = "{venueId}")
+    @GetMapping(path = "venueId/{venueId}")
     public Optional<Venue> getVenueById(@PathVariable UUID venueId) {
         return venueService.getVenueById(venueId);
     }
@@ -47,22 +47,22 @@ public class VenueController {
         return venueService.getAllVenues();
     }
 
-    @GetMapping(path = "{ownerId}")
+    @GetMapping(path = "ownerId/{ownerId}")
     public List<Venue> getVenuesBasedOnOwnerId(@PathVariable UUID ownerId) {
         return venueService.getVenuesBasedOnOwnerId(ownerId);
     }
 
-    @GetMapping(path = "{location}")
+    @GetMapping(path = "location/{location}")
     public List<Venue> getVenueByLocation(@PathVariable String location) {
         return venueService.getVenueByLocation(location);
     }
 
-    @GetMapping(path = "{area}")
+    @GetMapping(path = "area/{area}")
     public List<Venue> getVenueByArea(@PathVariable double area) {
         return venueService.getVenueByArea(area);
     }
 
-    @GetMapping(path = "{budget}")
+    @GetMapping(path = "budget/{budget}")
     public List<Venue> getVenueByBudget(@PathVariable double budget) {
         return venueService.getVenueByBudget(budget);
     }
