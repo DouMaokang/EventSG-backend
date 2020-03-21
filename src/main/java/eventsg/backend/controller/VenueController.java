@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("api/v3/venue")
+@RequestMapping("api/v1/venue")
 @RestController
 public class VenueController {
 

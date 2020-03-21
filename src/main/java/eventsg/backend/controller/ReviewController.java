@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("api/v4/review")
+@RequestMapping("api/v1/review")
 @RestController
 public class ReviewController {
 
