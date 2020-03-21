@@ -6,13 +6,13 @@ CREATE TABLE event (
     numOfParticipants int,
     overallRating float default (0.0),
     attendanceRate float default (0.0)
-)
+);
 
 CREATE TABLE person (
     id UUID not null primary key,
     firstName VARCHAR(20) not null,
     lastName VARCHAR(20) not null
-)
+);
 
 CREATE TABLE venue (
     venueId UUID not null primary key,
@@ -23,7 +23,7 @@ CREATE TABLE venue (
     area float not null,
     description VARCHAR(600),
     location VARCHAR(20) not null
-)
+);
 
 CREATE TABLE review (
     reviewId UUID not null primary key,
@@ -31,4 +31,4 @@ CREATE TABLE review (
     subjectId UUID not null,
     rating int not null,
     content VARCHAR(600)
-)
+);
