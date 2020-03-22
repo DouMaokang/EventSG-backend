@@ -50,7 +50,7 @@ public class EventRegisterAccessService implements EventRegisterDao {
      */
     @Override
     public List<UUID> getregisteredEvents(UUID userId) {
-        final String sql = "SELECT eventId FROM user_saved_event WHERE userId = ?";
+        final String sql = "SELECT eventId FROM user_registered_event WHERE userId = ?";
         return jdbcTemplate.query(
                 sql,
                 new Object[]{userId},
