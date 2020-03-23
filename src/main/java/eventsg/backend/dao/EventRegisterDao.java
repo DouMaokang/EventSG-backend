@@ -13,6 +13,8 @@ public interface EventRegisterDao {
 
     List<UUID> getregisteredEvents(UUID userId);
 
+    int getNumOfParticipants(UUID eventId);
+
 
 
 }

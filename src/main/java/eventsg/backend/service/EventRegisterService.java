@@ -33,6 +33,10 @@ public class EventRegisterService {
         return EventRegisterDao.getregisteredEvents(userId);
     }
 
+    public int getNumOfParticipants(UUID eventId) {
+        return EventRegisterDao.getNumOfParticipants(eventId);
+    }
+
 
 
 

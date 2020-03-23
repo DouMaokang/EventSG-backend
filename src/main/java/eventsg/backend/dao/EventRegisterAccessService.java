@@ -60,6 +60,18 @@ public class EventRegisterAccessService implements EventRegisterDao {
                 });
     }
 
+    @Override
+    public int getNumOfParticipants(UUID eventId) {
+        final String sql = "SELECT userId FROM user_registered_event WHERE eventId = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+
+
+
+
+
+
 
 
 

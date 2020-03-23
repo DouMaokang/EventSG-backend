@@ -34,6 +34,11 @@ public class EventRegisterController {
         return eventRegisterService.getregisteredEvents(userId);
     }
 
+    @GetMapping(path = "getNumOfParticipants/{eventId}")
+    public int getNumOfParticipants(@PathVariable("eventId") UUID eventId){
+        return eventRegisterService.getNumOfParticipants(eventId);
+    }
+
 
 
 
