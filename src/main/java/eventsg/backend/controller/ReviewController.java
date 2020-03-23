@@ -1,7 +1,7 @@
 package eventsg.backend.controller;
 
 import eventsg.backend.model.Review;
-import eventsg.backend.service.ReviewServiceImpl;
+import eventsg.backend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +15,10 @@ import java.util.UUID;
 @RestController
 public class ReviewController {
 
-    public final ReviewServiceImpl reviewService;
+    public final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(ReviewServiceImpl reviewService) {
+    public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 

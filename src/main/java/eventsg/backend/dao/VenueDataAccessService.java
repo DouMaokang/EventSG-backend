@@ -1,5 +1,6 @@
 package eventsg.backend.dao;
 
+import eventsg.backend.mapper.VenueRowMapper;
 import eventsg.backend.model.Venue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -85,34 +86,14 @@ public class VenueDataAccessService implements VenueDao{
         Venue venue = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{selectedVenueId},
-                (resultSet, i) -> {
-                    UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-                    String address = resultSet.getString("address");
-                    int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-                    UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-                    double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-                    double area = Double.parseDouble(resultSet.getString("area"));
-                    String description = resultSet.getString("description");
-                    String location = resultSet.getString("location");
-                    return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-                });
+                new VenueRowMapper());
         return Optional.ofNullable(venue);
     }
 
     @Override
     public List<Venue> getAllVenues() { // tested
         final String sql = "SELECT * FROM venue";
-        List<Venue> venues = jdbcTemplate.query(sql, (resultSet, i) -> {
-            UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-            String address = resultSet.getString("address");
-            int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-            UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-            double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-            double area = Double.parseDouble(resultSet.getString("area"));
-            String description = resultSet.getString("description");
-            String location = resultSet.getString("location");
-            return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-        });
+        List<Venue> venues = jdbcTemplate.query(sql, new VenueRowMapper());
         return venues;
     }
 
@@ -122,17 +103,7 @@ public class VenueDataAccessService implements VenueDao{
         List<Venue> venues = jdbcTemplate.query(
                 sql,
                 new Object[]{selectedOwnerId},
-                (resultSet, i) -> {
-                    UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-                    String address = resultSet.getString("address");
-                    int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-                    UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-                    double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-                    double area = Double.parseDouble(resultSet.getString("area"));
-                    String description = resultSet.getString("description");
-                    String location = resultSet.getString("location");
-                    return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-                });
+                new VenueRowMapper());
         return venues;
 
     }
@@ -143,17 +114,7 @@ public class VenueDataAccessService implements VenueDao{
         List<Venue> venues = jdbcTemplate.query(
                 sql,
                 new Object[]{selectedLocation},
-                (resultSet, i) -> {
-                    UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-                    String address = resultSet.getString("address");
-                    int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-                    UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-                    double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-                    double area = Double.parseDouble(resultSet.getString("area"));
-                    String description = resultSet.getString("description");
-                    String location = resultSet.getString("location");
-                    return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-                });
+                new VenueRowMapper());
         return venues;
     }
 
@@ -164,17 +125,7 @@ public class VenueDataAccessService implements VenueDao{
         List<Venue> venues = jdbcTemplate.query(
                 sql,
                 new Object[]{selectedArea},
-                (resultSet, i) -> {
-                    UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-                    String address = resultSet.getString("address");
-                    int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-                    UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-                    double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-                    double area = Double.parseDouble(resultSet.getString("area"));
-                    String description = resultSet.getString("description");
-                    String location = resultSet.getString("location");
-                    return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-                });
+                new VenueRowMapper());
         return venues;
     }
 
@@ -184,17 +135,7 @@ public class VenueDataAccessService implements VenueDao{
         List<Venue> venues = jdbcTemplate.query(
                 sql,
                 new Object[]{budget},
-                (resultSet, i) -> {
-                    UUID venueId = UUID.fromString(resultSet.getString("venueId"));
-                    String address = resultSet.getString("address");
-                    int postalCode = Integer.parseInt(resultSet.getString("postalCode"));
-                    UUID ownerId = UUID.fromString(resultSet.getString("ownerId"));
-                    double rentalFee = Double.parseDouble(resultSet.getString("rentalFee"));
-                    double area = Double.parseDouble(resultSet.getString("area"));
-                    String description = resultSet.getString("description");
-                    String location = resultSet.getString("location");
-                    return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, location);
-                });
+                new VenueRowMapper());
         return venues;
     }
 }

@@ -1,5 +1,6 @@
 package eventsg.backend.dao;
 
+import eventsg.backend.mapper.ReviewRowMapper;
 import eventsg.backend.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,14 +46,7 @@ public class ReviewDataAccessService implements ReviewDao{
         Review review = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{selectedReviewId},
-                (resultSet, i) -> {
-                    UUID reviewId = UUID.fromString(resultSet.getString("reviewId"));
-                    UUID reviewerId = UUID.fromString(resultSet.getString("reviewerId"));
-                    UUID subjectId = UUID.fromString(resultSet.getString("subjectId"));
-                    int rating = Integer.parseInt(resultSet.getString("rating"));
-                    String content = resultSet.getString("content");
-                    return new Review(reviewId, reviewerId, subjectId, rating, content);
-                });
+                new ReviewRowMapper());
         return Optional.ofNullable(review);
     }
 
@@ -62,28 +56,16 @@ public class ReviewDataAccessService implements ReviewDao{
         List<Review> reviews = jdbcTemplate.query(
                 sql,
                 new Object[]{selectedSubjectId},
-                (resultSet, i) -> {
-                    UUID reviewId = UUID.fromString(resultSet.getString("reviewId"));
-                    UUID reviewerId = UUID.fromString(resultSet.getString("reviewerId"));
-                    UUID subjectId = UUID.fromString(resultSet.getString("subjectId"));
-                    int rating = Integer.parseInt(resultSet.getString("rating"));
-                    String content = resultSet.getString("content");
-                    return new Review(reviewId, reviewerId, subjectId, rating, content);
-                });
+                new ReviewRowMapper());
         return reviews;
     }
 
     @Override
     public List<Review> getAllReviews() {
         final String sql = "SELECT * FROM review";
-        List<Review> reviews = jdbcTemplate.query(sql, (resultSet, i) -> {
-            UUID reviewId = UUID.fromString(resultSet.getString("reviewId"));
-            UUID reviewerId = UUID.fromString(resultSet.getString("reviewerId"));
-            UUID subjectId = UUID.fromString(resultSet.getString("subjectId"));
-            int rating = Integer.parseInt(resultSet.getString("rating"));
-            String content = resultSet.getString("content");
-            return new Review(reviewId, reviewerId, subjectId, rating, content);
-        });
+        List<Review> reviews = jdbcTemplate.query(
+                sql,
+                new ReviewRowMapper());
         return reviews;
     }
 }

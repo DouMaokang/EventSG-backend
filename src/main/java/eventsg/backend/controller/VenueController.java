@@ -1,7 +1,7 @@
 package eventsg.backend.controller;
 
 import eventsg.backend.model.Venue;
-import eventsg.backend.service.VenueServiceImpl;
+import eventsg.backend.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +15,10 @@ import java.util.UUID;
 @RestController
 public class VenueController {
 
-    private final VenueServiceImpl venueService;
+    private final VenueService venueService;
 
     @Autowired
-    public VenueController(VenueServiceImpl venueService) {
+    public VenueController(VenueService venueService) {
         this.venueService = venueService;
     }
 

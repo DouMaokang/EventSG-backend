@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ReviewServiceImpl {
+public class ReviewService {
 
     private final ReviewDao reviewDao;
 
     @Autowired
-    public ReviewServiceImpl(@Qualifier("postgresReview") ReviewDao reviewDao) {
+    public ReviewService(@Qualifier("postgresReview") ReviewDao reviewDao) {
         this.reviewDao = reviewDao;
     }
 

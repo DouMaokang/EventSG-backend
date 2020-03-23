@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class VenueServiceImpl {
+public class VenueService {
 
     private final VenueDao venueDao;
 
     @Autowired
-    public VenueServiceImpl(@Qualifier("postgresVenue") VenueDao venueDao) {
+    public VenueService(@Qualifier("postgresVenue") VenueDao venueDao) {
         this.venueDao = venueDao;
     }
 
