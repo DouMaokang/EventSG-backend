@@ -13,6 +13,9 @@ public class Event {
     /** The unique event id assigned by the system when the event is created. */
     private UUID eventId;
 
+    // TODO: Add information about the organizer.
+    private UUID organizerId;
+
     /** The title of the event. */
     private String title;
 
