@@ -1,5 +1,9 @@
 package eventsg.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -8,69 +12,155 @@ import java.util.UUID;
 public class Event {
     /** The unique event id assigned by the system when the event is created. */
     private UUID eventId;
+
+    // TODO: Add information about the organizer.
+    private UUID organizerId;
+
     /** The title of the event. */
     private String title;
+
     /** The description of an event. */
     private String description;
 
-    /* TODO:
-        Finalize the data type pf startTime, endTime and registrationDeadline.
-        Take app system time into consideration
-     */
-    // private Time startTime; // What type should we use?
-    // private Time endTime;
-    // private Time registrationDeadline;
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime startTime;
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime endTime;
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime registrationDeadline;
 
-    /** The maximum number of people the event can hold. */
-    private int maxCapacity;
+    /** The number of people the event can hold. */
+    private Integer capacity;
+
     /** The number of people who signed up for the event. */
-    private int numOfParticipants;
-    /** The average of all rating given to the event. */
-    private float overallRating;
+    private Integer numOfParticipants;
 
-    /** The attendance rate of the event. */
-    private float attendanceRate;
-    // reviewsAndRatings ??
-    // private String category; // String?
-    // private String status; // ?
-    // valueId ??
+    /** The average of all rating given to the event. */
+    private float avgRating;
+
+    private List<Review> reviewList;
+
+    private String category;
 
     /**
-     * To construct an event.
-     *
-     * @param id the system assigned id of the event
-     * @param title the title of the event
-     * @param description the description of the event
-     * @param maxCapacity the maximum number of participants allowed
-     * @param numOfParticipants the number of registered people
-     * @param overallRating the average rating of the event
-     * @param attendanceRate the attendance rate of the event
+     * The status of the event, including saved, posted, cancelled and completed.
      */
-    public Event(final UUID id, String title, String description, int maxCapacity, int numOfParticipants, float overallRating, float attendanceRate) {
+    private String status;
+
+    public Event() {
+
+    }
+
+    /**
+     *
+     * @param title the title of the event (<= 64 characters)
+     * @param description the text description of the event (<= ? characters)
+     * @param startTime the start time of the event (yyyy-MM-dd hh:mm:ss)
+     * @param endTime the end time of the event (yyyy-MM-dd hh:mm:ss)
+     * @param registrationDeadline the deadline for event registration (yyyy-MM-dd hh:mm:ss)
+     * @param capacity the number of people the event can hold
+     * @param numOfParticipants the number of people who signed up for the event (<= capacity)
+     * @param avgRating the average rating of the event
+     * @param reviewList the list of reviews given to the event
+     * @param category the category of the events // TODO: Decide what categories to have
+     * @param status the status of the current event
+     */
+    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, List<Review> reviewList, String category, String status) {
         this.eventId = id;
         this.title = title;
         this.description = description;
-        this.maxCapacity = maxCapacity;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.registrationDeadline = registrationDeadline;
+        this.capacity = capacity;
         this.numOfParticipants = numOfParticipants;
-        this.overallRating = overallRating;
-        this.attendanceRate = attendanceRate;
+        this.avgRating = avgRating;
+        this.reviewList = reviewList;
+        this.category = category;
+        this.status = status;
+    }
+
+    /**
+     *
+     * @param title the title of the event (<= 64 characters)
+     * @param description the text description of the event (<= ? characters)
+     * @param startTime the start time of the event (yyyy-MM-dd hh:mm:ss)
+     * @param endTime the end time of the event (yyyy-MM-dd hh:mm:ss)
+     * @param registrationDeadline the deadline for event registration (yyyy-MM-dd hh:mm:ss)
+     * @param capacity the number of people the event can hold
+     * @param numOfParticipants the number of people who signed up for the event (<= capacity)
+     * @param avgRating the average rating of the event
+     * @param category the category of the events // TODO: Decide what categories to have
+     * @param status the status of the current event
+     */
+    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, String status) {
+        this.eventId = id;
+        this.title = title;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.registrationDeadline = registrationDeadline;
+        this.capacity = capacity;
+        this.numOfParticipants = numOfParticipants;
+        this.avgRating = avgRating;
+        this.category = category;
+        this.status = status;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public LocalDateTime getRegistrationDeadline() {
+        return registrationDeadline;
+    }
+
+    public void setRegistrationDeadline(LocalDateTime registrationDeadline) {
+        this.registrationDeadline = registrationDeadline;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
      * Calculates the vacancy of an event.
      * @return the number of vacancies of the event.
      */
-    public int calculateVacancy() {
-        return this.maxCapacity - this.numOfParticipants;
-    }
-
-    /**
-     * Calculates the duration of an event.
-     * @return the duration of the event.
-     */
-    // TODO: Complete calculateDuration() method
-    public Object calculateDuration() {
-        return null;
+    public Integer calculateVacancy() {
+        return this.capacity - this.numOfParticipants;
     }
 
     /**
@@ -117,23 +207,23 @@ public class Event {
      * Gets the maximum capacity of the event.
      * @return maximum capacity
      */
-    public int getMaxCapacity() {
-        return maxCapacity;
+    public Integer getCapacity() {
+        return capacity;
     }
 
     /**
      * Sets the maximum capacity of the event.
-     * @param maxCapacity the maximum capacity of the event
+     * @param capacity the maximum capacity of the event
      */
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
+    public void setMaxCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     /**
      * Gets the number of participants.
      * @return the number of participants
      */
-    public int getNumOfParticipants() {
+    public Integer getNumOfParticipants() {
         return numOfParticipants;
     }
 
@@ -141,28 +231,18 @@ public class Event {
      * Sets the number of participants.
      * @param numOfParticipants the number of participants
      */
-    public void setNumOfParticipants(int numOfParticipants) {
+    public void setNumOfParticipants(Integer numOfParticipants) {
         this.numOfParticipants = numOfParticipants;
     }
 
-    // TODO: Implement calculateOverallRating(List<Review> reviewList)
+    // TODO: Implement calculateAvgRating(List<Review> reviewList)
 
     /**
      * Gets the average rating of the event.
      * @return average rating
      */
-    public float getOverallRating() {
-        return overallRating;
-    }
-
-    // TODO: Implement calculateAttendanceRating(int numOfPeopleCheckedIn)
-
-    /**
-     * Gets the attendance rate of the event.
-     * @return the attendance rate
-     */
-    public float getAttendanceRate() {
-        return attendanceRate;
+    public float getAvgRating() {
+        return avgRating;
     }
 
 }
