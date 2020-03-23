@@ -8,16 +8,16 @@ public class Review {
 
     private UUID reviewId;
     private UUID reviewerId;
-    private UUID subjectId;
+    private UUID eventId;
     private int rating;
     private String content;
 
     public Review(@JsonProperty("reviewId") UUID reviewId, @JsonProperty("reviewerId") UUID reviewerId,
-                  @JsonProperty("subjectId") UUID subjectId, @JsonProperty("rating") int rating,
+                  @JsonProperty("eventId") UUID eventId, @JsonProperty("rating") int rating,
                   @JsonProperty("content") String content) {
         this.reviewId = reviewId;
         this.reviewerId = reviewerId;
-        this.subjectId = subjectId;
+        this.eventId = eventId;
         this.rating = rating;
         this.content = content;
     }
@@ -30,8 +30,8 @@ public class Review {
         return reviewerId;
     }
 
-    public UUID getSubjectId() {
-        return subjectId;
+    public UUID getEventId() {
+        return eventId;
     }
 
     public int getRating() {

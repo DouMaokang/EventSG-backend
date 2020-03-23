@@ -26,7 +26,7 @@ public class ReviewDataAccessService implements ReviewDao{
                 "INSERT INTO review (" +
                 "reviewId, " +
                 "reviewerId, " +
-                "subjectId, " +
+                "eventId, " +
                 "rating, " +
                 "content) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -34,7 +34,7 @@ public class ReviewDataAccessService implements ReviewDao{
                 sql,
                 reviewId,
                 review.getReviewerId(),
-                review.getSubjectId(),
+                review.getEventId(),
                 review.getRating(),
                 review.getContent()
         );
@@ -51,11 +51,11 @@ public class ReviewDataAccessService implements ReviewDao{
     }
 
     @Override
-    public List<Review> getReviewsBySubjectId(UUID selectedSubjectId) {
-        final String sql = "SELECT * FROM review WHERE subjectId = ?";
+    public List<Review> getReviewsByEventId(UUID selectedEventId) {
+        final String sql = "SELECT * FROM review WHERE eventId = ?";
         List<Review> reviews = jdbcTemplate.query(
                 sql,
-                new Object[]{selectedSubjectId},
+                new Object[]{selectedEventId},
                 new ReviewRowMapper());
         return reviews;
     }

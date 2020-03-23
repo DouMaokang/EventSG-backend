@@ -19,7 +19,7 @@ public interface ReviewDao {
 
     // not needed List<Review> getAllReviews(); update and delete are not required as well
 
-    List<Review> getReviewsBySubjectId(UUID selectedSubjectId);
+    List<Review> getReviewsByEventId(UUID selectedEventId);
 
     List<Review> getAllReviews();
 

@@ -32,9 +32,9 @@ public class ReviewController {
         return reviewService.getReviewById(selectedReviewId);
     }
 
-    @GetMapping(path = "subjectId/{selectedSubjectId}")
-    public List<Review> getReviewsBySubjectId(@PathVariable UUID selectedSubjectId) {
-        return reviewService.getReviewsBySubjectId(selectedSubjectId);
+    @GetMapping(path = "eventId/{selectedEventId}")
+    public List<Review> getReviewsByEventId(@PathVariable UUID selectedEventId) {
+        return reviewService.getReviewsByEventId(selectedEventId);
     }
 
     @GetMapping

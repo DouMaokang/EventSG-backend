@@ -28,8 +28,8 @@ public class ReviewService {
         return reviewDao.getReviewById(selectedReviewId);
     }
 
-    public List<Review> getReviewsBySubjectId(UUID selectedSubjectId) {
-        return reviewDao.getReviewsBySubjectId(selectedSubjectId);
+    public List<Review> getReviewsByEventId(UUID selectedEventId) {
+        return reviewDao.getReviewsByEventId(selectedEventId);
     }
 
     public List<Review> getAllReviews() {
