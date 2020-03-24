@@ -5,13 +5,45 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class Venue {
+
+    /**
+     * unique id assigned to the venue upon creation
+     */
     private UUID venueId;
+
+    /**
+     * address of this venue
+     */
     private String address;
+
+    /**
+     * postal code of this venue
+     */
     private int postalCode;
+
+    /**
+     * userId of the user who owns this venue
+     */
     private UUID ownerId;
+
+    /**
+     * rental fee of this venue
+     */
     private double rentalFee;
+
+    /**
+     * area of this venue
+     */
     private double area;
+
+    /**
+     * a brief description of this venue; a overview
+     */
     private String description;
+
+    /**
+     * location of the venue; as in the neighborhood;
+     */
     private String location;
 
     public Venue(@JsonProperty("venueId") UUID venueId, @JsonProperty("address") String address, @JsonProperty("postalCode") int postalCode,

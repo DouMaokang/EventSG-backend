@@ -6,10 +6,29 @@ import java.util.UUID;
 
 public class Review {
 
+    /**
+     * unique id assigned to a review upon creation
+     */
     private UUID reviewId;
+
+    /**
+     * userId who creates this review
+     */
     private UUID reviewerId;
+
+    /**
+     * eventId about which this review is given
+     */
     private UUID eventId;
+
+    /**
+     * rating the user provided in this review
+     */
     private int rating;
+
+    /**
+     * text content the user provided in this review
+     */
     private String content;
 
     public Review(@JsonProperty("reviewId") UUID reviewId, @JsonProperty("reviewerId") UUID reviewerId,
