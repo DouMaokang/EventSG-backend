@@ -40,8 +40,8 @@ public class VenueService {
         return venueDao.getAllVenues();
     }
 
-    public List<Venue> getVenuesBasedOnOwnerId(UUID ownerId) {
-        return venueDao.getVenuesBasedOnOwnerId(ownerId);
+    public List<Venue> getVenuesByOwnerId(UUID ownerId) {
+        return venueDao.getVenuesByOwnerId(ownerId);
     }
 
     public List<Venue> getVenueByLocation(String location) {

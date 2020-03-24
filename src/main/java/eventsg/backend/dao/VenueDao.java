@@ -24,7 +24,7 @@ public interface VenueDao {
 
     List<Venue> getAllVenues();
 
-    List<Venue> getVenuesBasedOnOwnerId(UUID ownerId);
+    List<Venue> getVenuesByOwnerId(UUID ownerId);
 
     List<Venue> getVenueByLocation(String location);
 

@@ -20,6 +20,12 @@ public class ReviewDataAccessService implements ReviewDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Insert a new Review into the review table
+     * @param reviewId reviewId
+     * @param review Review object to be inserted
+     * @return 1 if insertion is successful; else 0;
+     */
     @Override
     public int addReview(UUID reviewId, Review review) {
         final String sql = "" +
@@ -40,6 +46,11 @@ public class ReviewDataAccessService implements ReviewDao{
         );
     }
 
+    /**
+     * Get the Review record matching the input reviewId
+     * @param selectedReviewId the reviewId to be searched
+     * @return a Review object if found such a review with the required reviewId; else return null
+     */
     @Override
     public Optional<Review> getReviewById(UUID selectedReviewId) {
         final String sql = "SELECT * FROM review WHERE reviewId = ?";
@@ -50,6 +61,11 @@ public class ReviewDataAccessService implements ReviewDao{
         return Optional.ofNullable(review);
     }
 
+    /**
+     * Get all the review records related to the input eventId as a list of Review objects
+     * @param selectedEventId eventId to be selected
+     * @return a list of Review objects that has the specified eventId
+     */
     @Override
     public List<Review> getReviewsByEventId(UUID selectedEventId) {
         final String sql = "SELECT * FROM review WHERE eventId = ?";
@@ -60,6 +76,10 @@ public class ReviewDataAccessService implements ReviewDao{
         return reviews;
     }
 
+    /**
+     * Get all the review records from the database
+     * @return a list of Review objects, which are current records in the review database
+     */
     @Override
     public List<Review> getAllReviews() {
         final String sql = "SELECT * FROM review";

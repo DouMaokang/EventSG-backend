@@ -22,22 +22,42 @@ public class Review {
         this.content = content;
     }
 
+    /**
+     * get reviewId of the instance
+     * @return reviewId
+     */
     public UUID getReviewId() {
         return reviewId;
     }
 
+    /**
+     * get reviewerId of the instance
+     * @return reviewerId
+     */
     public UUID getReviewerId() {
         return reviewerId;
     }
 
+    /**
+     * get eventId of the instance
+     * @return eventId
+     */
     public UUID getEventId() {
         return eventId;
     }
 
+    /**
+     * get rating of the instance
+     * @return rating
+     */
     public int getRating() {
         return rating;
     }
 
+    /**
+     * get content of the instance
+     * @return content
+     */
     public String getContent() {
         return content;
     }
