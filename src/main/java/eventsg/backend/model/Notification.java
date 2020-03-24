@@ -3,47 +3,21 @@ package eventsg.backend.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Notification implements Comparable<Notification> {
+public class Notification {
+
+    private UUID notificationId;
 
     //maybe can have event object for more information
     private UUID eventId;
 
-    private LocalDateTime eventTime;
+    //type 1,2,3 for review, update and capacity notification respectively
+    private int type;
 
-    //range from 0 to 7
-    private int days;
+    //only for review notification
+    private UUID reviewId;
 
-    //whether need to be notified today (only when first added or 0,1,3,7 days before the event)
-    private Boolean notify;
+    //only for capacity notification, 1 for 80%, 2 for 100%
+    private int capacityLevel;
 
-    //attribute read or not should be done in frontend
-
-    public Notification(UUID eventId, LocalDateTime eventTime, int days, Boolean notify) {
-        this.eventId = eventId;
-        this.eventTime = eventTime;
-        this.days = days;
-        this.notify = notify;
-    }
-
-    @Override
-    public int compareTo(Notification o) {
-        return this.eventTime.isBefore(o.getEventTime())?1:0;
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    public UUID getEventId() {
-        return eventId;
-    }
-
-    public LocalDateTime getEventTime() {
-        return eventTime;
-    }
-
-    public Boolean getNotify() {
-        return notify;
-    }
 
 }
