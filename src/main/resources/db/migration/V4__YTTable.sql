@@ -13,6 +13,6 @@ CREATE TABLE review (
     reviewId UUID not null primary key,
     reviewerId UUID not null,
     eventId UUID not null,
-    rating int not null,
+    rating float not null,
     content VARCHAR(600)
 );

@@ -31,15 +31,7 @@ CREATE TABLE eventRegistration (
     timeCreated TIMESTAMP NOT NULL DEFAULT DATE(NOW()),
     PRIMARY KEY(eventId, userId)
 );
---
--- CREATE TABLE event_venue_record (
---     eventId UUID NOT NULL,
---     venueId UUID NOT NULL,
---     primary (eventId, venueId),
---     foreign key (eventId) references event(eventId),
---     foreign key (venueId) references venue(venueId)
---
--- )
+
 
 
 

@@ -11,16 +11,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl {
+public class UserService {
     private final UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userDao") UserDao userDao) {
+    public UserService(@Qualifier("userDao") UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public int insertUser(User user){
-        return userDao.insertUser(user);
+    public int addUser(User user){
+        return userDao.addUser(user);
     }
 
     public Optional<UUID> login(String email, String password){
@@ -29,6 +29,10 @@ public class UserServiceImpl {
 
     public Optional<User> getUserById(UUID id){
         return userDao.getUserById(id);
+    }
+
+    public List<User> getAllUser(){
+        return userDao.getAllUser();
     }
 
     public int updateUserById(UUID id, User user){

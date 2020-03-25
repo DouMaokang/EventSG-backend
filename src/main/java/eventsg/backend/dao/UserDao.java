@@ -8,12 +8,14 @@ import java.util.UUID;
 
 public interface UserDao {
 
-    int insertUser(User user);
+    int addUser(User user);
 
     // Basic account operations
     Optional<UUID> login(String email, String password);
 
     Optional<User> getUserById(UUID id);
+
+    List<User> getAllUser();
 
     int updateUserById(UUID id, User user);
 

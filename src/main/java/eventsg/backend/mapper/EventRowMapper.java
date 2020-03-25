@@ -34,9 +34,6 @@ public class EventRowMapper implements RowMapper<Event> {
         String status = resultSet.getString("status");
         UUID venueId = UUID.fromString(resultSet.getString("venueId"));
 
-        System.out.println("HERERERERE: " + venueId);
-
-
 
         Event event = new Event(id, organizerId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating,
