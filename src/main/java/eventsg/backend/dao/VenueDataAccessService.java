@@ -20,6 +20,12 @@ public class VenueDataAccessService implements VenueDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * insert a new venue record into the postgres database with the sql statement
+     * @param venueId venueId
+     * @param venue Venue object with the necessary values to be inserted
+     * @return 1 if insertion is successful; else 0
+     */
     @Override
     public int addVenue(UUID venueId, Venue venue) { //tested
         String sql = "" +
@@ -46,12 +52,23 @@ public class VenueDataAccessService implements VenueDao{
         );
     }
 
+    /**
+     * delete a venue record from the postgres database
+     * @param venueId venueId
+     * @return 1 if deletion is successful; else 0
+     */
     @Override
     public int deleteVenueById(UUID venueId) { // tested
         final String sql = "" + "DELETE FROM venue WHERE venueId = ?";
         return jdbcTemplate.update(sql, venueId);
     }
 
+    /**
+     * update a record in the database
+     * @param venueId venueId
+     * @param venue Venue object with the necessary values used to perform update
+     * @return 1 if update is successful; else 0
+     */
     @Override
     public int updateVenueById(UUID venueId, Venue venue) { // tested
         String sql = "" +
@@ -80,6 +97,11 @@ public class VenueDataAccessService implements VenueDao{
         );
     }
 
+    /**
+     * get the venue record with the venueId
+     * @param selectedVenueId venueId
+     * @return the venue if found, else return null
+     */
     @Override
     public Optional<Venue> getVenueById(UUID selectedVenueId) { // tested
         final String sql = "SELECT * FROM venue WHERE venueId = ?";
@@ -90,6 +112,10 @@ public class VenueDataAccessService implements VenueDao{
         return Optional.ofNullable(venue);
     }
 
+    /**
+     * get all the venues in the database
+     * @return a list of Venue objects
+     */
     @Override
     public List<Venue> getAllVenues() { // tested
         final String sql = "SELECT * FROM venue";
@@ -97,8 +123,13 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
     }
 
+    /**
+     * return all the venues belonging to a certain owner
+     * @param selectedOwnerId onwerId
+     * @return a list of Venue objects
+     */
     @Override
-    public List<Venue> getVenuesBasedOnOwnerId(UUID selectedOwnerId) { // tested
+    public List<Venue> getVenuesByOwnerId(UUID selectedOwnerId) { // tested
         final String sql = "SELECT * FROM venue WHERE ownerId = ?";
         List<Venue> venues = jdbcTemplate.query(
                 sql,
@@ -108,6 +139,11 @@ public class VenueDataAccessService implements VenueDao{
 
     }
 
+    /**
+     * get all venues at a specific location
+     * @param selectedLocation location
+     * @return list of Venue objects
+     */
     @Override
     public List<Venue> getVenueByLocation(String selectedLocation) {  // tested
         final String sql = "SELECT * FROM venue WHERE location = ?";
@@ -118,7 +154,11 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
     }
 
-    // todo rowMapper?
+    /**
+     * get all venues that have area close to the input area
+     * @param selectedArea the demanded area
+     * @return a list of Venue objects
+     */
     @Override
     public List<Venue> getVenueByArea(double selectedArea) { // tested
         final String sql = "SELECT * FROM venue WHERE ABS(area - ?) <= 10";
@@ -129,6 +169,11 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
     }
 
+    /**
+     * get all venues with prices around the specified budget
+     * @param budget budget
+     * @return a list of Venue objects
+     */
     @Override
     public List<Venue> getVenueByBudget(double budget) { //
         final String sql = "SELECT * FROM venue WHERE ABS(rentalFee - ?) <= 50";
