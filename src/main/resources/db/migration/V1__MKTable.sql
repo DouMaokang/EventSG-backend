@@ -12,7 +12,8 @@ CREATE TABLE event (
     numOfParticipants INT DEFAULT 0,
     avgRating FLOAT DEFAULT 0,
     category VARCHAR(32),
-    status VARCHAR(32)
+    status VARCHAR(32),
+    venueId UUID NOT NULL
 );
 
 CREATE TABLE savedEvent (
@@ -29,6 +30,15 @@ CREATE TABLE eventRegistration (
     timeCreated TIMESTAMP NOT NULL DEFAULT DATE(NOW()),
     PRIMARY KEY(eventId, userId)
 );
+--
+-- CREATE TABLE event_venue_record (
+--     eventId UUID NOT NULL,
+--     venueId UUID NOT NULL,
+--     primary (eventId, venueId),
+--     foreign key (eventId) references event(eventId),
+--     foreign key (venueId) references venue(venueId)
+--
+-- )
 
 
 

@@ -2,22 +2,25 @@ package eventsg.backend.controller;
 
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
+import eventsg.backend.model.Venue;
 import eventsg.backend.service.EventService;
+import eventsg.backend.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("api/event")
 @RestController
 public class EventController {
 
     private final EventService eventService;
+    private final VenueService venueService;
 
     @Autowired // It injects the actual service into the constructor
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, VenueService venueService) {
         this.eventService = eventService;
+        this.venueService = venueService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -45,22 +48,47 @@ public class EventController {
     }
 
     @GetMapping()
-    public List<Event> getAllEvent() {
-        return eventService.getAllEvent();
+    public List<Map<String, Object>> getAllEvent() {
+        List<Event> eventList = eventService.getAllEvent();
+        return this.generateResponse(eventList);
+
     }
 
     @RequestMapping(value = "{eventId}", method = RequestMethod.GET)
-    public Event getEventById(@PathVariable("eventId") UUID eventId) {
-        return eventService.getEventById(eventId);
+    public Map<String, Object> getEventById(@PathVariable("eventId") UUID eventId) {
+        Event myEvent = eventService.getEventById(eventId);
+        UUID venueId = myEvent.getVenueId();
+        Venue myVenue = venueService.getVenueById(venueId).orElse(null);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("event", myEvent);
+        response.put("venue", myVenue);
+
+        return response;
     }
 
-    public List<Event> getSavedEvent(UUID userId) {
-        return eventService.getSavedEvent(userId);
+    public List<Map<String, Object>> getSavedEvent(UUID userId) {
+        List<Event> eventList = eventService.getSavedEvent(userId);
+        return this.generateResponse(eventList);
     }
 
-    public List<Event> getUpcomingEvent(UUID userId) // registered events
+    private List<Map<String, Object>> generateResponse(List<Event> eventList) {
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (Event event : eventList) {
+            Venue venue = venueService.getVenueById(event.getVenueId()).orElse(null);
+            Map<String, Object> item = new HashMap<>();
+            item.put("event", event);
+            item.put("venue", venue);
+            response.add(item);
+        }
+        return response;
+    }
+
+    public List<Map<String, Object>> getUpcomingEvent(UUID userId) // registered events
     {
-        return eventService.getUpcomingEvent(userId);
+        List<Event> eventList = eventService.getUpcomingEvent(userId);
+        return this.generateResponse(eventList);
     }
 
     public List<Event> getPopularEvent() // based on likes/saves
@@ -69,13 +97,17 @@ public class EventController {
     }
 
     @GetMapping(path = "category/{category}")
-    public List<Event> getEventByCategory(@PathVariable("category") String category) {
-        return eventService.getEventByCategory(category);
+    public List<Map<String, Object>> getEventByCategory(@PathVariable("category") String category) {
+        List<Event> eventList = eventService.getEventByCategory(category);
+        return this.generateResponse(eventList);
+
     }
 
     @GetMapping(path = "search/{keyword}")
-    public List<Event> searchEventByTitle(@PathVariable("keyword") String keyword) {
-        return eventService.searchEventByTitle(keyword);
+    public List<Map<String, Object>> searchEventByTitle(@PathVariable("keyword") String keyword) {
+        List<Event> eventList = eventService.searchEventByTitle(keyword);
+        return this.generateResponse(eventList);
+
     }
 
 //    public void addReview(UUID eventId, Review review) {

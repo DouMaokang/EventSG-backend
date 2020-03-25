@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("postgresReview")
+@Repository("reviewDao")
 public class ReviewDataAccessService implements ReviewDao{
 
     private final JdbcTemplate jdbcTemplate;

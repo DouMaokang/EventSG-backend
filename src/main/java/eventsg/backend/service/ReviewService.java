@@ -16,7 +16,7 @@ public class ReviewService {
     private final ReviewDao reviewDao;
 
     @Autowired
-    public ReviewService(@Qualifier("postgresReview") ReviewDao reviewDao) {
+    public ReviewService(@Qualifier("reviewDao") ReviewDao reviewDao) {
         this.reviewDao = reviewDao;
     }
 

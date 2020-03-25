@@ -42,14 +42,12 @@ public class Event {
 
     private String category;
 
+    private UUID venueId;
+
     /**
      * The status of the event, including saved, posted, cancelled and completed.
      */
     private String status;
-
-    public Event() {
-
-    }
 
     /**
      *
@@ -64,8 +62,9 @@ public class Event {
      * @param reviewList the list of reviews given to the event
      * @param category the category of the events // TODO: Decide what categories to have
      * @param status the status of the current event
+     * @param venue the venue of the event
      */
-    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, List<Review> reviewList, String category, String status) {
+    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, List<Review> reviewList, String category, String status, UUID venueId) {
         this.eventId = id;
         this.title = title;
         this.description = description;
@@ -78,6 +77,7 @@ public class Event {
         this.reviewList = reviewList;
         this.category = category;
         this.status = status;
+        this.eventId = venueId;
     }
 
     /**
@@ -93,7 +93,7 @@ public class Event {
      * @param category the category of the events // TODO: Decide what categories to have
      * @param status the status of the current event
      */
-    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, String status) {
+    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, String status, UUID venueId) {
         this.eventId = id;
         this.title = title;
         this.description = description;
@@ -105,6 +105,35 @@ public class Event {
         this.avgRating = avgRating;
         this.category = category;
         this.status = status;
+        this.eventId = venueId;
+    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
+    }
+
+    public UUID getOrganizerId() {
+        return organizerId;
+    }
+
+    public void setOrganizerId(UUID organizerId) {
+        this.organizerId = organizerId;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setAvgRating(float avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public UUID getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(UUID venueId) {
+        this.venueId = venueId;
     }
 
     public LocalDateTime getStartTime() {

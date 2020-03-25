@@ -22,7 +22,6 @@ public class EventService {
 
     public void postEvent(Event event) {
         eventDao.postEvent(event);
-
     }
 
     public void saveEvent(Event event) {

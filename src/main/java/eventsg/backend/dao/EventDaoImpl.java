@@ -54,6 +54,7 @@ public class EventDaoImpl implements EventDao {
                 eventId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating, category, status
         );
+
     }
 
     @Override
