@@ -25,6 +25,7 @@ public class EventDaoImpl implements EventDao {
         final String sql = "INSERT INTO event " +
                 "(" +
                 "eventId, " +
+                "organizerId, " +
                 "title, " +
                 "description, " +
                 "startTime, " +
@@ -34,10 +35,13 @@ public class EventDaoImpl implements EventDao {
                 "numOfParticipants, " +
                 "avgRating, " +
                 "category, " +
-                "status" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "status, " +
+                "venueId" +
+
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         UUID eventId = UUID.randomUUID();
+        UUID organizerId = event.getOrganizerId();
 
         String title = event.getTitle();
         String description = event.getDescription();
@@ -49,10 +53,14 @@ public class EventDaoImpl implements EventDao {
         float avgRating = event.getAvgRating();
         String category = event.getCategory();
         String status = event.getStatus();
+        UUID venueId = event.getVenueId();
+
+        System.out.println("XXXXX: " + venueId);
 
         jdbcTemplate.update(sql,
-                eventId, title, description, startTime, endTime,
-                registrationDeadline, capacity, numOfParticipants, avgRating, category, status
+                eventId, organizerId, title, description, startTime, endTime,
+                registrationDeadline, capacity, numOfParticipants, avgRating, category,
+                status, venueId
         );
 
     }
@@ -77,7 +85,9 @@ public class EventDaoImpl implements EventDao {
                 "endTime = ?, " +
                 "registrationDeadline = ?, " +
                 "capacity = ?, " +
-                "category = ?" +
+                "category = ?, " +
+                "status = ?, " +
+                "venueId = ? " +
                 "WHERE " +
                 "eventId = ?";
 
@@ -88,10 +98,13 @@ public class EventDaoImpl implements EventDao {
         Timestamp registrationDeadline = Timestamp.valueOf(event.getRegistrationDeadline());
         Integer capacity = event.getCapacity();
         String category = event.getCategory();
+        String status = event.getStatus();
+        UUID venueId = event.getVenueId();
+
 
         jdbcTemplate.update(sql,
                 // SET
-                title, description, startTime, endTime, registrationDeadline, capacity, category,
+                title, description, startTime, endTime, registrationDeadline, capacity, category, status, venueId,
                 // WHERE
                 eventId
         );

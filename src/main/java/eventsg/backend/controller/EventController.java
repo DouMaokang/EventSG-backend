@@ -50,8 +50,25 @@ public class EventController {
     @GetMapping()
     public List<Map<String, Object>> getAllEvent() {
         List<Event> eventList = eventService.getAllEvent();
-        return this.generateResponse(eventList);
+        System.out.println(eventList.size());
+        List<Map<String, Object>> response = new ArrayList<>();
 
+        for (int i = 0; i < eventList.size(); i++) {
+
+            Event event = eventList.get(i);
+            System.out.println(event.getTitle());
+            System.out.println(event.getVenueId());
+
+            Venue venue = venueService.getVenueById(event.getVenueId()).get();
+
+            System.out.println(venue.getAddress());
+
+            Map<String, Object> item = new HashMap<>();
+            item.put("event", event);
+            item.put("venue", venue);
+            response.add(item);
+        }
+        return response;
     }
 
     @RequestMapping(value = "{eventId}", method = RequestMethod.GET)

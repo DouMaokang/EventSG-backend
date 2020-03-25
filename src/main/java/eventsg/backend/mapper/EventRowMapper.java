@@ -18,6 +18,8 @@ public class EventRowMapper implements RowMapper<Event> {
     @Override
     public Event mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         UUID id = UUID.fromString(resultSet.getString("eventId"));
+        UUID organizerId = UUID.fromString(resultSet.getString("organizerId"));
+
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
         LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
@@ -27,15 +29,18 @@ public class EventRowMapper implements RowMapper<Event> {
         Integer capacity = resultSet.getInt("capacity");
         Integer numOfParticipants = resultSet.getInt("numOfParticipants");
         float avgRating = resultSet.getFloat("avgRating");
+//        List<Review> reviewList = null;
         String category = resultSet.getString("category");
         String status = resultSet.getString("status");
         UUID venueId = UUID.fromString(resultSet.getString("venueId"));
 
+        System.out.println("HERERERERE: " + venueId);
 
 
-        Event event = new Event(id, title, description, startTime, endTime,
+
+        Event event = new Event(id, organizerId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating,
-                category, status, venueId);
+                category, venueId, status);
         return event;
     }
 
