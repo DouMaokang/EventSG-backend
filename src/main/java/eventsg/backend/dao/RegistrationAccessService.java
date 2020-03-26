@@ -24,7 +24,7 @@ public class RegistrationAccessService implements RegistrationDao {
 
     @Override
     public int registerEvent(UUID userId, UUID eventId) {
-        return jdbcTemplate.update("INSERT INTO user_registered_event(userId, eventId) VALUES(?,?)", userId, eventId);
+        return jdbcTemplate.update("INSERT INTO registration(userId, eventId) VALUES(?,?)", userId, eventId);
     }
 
 
@@ -36,7 +36,7 @@ public class RegistrationAccessService implements RegistrationDao {
      */
     @Override
         public int deregisterEvent(UUID userId, UUID eventId) {
-            return jdbcTemplate.update("DELETE FROM user_registered_event WHERE userId = ? AND eventId = ?", userId, eventId);
+            return jdbcTemplate.update("DELETE FROM registration WHERE userId = ? AND eventId = ?", userId, eventId);
 
     }
 
@@ -48,7 +48,7 @@ public class RegistrationAccessService implements RegistrationDao {
      */
     @Override
     public List<UUID> getRegisteredEvents(UUID userId) {
-        final String sql = "SELECT eventId FROM user_registered_event WHERE userId = ?";
+        final String sql = "SELECT eventId FROM registration WHERE userId = ?";
         return jdbcTemplate.query(
                 sql,
                 new Object[]{userId},
@@ -60,17 +60,8 @@ public class RegistrationAccessService implements RegistrationDao {
 
     @Override
     public int getNumOfParticipants(UUID eventId) {
-        final String sql = "SELECT userId FROM user_registered_event WHERE eventId = ?";
+        final String sql = "SELECT userId FROM registration WHERE eventId = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
-
-
-
-
-
-
-
-
-
 
 }

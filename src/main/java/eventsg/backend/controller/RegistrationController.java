@@ -5,6 +5,8 @@ import eventsg.backend.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,8 +27,8 @@ public class RegistrationController {
      * @param eventId the id of the event registered
      * @param userId the id of the user who registered the event
      */
-    @PostMapping(path = "add")
-    public void registerEvent(@JsonProperty("eventId") UUID eventId, @JsonProperty("userId") UUID userId){
+    @RequestMapping(path = "add/{eventId}/{userId}", method = RequestMethod.POST)
+    public void registerEvent(@Valid @NotNull @PathVariable("eventId") UUID eventId, @Valid @NotNull @PathVariable("userId") UUID userId){
         registrationService.registerEvent(userId, eventId);
     }
 
@@ -45,7 +47,7 @@ public class RegistrationController {
      * @param userId the id of the user
      * @return a list of registrations
      */
-    @GetMapping(path = "{userId}")
+    @GetMapping(path = "userId?{userId}")
     public List<UUID> getRegisteredEvents(@PathVariable("userId") UUID userId){
         return registrationService.getRegisteredEvents(userId);
     }

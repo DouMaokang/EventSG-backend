@@ -1,6 +1,5 @@
 package eventsg.backend.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
