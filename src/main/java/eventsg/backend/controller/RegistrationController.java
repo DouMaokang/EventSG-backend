@@ -1,5 +1,6 @@
 package eventsg.backend.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eventsg.backend.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,13 @@ public class RegistrationController {
      * @param eventId the id of the event registered
      * @param userId the id of the user who registered the event
      */
-    @PostMapping(path = "add/{userId}/{eventId}")
-    public void registerEvent(@PathVariable("userId") UUID eventId, @PathVariable("eventId") UUID userId){
+    @PostMapping(path = "add")
+    public void registerEvent(@JsonProperty("eventId") UUID eventId, @JsonProperty("userId") UUID userId){
         registrationService.registerEvent(eventId, userId);
     }
 
     /**
-     * Deregisters an event.
+     * Cancels the registration of an event.
      * @param eventId the id of the event registered
      * @param userId the id of the user who registered the event
      */

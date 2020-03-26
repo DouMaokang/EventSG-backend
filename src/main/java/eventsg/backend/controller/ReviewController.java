@@ -35,23 +35,23 @@ public class ReviewController {
     /**
      * Answering an Http GET request
      * Check and return a Review object matching the input reviewId
-     * @param selectedReviewId the review with this reviewId would be retrieved
+     * @param reviewId the review with this reviewId would be retrieved
      * @return return a Review object matching the input reviewId
      */
-    @GetMapping(path = "reviewId/{selectedReviewId}")
-    public Optional<Review> getReviewById(@PathVariable UUID selectedReviewId) {
-        return reviewService.getReviewById(selectedReviewId);
+    @GetMapping(path = "{reviewId}")
+    public Optional<Review> getReviewById(@PathVariable UUID reviewId) {
+        return reviewService.getReviewById(reviewId);
     }
 
     /**
      * Answering an Http GET request
      * Check and return a list of Review objects with the input eventId
-     * @param selectedEventId the eventId to be included in the search criteria
+     * @param eventId the eventId to be included in the search criteria
      * @return return a list of Review objects
      */
-    @GetMapping(path = "eventId/{selectedEventId}")
-    public List<Review> getReviewsByEventId(@PathVariable UUID selectedEventId) {
-        return reviewService.getReviewsByEventId(selectedEventId);
+    @GetMapping(path = "event/{eventId}")
+    public List<Review> getReviewsByEventId(@PathVariable UUID eventId) {
+        return reviewService.getReviewsByEventId(eventId);
     }
 
     /**
