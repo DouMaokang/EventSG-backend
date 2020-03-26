@@ -47,7 +47,7 @@ public class RegistrationController {
      * @param userId the id of the user
      * @return a list of registrations
      */
-    @GetMapping(path = "userId?{userId}")
+    @GetMapping(path = "userId/{userId}")
     public List<UUID> getRegisteredEvents(@PathVariable("userId") UUID userId){
         return registrationService.getRegisteredEvents(userId);
     }
