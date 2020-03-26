@@ -55,6 +55,7 @@
 //    }
 //
 //}
+package eventsg.backend.controller;
 
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Notification;

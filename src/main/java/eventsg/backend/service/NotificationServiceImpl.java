@@ -84,8 +84,8 @@
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Notification;
 
-import javax.management.Notification;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,26 +112,28 @@ public class NotificationServiceImpl {
 
         for (Event event:organizedEvents) {
             UUID eventId=event.eventId;
-            notificationList.add(notificationDao.getReviewNotification(eventId));
-            notificationList.add(notificationDao.getCapacityNotification(eventId));
+            notificationList.add(notificationDao.getNotification(eventId,"review"));
+            notificationList.add(notificationDao.getNotification(eventId,"capacity"));
         }
 
         for (Event event:registeredEvents) {
             UUID eventId=event.eventId;
-            notificationList.add(notificationDao.getUpdateNotification(eventId));
+            notificationList.add(notificationDao.getNotification(eventId,"update"));
         }
 
         return notificationList;
     }
 
+    //when add a review
     public void addReviewNotification(UUID eventId, UUID reviewId) {
-        //when add a review QUESTION??? how to receive these parameters? from review service?
-        //it must go through review service to get the reviewId.
+        notificationDao.addNotification(new Notification(eventId,reviewId,LocalDateTime.now()));
     }
+    //when register an event
     public void addCapacityNotification(UUID eventId, int capacityLevel) {
-        //when register an event
+        notificationDao.addNotification(new Notification(eventId,capacityLevel,LocalDateTime.now()));
     }
+    //when update an event
     public void addUpdateNotification(UUID eventId) {
-        //when update an event
+        notificationDao.addNotification(new Notification(eventId,LocalDateTime.now()));
     }
 }
