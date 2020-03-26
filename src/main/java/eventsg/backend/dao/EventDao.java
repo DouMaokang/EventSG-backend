@@ -25,7 +25,7 @@ public interface EventDao {
 
     List<Event> getSavedEvent(UUID userId);
 
-    List<Event> getUpcomingEvent(UUID userId); // registered events
+    List<Event> getUpcomingEvent(UUID userId, Integer limit); // registered events
 
     List<Event> getPopularEvent(); // based on likes/saves
 

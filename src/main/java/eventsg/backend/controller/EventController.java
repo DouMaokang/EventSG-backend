@@ -114,10 +114,11 @@ public class EventController {
      * @param userId the id of the user.
      * @return a list of events
      */
-    @RequestMapping(value = "upcoming", method = RequestMethod.GET)
-    public List<Map<String, Object>> getUpcomingEvent(@JsonProperty("userId") UUID userId) // registered events
+    @RequestMapping(value = "upcoming/{userId}/{limit}", method = RequestMethod.GET)
+    public List<Map<String, Object>> getUpcomingEvent(@PathVariable("userId") UUID userId,
+                                                      @PathVariable("limit") Integer limit) // registered events
     {
-        List<Event> eventList = eventService.getUpcomingEvent(userId);
+        List<Event> eventList = eventService.getUpcomingEvent(userId, limit);
         return this.generateResponseList(eventList);
     }
 
@@ -133,7 +134,7 @@ public class EventController {
      * @return a list of events
      */
     @GetMapping(path = "recommended/{userId}")
-    public List<Map<String, Object>> getEventByCategory(@PathVariable("userId") UUID userId) {
+    public List<Map<String, Object>> getRecommendedEvent(@PathVariable("userId") UUID userId) {
         List<String> interestedCategories = userService.getInterestedCategories(userId);
         List<Event> eventList = new ArrayList<>();
         for (int i = 0; i < interestedCategories.size(); i++) {

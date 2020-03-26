@@ -152,11 +152,11 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getUpcomingEvent(UUID userId) {
+    public List<Event> getUpcomingEvent(UUID userId, Integer limit) {
         final String sql = "SELECT * FROM event " +
                 "WHERE eventId IN (SELECT eventId FROM eventRegistration WHERE userId = ?) "+
-                "AND startTime < DATE(NOW()) + INTERVAL  7 DAY AND startTime >= DATE(NOW())";
-        return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
+                "AND startTime < DATE(NOW()) + INTERVAL ? DAY AND startTime >= DATE(NOW())";
+        return jdbcTemplate.query(sql, new Object[]{userId, limit}, new EventRowMapper());
     }
 
     // TODO: To have an additional attribute "numOfSaves"?

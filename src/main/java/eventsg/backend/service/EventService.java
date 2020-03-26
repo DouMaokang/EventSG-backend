@@ -52,9 +52,9 @@ public class EventService {
         return eventDao.getSavedEvent(userId);
     }
 
-    public List<Event> getUpcomingEvent(UUID userId) // registered events
+    public List<Event> getUpcomingEvent(UUID userId, Integer limit) // registered events
     {
-        return eventDao.getUpcomingEvent(userId);
+        return eventDao.getUpcomingEvent(userId, limit);
     }
 
 //    public List<Event> getPopularEvent() // based on likes/saves
