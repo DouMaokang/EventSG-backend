@@ -1,5 +1,6 @@
 package eventsg.backend.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
@@ -107,15 +108,39 @@ public class EventController {
 //        return this.generateResponseList(eventList);
 //    }
 
-    public List<Map<String, Object>> getUpcomingEvent(UUID userId) // registered events
+
+    /**
+     * Return a list of upcoming events which the user has registered.
+     * @param userId the id of the user.
+     * @return a list of events
+     */
+    @RequestMapping(value = "upcoming", method = RequestMethod.GET)
+    public List<Map<String, Object>> getUpcomingEvent(@JsonProperty("userId") UUID userId) // registered events
     {
         List<Event> eventList = eventService.getUpcomingEvent(userId);
         return this.generateResponseList(eventList);
     }
 
-    public List<Event> getPopularEvent() // based on likes/saves
-    {
-        return eventService.getPopularEvent();
+
+//    public List<Event> getPopularEvent() // based on likes/saves
+//    {
+//        return eventService.getPopularEvent();
+//    }
+
+    /**
+     * Returns a list of events recommended based on the user's interests.
+     * @param userId the id of the user
+     * @return a list of events
+     */
+    @GetMapping(path = "recommended/{userId}")
+    public List<Map<String, Object>> getEventByCategory(@PathVariable("userId") UUID userId) {
+        List<String> interestedCategories = userService.getInterestedCategories(userId);
+        List<Event> eventList = new ArrayList<>();
+        for (int i = 0; i < interestedCategories.size(); i++) {
+            List<Event> tempList = eventService.getEventByCategory(interestedCategories.get(i));
+            eventList.addAll(tempList);
+        }
+        return this.generateResponseList(eventList);
     }
 
     /**

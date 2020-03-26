@@ -57,10 +57,11 @@ public class EventService {
         return eventDao.getUpcomingEvent(userId);
     }
 
-    public List<Event> getPopularEvent() // based on likes/saves
-    {
-        return eventDao.getPopularEvent();
-    }
+//    public List<Event> getPopularEvent() // based on likes/saves
+//    {
+//        return eventDao.getPopularEvent();
+//    }
+
 
     public List<Event> getEventByCategory(String category) {
         return eventDao.getEventByCategory(category);

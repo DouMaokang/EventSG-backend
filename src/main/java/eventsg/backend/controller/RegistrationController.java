@@ -27,7 +27,7 @@ public class RegistrationController {
      */
     @PostMapping(path = "add")
     public void registerEvent(@JsonProperty("eventId") UUID eventId, @JsonProperty("userId") UUID userId){
-        registrationService.registerEvent(eventId, userId);
+        registrationService.registerEvent(userId, eventId);
     }
 
     /**
