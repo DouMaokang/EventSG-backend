@@ -37,7 +37,7 @@ public class VenueDataAccessService implements VenueDao{
                 "rentalFee, " +
                 "area, " +
                 "description, " +
-                "location )" +
+                "venueName )" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         UUID venueId = UUID.randomUUID();
@@ -50,7 +50,7 @@ public class VenueDataAccessService implements VenueDao{
                 venue.getRentalFee(),
                 venue.getArea(),
                 venue.getDescription(),
-                venue.getLocation()
+                venue.getVenueName()
         );
     }
 
@@ -83,7 +83,7 @@ public class VenueDataAccessService implements VenueDao{
                 "rentalFee = ?, " +
                 "area = ?, " +
                 "description = ?, " +
-                "location = ?" +
+                "venueName = ?" +
                 "WHERE venueId = ?";
         return jdbcTemplate.update(
                 sql,
@@ -94,7 +94,7 @@ public class VenueDataAccessService implements VenueDao{
                 venue.getRentalFee(),
                 venue.getArea(),
                 venue.getDescription(),
-                venue.getLocation(),
+                venue.getVenueName(),
                 venueId
         );
     }
@@ -141,20 +141,20 @@ public class VenueDataAccessService implements VenueDao{
 
     }
 
-    /**
-     * get all venues at a specific location
-     * @param selectedLocation location
-     * @return list of Venue objects
-     */
-    @Override
-    public List<Venue> getVenueByLocation(String selectedLocation) {  // tested
-        final String sql = "SELECT * FROM venue WHERE location = ?";
-        List<Venue> venues = jdbcTemplate.query(
-                sql,
-                new Object[]{selectedLocation},
-                new VenueRowMapper());
-        return venues;
-    }
+//    /**
+//     * get all venues at a specific venueName
+//     * @param selectedLocation venueName
+//     * @return list of Venue objects
+//     */
+//    @Override
+//    public List<Venue> getVenueByLocation(String selectedLocation) {  // tested
+//        final String sql = "SELECT * FROM venue WHERE venueName = ?";
+//        List<Venue> venues = jdbcTemplate.query(
+//                sql,
+//                new Object[]{selectedLocation},
+//                new VenueRowMapper());
+//        return venues;
+//    }
 
     /**
      * get all venues that have area close to the input area

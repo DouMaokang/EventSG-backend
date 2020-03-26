@@ -81,16 +81,16 @@ public class VenueController {
     public List<Venue> getVenuesByOwnerId(@PathVariable UUID ownerId) {
         return venueService.getVenuesByOwnerId(ownerId);
     }
-
-    /**
-     * A method answering to the Http GET request with path as "location/{location}"
-     * @param location the location used as the searching criteria
-     * @return Returning all selected venues as a list of Venue objects
-     */
-    @GetMapping(path = "location/{location}")
-    public List<Venue> getVenueByLocation(@PathVariable String location) {
-        return venueService.getVenueByLocation(location);
-    }
+//
+//    /**
+//     * A method answering to the Http GET request with path as "venueName/{venueName}"
+//     * @param venueName the venueName used as the searching criteria
+//     * @return Returning all selected venues as a list of Venue objects
+//     */
+//    @GetMapping(path = "venueName/{venueName}")
+//    public List<Venue> getVenueByLocation(@PathVariable String venueName) {
+//        return venueService.getVenueByLocation(venueName);
+//    }
 
     /**
      * A method answering to the Http GET request with path as "area/{area}"

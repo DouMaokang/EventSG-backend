@@ -6,7 +6,7 @@ CREATE TABLE venue (
     rentalFee float not null,
     area float not null,
     description VARCHAR(600),
-    location VARCHAR(20) not null
+    venueName VARCHAR(64) not null
 );
 
 CREATE TABLE review (
