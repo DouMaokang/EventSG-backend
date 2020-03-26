@@ -1,7 +1,9 @@
 package eventsg.backend.mapper;
 
+import eventsg.backend.dao.ReviewDao;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -16,6 +18,8 @@ public class EventRowMapper implements RowMapper<Event> {
     @Override
     public Event mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         UUID id = UUID.fromString(resultSet.getString("eventId"));
+        UUID organizerId = UUID.fromString(resultSet.getString("organizerId"));
+
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
         LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
@@ -25,16 +29,15 @@ public class EventRowMapper implements RowMapper<Event> {
         Integer capacity = resultSet.getInt("capacity");
         Integer numOfParticipants = resultSet.getInt("numOfParticipants");
         float avgRating = resultSet.getFloat("avgRating");
-        String status = resultSet.getString("status");
-
-        // TODO: Implement getAllReviews()
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(new Review("My review"));
+//        List<Review> reviewList = null;
         String category = resultSet.getString("category");
+        String status = resultSet.getString("status");
+        UUID venueId = UUID.fromString(resultSet.getString("venueId"));
 
-        Event event = new Event(id, title, description, startTime, endTime,
+
+        Event event = new Event(id, organizerId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating,
-                reviews, category, status);
+                category, venueId, status);
         return event;
     }
 
