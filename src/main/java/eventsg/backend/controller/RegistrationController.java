@@ -19,23 +19,41 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
-    @PostMapping(path = "registerEvent/{userId}/{eventId}")
+    /**
+     * Creates a new registration record.
+     * @param eventId the id of the event registered
+     * @param userId the id of the user who registered the event
+     */
+    @PostMapping(path = "add/{userId}/{eventId}")
     public void registerEvent(@PathVariable("userId") UUID eventId, @PathVariable("eventId") UUID userId){
         registrationService.registerEvent(eventId, userId);
     }
-    @DeleteMapping(path = "deregisterEvent/{userId}/{eventId}")
+
+    /**
+     * Deregisters an event.
+     * @param eventId the id of the event registered
+     * @param userId the id of the user who registered the event
+     */
+    @DeleteMapping(path = "cancel/{userId}/{eventId}")
     public void deregisterEvent(@PathVariable("userId") UUID eventId, @PathVariable("eventId")UUID userId){
         registrationService.deregisterEvent(eventId, userId);
     }
 
-    @GetMapping(path = "getRegisteredEvents/{userId}")
+    /**
+     * Returns all registration record of a user.
+     * @param userId the id of the user
+     * @return a list of registrations
+     */
+    @GetMapping(path = "{userId}")
     public List<UUID> getRegisteredEvents(@PathVariable("userId") UUID userId){
         return registrationService.getRegisteredEvents(userId);
     }
 
-    @GetMapping(path = "getNumOfParticipants/{eventId}")
-    public int getNumOfParticipants(@PathVariable("eventId") UUID eventId){
-        return registrationService.getNumOfParticipants(eventId);
-    }
+// TODO: update the no. of participants in the database
+
+//    @GetMapping(path = "getNumOfParticipants/{eventId}")
+//    public int getNumOfParticipants(@PathVariable("eventId") UUID eventId){
+//        return registrationService.getNumOfParticipants(eventId);
+//    }
 
 }
