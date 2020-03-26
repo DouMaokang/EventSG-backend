@@ -22,12 +22,11 @@ public class ReviewDataAccessService implements ReviewDao{
 
     /**
      * Insert a new Review into the review table
-     * @param reviewId reviewId
      * @param review Review object to be inserted
      * @return 1 if insertion is successful; else 0;
      */
     @Override
-    public int addReview(UUID reviewId, Review review) {
+    public int addReview(Review review) {
         final String sql = "" +
                 "INSERT INTO review (" +
                 "reviewId, " +
@@ -36,6 +35,7 @@ public class ReviewDataAccessService implements ReviewDao{
                 "rating, " +
                 "content) " +
                 "VALUES (?, ?, ?, ?, ?)";
+        UUID reviewId = UUID.randomUUID();
         return jdbcTemplate.update(
                 sql,
                 reviewId,

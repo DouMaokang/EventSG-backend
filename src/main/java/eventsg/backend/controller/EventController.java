@@ -30,44 +30,113 @@ public class EventController {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    /**
+     * Receives a new event and stores it in the database.
+     * @param event the event object sent from client side
+     */
+    @RequestMapping(path = "add", method = RequestMethod.POST)
     public void postEvent(@RequestBody Event event) {
         eventService.postEvent(event);
     }
 
-    public void saveEvent(Event event) {
+    /**
+     * Receives a partially completed event as a draft event.
+     * @param event the event object sent from client side
+     */
+    @RequestMapping(path = "add-draft", method = RequestMethod.POST)
+    public void saveDraftEvent(@RequestBody Event event) {
 
     }
 
+    /**
+     * Cancels a posted event.
+     * @param eventId the id of the event to be canceled
+     */
     @PutMapping(path = "cancel/{eventId}")
     public void cancelEvent(@PathVariable("eventId") UUID eventId) {
         eventService.cancelEvent(eventId);
     }
 
+    /**
+     * Deletes a draft event.
+     * @param eventId the id of the draft event to be deleted
+     */
     @DeleteMapping(path = "{eventId}")
     public void deleteEvent(@PathVariable("eventId") UUID eventId) {
         eventService.deleteEvent(eventId);
     }
 
+    /**
+     * Updates the details of an event.
+     * @param eventId the id of the event to be updated
+     * @param event the new event object with updated attributes
+     */
     @PutMapping(path = "{eventId}")
     public void updateEvent(@PathVariable("eventId") UUID eventId, @RequestBody Event event) {
         eventService.updateEvent(eventId, event);
     }
 
+    /**
+     * Returns all events posted.
+     * @return all events ever posted
+     */
     @GetMapping()
     public List<Map<String, Object>> getAllEvent() {
         List<Event> eventList = eventService.getAllEvent();
         return generateResponseList(eventList);
     }
 
+    /**
+     * Returns a particular event.
+     * @param eventId the id of the event
+     * @return the requested event
+     */
     @RequestMapping(value = "{eventId}", method = RequestMethod.GET)
     public Map<String, Object> getEventById(@PathVariable("eventId") UUID eventId) {
         Event event = eventService.getEventById(eventId);
         return generateResponse(event);
     }
 
-    public List<Map<String, Object>> getSavedEvent(UUID userId) {
-        List<Event> eventList = eventService.getSavedEvent(userId);
+//    /**
+//     * Returns all events saved by a user.
+//     * @param userId the id of the user
+//     * @return a list of events
+//     */
+//    public List<Map<String, Object>> getSavedEvent(UUID userId) {
+//        List<Event> eventList = eventService.getSavedEvent(userId);
+//        return this.generateResponseList(eventList);
+//    }
+
+    public List<Map<String, Object>> getUpcomingEvent(UUID userId) // registered events
+    {
+        List<Event> eventList = eventService.getUpcomingEvent(userId);
+        return this.generateResponseList(eventList);
+    }
+
+    public List<Event> getPopularEvent() // based on likes/saves
+    {
+        return eventService.getPopularEvent();
+    }
+
+    /**
+     * Returns a list of events of a particular category.
+     * @param category the category of the event
+     * @return a list of events
+     */
+    @GetMapping(path = "category/{category}")
+    public List<Map<String, Object>> getEventByCategory(@PathVariable("category") String category) {
+        List<Event> eventList = eventService.getEventByCategory(category);
+        return this.generateResponseList(eventList);
+    }
+
+    /**
+     * Returns a list of events whose title is similar to the input keyword.
+     * @param keyword the keyword used to search for events
+     * @return a list of events
+     */
+    @GetMapping(path = "search/{keyword}")
+    public List<Map<String, Object>> searchEventByTitle(@PathVariable("keyword") String keyword) {
+        List<Event> eventList = eventService.searchEventByTitle(keyword);
         return this.generateResponseList(eventList);
     }
 
@@ -103,28 +172,5 @@ public class EventController {
         return responseList;
     }
 
-    public List<Map<String, Object>> getUpcomingEvent(UUID userId) // registered events
-    {
-        List<Event> eventList = eventService.getUpcomingEvent(userId);
-        return this.generateResponseList(eventList);
-    }
-
-    public List<Event> getPopularEvent() // based on likes/saves
-    {
-        return eventService.getPopularEvent();
-    }
-
-    @GetMapping(path = "category/{category}")
-    public List<Map<String, Object>> getEventByCategory(@PathVariable("category") String category) {
-        List<Event> eventList = eventService.getEventByCategory(category);
-        return this.generateResponseList(eventList);
-
-    }
-
-    @GetMapping(path = "search/{keyword}")
-    public List<Map<String, Object>> searchEventByTitle(@PathVariable("keyword") String keyword) {
-        List<Event> eventList = eventService.searchEventByTitle(keyword);
-        return this.generateResponseList(eventList);
-    }
 
 }

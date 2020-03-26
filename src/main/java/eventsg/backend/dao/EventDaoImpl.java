@@ -80,11 +80,13 @@ public class EventDaoImpl implements EventDao {
         final String sql = "UPDATE event " +
                 "SET " +
                 "title = ?, " +
+                "organizerId = ?, " +
                 "description = ?, " +
                 "startTime = ?, " +
                 "endTime = ?, " +
                 "registrationDeadline = ?, " +
                 "capacity = ?, " +
+                "numOfParticipants = ?, " +
                 "category = ?, " +
                 "status = ?, " +
                 "venueId = ? " +
@@ -92,11 +94,13 @@ public class EventDaoImpl implements EventDao {
                 "eventId = ?";
 
         String title = event.getTitle();
+        UUID organizerId = event.getOrganizerId();
         String description = event.getDescription();
         Timestamp startTime = Timestamp.valueOf(event.getStartTime());
         Timestamp endTime = Timestamp.valueOf(event.getEndTime());
         Timestamp registrationDeadline = Timestamp.valueOf(event.getRegistrationDeadline());
         Integer capacity = event.getCapacity();
+        Integer numOfParticipants = event.getNumOfParticipants();
         String category = event.getCategory();
         String status = event.getStatus();
         UUID venueId = event.getVenueId();
@@ -104,7 +108,8 @@ public class EventDaoImpl implements EventDao {
 
         jdbcTemplate.update(sql,
                 // SET
-                title, description, startTime, endTime, registrationDeadline, capacity, category, status, venueId,
+                title, organizerId, description, startTime, endTime, registrationDeadline,
+                capacity, numOfParticipants, category, status, venueId,
                 // WHERE
                 eventId
         );
