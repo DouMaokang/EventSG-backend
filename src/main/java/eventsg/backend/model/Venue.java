@@ -42,13 +42,13 @@ public class Venue {
     private String description;
 
     /**
-     * location of the venue; as in the neighborhood;
+     * name of the venue;
      */
-    private String location;
+    private String venueName;
 
     public Venue(@JsonProperty("venueId") UUID venueId, @JsonProperty("address") String address, @JsonProperty("postalCode") int postalCode,
                  @JsonProperty("ownerId") UUID ownerId, @JsonProperty("rentalFee") double rentalFee, @JsonProperty("area") double area,
-                 @JsonProperty("description") String description, @JsonProperty("location") String location) {
+                 @JsonProperty("description") String description, @JsonProperty("venueName") String venueName) {
         this.venueId = venueId;
         this.address = address;
         this.postalCode = postalCode;
@@ -56,7 +56,7 @@ public class Venue {
         this.rentalFee = rentalFee;
         this.area = area;
         this.description = description;
-        this.location = location;
+        this.venueName = venueName;
     }
 
     /**
@@ -132,10 +132,10 @@ public class Venue {
     }
 
     /**
-     * get location of the instance
-     * @return location
+     * get venue name of the instance
+     * @return venueName
      */
-    public String getLocation() {
-        return location;
+    public String getVenueName() {
+        return venueName;
     }
 }

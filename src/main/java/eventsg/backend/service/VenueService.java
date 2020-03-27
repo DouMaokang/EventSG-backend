@@ -44,8 +44,8 @@ public class VenueService {
         return venueDao.getVenuesByOwnerId(ownerId);
     }
 
-    public List<Venue> getVenueByLocation(String location) {
-        return venueDao.getVenueByLocation(location);
+    public List<Venue> getVenueByLocation(String venueName) {
+        return venueDao.getVenueByName(venueName);
     }
 
     public List<Venue> getVenueByArea(double area) {

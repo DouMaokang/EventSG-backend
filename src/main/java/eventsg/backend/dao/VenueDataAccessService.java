@@ -48,7 +48,7 @@ public class VenueDataAccessService implements VenueDao{
                 venue.getRentalFee(),
                 venue.getArea(),
                 venue.getDescription(),
-                venue.getLocation()
+                venue.getVenueName()
         );
     }
 
@@ -92,7 +92,7 @@ public class VenueDataAccessService implements VenueDao{
                 venue.getRentalFee(),
                 venue.getArea(),
                 venue.getDescription(),
-                venue.getLocation(),
+                venue.getVenueName(),
                 venueId
         );
     }
@@ -140,16 +140,16 @@ public class VenueDataAccessService implements VenueDao{
     }
 
     /**
-     * get all venues at a specific location
-     * @param selectedLocation location
+     * get all venues with similar name
+     * @param selectedVenueName venue name
      * @return list of Venue objects
      */
     @Override
-    public List<Venue> getVenueByLocation(String selectedLocation) {  // tested
-        final String sql = "SELECT * FROM venue WHERE location = ?";
+    public List<Venue> getVenueByName(String selectedVenueName) {  // tested
+        final String sql = "SELECT * FROM venue WHERE venueName LIKE '%?%'?";
         List<Venue> venues = jdbcTemplate.query(
                 sql,
-                new Object[]{selectedLocation},
+                new Object[]{selectedVenueName},
                 new VenueRowMapper());
         return venues;
     }
