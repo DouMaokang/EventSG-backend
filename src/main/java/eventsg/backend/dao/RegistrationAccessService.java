@@ -60,8 +60,15 @@ public class RegistrationAccessService implements RegistrationDao {
 
     @Override
     public int getNumOfParticipants(UUID eventId) {
-        final String sql = "SELECT userId FROM registration WHERE eventId = ?";
+        final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = " + eventId;
         return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+    @Override
+    public boolean hasRegistered(UUID eventId, UUID userId) {
+        final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = " + eventId + " AND userId = " + userId;
+        int count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return (count > 0);
     }
 
 }

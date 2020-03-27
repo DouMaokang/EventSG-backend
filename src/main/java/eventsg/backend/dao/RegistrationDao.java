@@ -15,6 +15,8 @@ public interface RegistrationDao {
 
     int getNumOfParticipants(UUID eventId);
 
+    boolean hasRegistered(UUID eventId, UUID userId);
+
 
 
 }

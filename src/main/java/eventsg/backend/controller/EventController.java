@@ -1,13 +1,11 @@
 package eventsg.backend.controller;
 
+import eventsg.backend.dao.RegistrationDao;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
 import eventsg.backend.model.Venue;
-import eventsg.backend.service.EventService;
-import eventsg.backend.service.ReviewService;
-import eventsg.backend.service.UserService;
-import eventsg.backend.service.VenueService;
+import eventsg.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +19,17 @@ public class EventController {
     private final VenueService venueService;
     private final ReviewService reviewService;
     private final UserService userService;
+    private RegistrationService registrationService;
 
     @Autowired // It injects the actual service into the constructor
-    public EventController(EventService eventService, VenueService venueService, ReviewService reviewService, UserService userService) {
+    public EventController(EventService eventService, VenueService venueService,
+                           ReviewService reviewService, UserService userService,
+                           RegistrationService registrationService) {
         this.eventService = eventService;
         this.venueService = venueService;
         this.reviewService = reviewService;
         this.userService = userService;
+        this.registrationService = registrationService;
     }
 
     /**
@@ -95,6 +97,21 @@ public class EventController {
     public Map<String, Object> getEventById(@PathVariable("eventId") UUID eventId) {
         Event event = eventService.getEventById(eventId);
         return generateResponse(event);
+    }
+
+    /**
+     * Returns all registration record of a user.
+     * @param userId the id of the user
+     * @return a list of registrations
+     */
+    @GetMapping(path = "registered/{userId}")
+    public List<Map<String, Object>> getRegisteredEvents(@PathVariable("userId") UUID userId){
+        List<UUID> eventIds = registrationService.getRegisteredEvents(userId);
+        List<Event> eventList = new ArrayList<>();
+        for (int i = 0; i < eventIds.size(); i++) {
+            eventList.add(eventService.getEventById(eventIds.get(i)));
+        }
+        return generateResponseList(eventList);
     }
 
 //    /**
