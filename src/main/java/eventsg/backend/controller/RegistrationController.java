@@ -1,6 +1,8 @@
 package eventsg.backend.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eventsg.backend.model.Event;
+import eventsg.backend.service.EventService;
 import eventsg.backend.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.UUID;
 public class RegistrationController {
 
     private final RegistrationService registrationService;
+    private final EventService eventService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationService registrationService, EventService eventService) {
         this.registrationService = registrationService;
+        this.eventService = eventService;
     }
 
     /**
@@ -30,6 +34,9 @@ public class RegistrationController {
     @RequestMapping(path = "add/{eventId}/{userId}", method = RequestMethod.POST)
     public void registerEvent(@Valid @NotNull @PathVariable("eventId") UUID eventId, @Valid @NotNull @PathVariable("userId") UUID userId){
         registrationService.registerEvent(userId, eventId);
+        Event event = eventService.getEventById(eventId);
+        event.setNumOfParticipants(event.getNumOfParticipants() + 1);
+        eventService.updateEvent(eventId, event);
     }
 
     /**
@@ -38,8 +45,12 @@ public class RegistrationController {
      * @param userId the id of the user who registered the event
      */
     @DeleteMapping(path = "cancel/{eventId}/{userId}")
-    public void deregisterEvent(@PathVariable("userId") UUID eventId, @PathVariable("eventId")UUID userId){
-        registrationService.deregisterEvent(eventId, userId);
+    public void deregisterEvent(@PathVariable("eventId") UUID eventId, @PathVariable("userId")UUID userId){
+        registrationService.deregisterEvent(userId, eventId);
+        Event event = eventService.getEventById(eventId);
+        event.setNumOfParticipants(event.getNumOfParticipants() - 1);
+        eventService.updateEvent(eventId, event);
+
     }
 
     @GetMapping(path = "check/{eventId}/{userId}")
