@@ -43,7 +43,7 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "check/{eventId}/{userId}")
-    public boolean hasRegistered(@PathVariable("userId") UUID eventId, @PathVariable("eventId")UUID userId) {
+    public boolean hasRegistered(@PathVariable("eventId") UUID eventId, @PathVariable("userId")UUID userId) {
         return registrationService.hasRegistered(eventId, userId);
     }
 
