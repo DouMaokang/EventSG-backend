@@ -178,7 +178,7 @@ public class EventDaoImpl implements EventDao {
     public List<Event> searchEventByTitle(String keyword) {
         final String sql = "SELECT * FROM event WHERE title LIKE '%" + keyword + "%'";
         // return events whose title contains the keyword
-        return jdbcTemplate.query(sql, new Object[]{keyword}, new EventRowMapper());
+        return jdbcTemplate.query(sql, new EventRowMapper());
 
     }
 }
