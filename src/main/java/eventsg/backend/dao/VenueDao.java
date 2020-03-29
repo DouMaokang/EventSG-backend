@@ -9,12 +9,7 @@ import java.util.UUID;
 
 public interface VenueDao {
 
-    int addVenue(UUID venueId, Venue venue);
-
-    default int addVenue(Venue venue) {
-        UUID venueId = UUID.randomUUID();
-        return addVenue(venueId, venue);
-    }
+    int addVenue(Venue venue);
 
     int deleteVenueById(UUID venueId);
 
@@ -32,4 +27,9 @@ public interface VenueDao {
 
     List<Venue> getVenueByBudget(double budget);
 
+    Venue getVenueByEventId(UUID eventId);
+
+//    int addEventVenue(UUID eventId, UUID venueId);
+//
+//    int changeEventVenue(UUID eventId, UUID newVenueID);
 }

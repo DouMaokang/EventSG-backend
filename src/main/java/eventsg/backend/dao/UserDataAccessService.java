@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("postgres")
+@Repository("userDao")
 public class UserDataAccessService implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -24,11 +24,33 @@ public class UserDataAccessService implements UserDao {
      * @return 0 or 1 (number of rows affected)
      */
     @Override
-    public int insertUser(User user) {
+    public int addUser(User user) {
         return this.jdbcTemplate.update("INSERT INTO users(userId, userName, firstName, lastName, email, password, " +
-                        "birthday,phoneNum, occupation, organization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", user.getUserId(),
+                        "birthday,phoneNum, occupation, organization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", UUID.randomUUID(),
                 user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),
                 user.getBirthday(), user.getPhoneNum(), user.getOccupation(), user.getOrganization());
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        final String sql = "SELECT * FROM users";
+        List<User> userList = jdbcTemplate.query(
+                sql,
+                (resultSet, i) -> {
+                    UUID userId = UUID.fromString(resultSet.getString("userId"));
+                    String userName = resultSet.getString("userName");
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    LocalDate birthday = resultSet.getObject("birthday", LocalDate.class);
+                    int phoneNum = Integer.parseInt(resultSet.getString("phoneNum"));
+                    String occupation = resultSet.getString("occupation");
+                    String organization = resultSet.getString("organization");
+                    return new User(userId, userName, firstName, lastName, email, password, birthday,
+                            phoneNum, occupation, organization);
+                });
+        return userList;
     }
 
     /**

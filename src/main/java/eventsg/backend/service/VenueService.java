@@ -16,7 +16,7 @@ public class VenueService {
     private final VenueDao venueDao;
 
     @Autowired
-    public VenueService(@Qualifier("postgresVenue") VenueDao venueDao) {
+    public VenueService(@Qualifier("venueDao") VenueDao venueDao) {
         this.venueDao = venueDao;
     }
 
@@ -44,9 +44,11 @@ public class VenueService {
         return venueDao.getVenuesByOwnerId(ownerId);
     }
 
-    public List<Venue> getVenueByLocation(String venueName) {
+
+    public List<Venue> getVenueByName(String venueName) {
         return venueDao.getVenueByName(venueName);
     }
+
 
     public List<Venue> getVenueByArea(double area) {
         return venueDao.getVenueByArea(area);
@@ -55,5 +57,17 @@ public class VenueService {
     public List<Venue> getVenueByBudget(double budget) {
         return venueDao.getVenueByBudget(budget);
     }
+
+    public Venue getVenueByEventId(UUID eventId) {
+        return venueDao.getVenueByEventId(eventId);
+    }
+
+//    public int addEventVenue(UUID eventId, UUID venueId) {
+//        return venueDao.addEventVenue(eventId, venueId);
+//    }
+//
+//    public int changeEventVenue(UUID eventId, UUID newVenueId) {
+//        return venueDao.changeEventVenue(eventId, newVenueId);
+//    }
 
 }

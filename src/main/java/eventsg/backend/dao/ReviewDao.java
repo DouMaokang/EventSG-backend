@@ -8,12 +8,7 @@ import java.util.UUID;
 
 public interface ReviewDao {
 
-    int addReview(UUID reviewId, Review review);
-
-    default int addReview(Review review) {
-        UUID reviewId = UUID.randomUUID();
-        return addReview(reviewId, review);
-    }
+    int addReview(Review review);
 
     Optional<Review> getReviewById(UUID reviewId);
 

@@ -1,6 +1,7 @@
 package eventsg.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,31 +43,29 @@ public class Event {
 
     private String category;
 
+    private UUID venueId;
+
     /**
      * The status of the event, including saved, posted, cancelled and completed.
      */
     private String status;
 
-    public Event() {
-
-    }
-
-    /**
-     *
-     * @param title the title of the event (<= 64 characters)
-     * @param description the text description of the event (<= ? characters)
-     * @param startTime the start time of the event (yyyy-MM-dd hh:mm:ss)
-     * @param endTime the end time of the event (yyyy-MM-dd hh:mm:ss)
-     * @param registrationDeadline the deadline for event registration (yyyy-MM-dd hh:mm:ss)
-     * @param capacity the number of people the event can hold
-     * @param numOfParticipants the number of people who signed up for the event (<= capacity)
-     * @param avgRating the average rating of the event
-     * @param reviewList the list of reviews given to the event
-     * @param category the category of the events // TODO: Decide what categories to have
-     * @param status the status of the current event
-     */
-    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, List<Review> reviewList, String category, String status) {
-        this.eventId = id;
+    public Event(@JsonProperty("eventId") UUID eventId,
+                 @JsonProperty("organizerId")UUID organizerId,
+                 @JsonProperty("title") String title,
+                 @JsonProperty("description") String description,
+                 @JsonProperty("startTime") LocalDateTime startTime,
+                 @JsonProperty("endTime") LocalDateTime endTime,
+                 @JsonProperty("registrationDeadline") LocalDateTime registrationDeadline,
+                 @JsonProperty("capacity") Integer capacity,
+                 @JsonProperty("numOfParticipants") Integer numOfParticipants,
+                 @JsonProperty("avgRating") float avgRating,
+//                 @JsonProperty("reviewList") List<Review> reviewList,
+                 @JsonProperty("category") String category,
+                 @JsonProperty("venueId") UUID venueId,
+                 @JsonProperty("status") String status) {
+        this.eventId = eventId;
+        this.organizerId = organizerId;
         this.title = title;
         this.description = description;
         this.startTime = startTime;
@@ -75,36 +74,97 @@ public class Event {
         this.capacity = capacity;
         this.numOfParticipants = numOfParticipants;
         this.avgRating = avgRating;
-        this.reviewList = reviewList;
+//        this.reviewList = reviewList;
         this.category = category;
+        this.venueId = venueId;
         this.status = status;
     }
 
-    /**
-     *
-     * @param title the title of the event (<= 64 characters)
-     * @param description the text description of the event (<= ? characters)
-     * @param startTime the start time of the event (yyyy-MM-dd hh:mm:ss)
-     * @param endTime the end time of the event (yyyy-MM-dd hh:mm:ss)
-     * @param registrationDeadline the deadline for event registration (yyyy-MM-dd hh:mm:ss)
-     * @param capacity the number of people the event can hold
-     * @param numOfParticipants the number of people who signed up for the event (<= capacity)
-     * @param avgRating the average rating of the event
-     * @param category the category of the events // TODO: Decide what categories to have
-     * @param status the status of the current event
-     */
-    public Event(final UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, String status) {
-        this.eventId = id;
-        this.title = title;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.registrationDeadline = registrationDeadline;
+    //    /**
+//     *
+//     * @param title the title of the event (<= 64 characters)
+//     * @param description the text description of the event (<= ? characters)
+//     * @param startTime the start time of the event (yyyy-MM-dd hh:mm:ss)
+//     * @param endTime the end time of the event (yyyy-MM-dd hh:mm:ss)
+//     * @param registrationDeadline the deadline for event registration (yyyy-MM-dd hh:mm:ss)
+//     * @param capacity the number of people the event can hold
+//     * @param numOfParticipants the number of people who signed up for the event (<= capacity)
+//     * @param avgRating the average rating of the event
+//     * @param reviewList the list of reviews given to the event
+//     * @param category the category of the events // TODO: Decide what categories to have
+//     * @param status the status of the current event
+//     * @param venueId the venue id of the event
+//     */
+//    public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, List<Review> reviewList, String category, String status, UUID venueId) {
+//        this.title = title;
+//        this.description = description;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.registrationDeadline = registrationDeadline;
+//        this.capacity = capacity;
+//        this.numOfParticipants = numOfParticipants;
+//        this.avgRating = avgRating;
+//        this.reviewList = reviewList;
+//        this.category = category;
+//        this.status = status;
+//        this.venueId = venueId;
+//    }
+//
+//    public Event(String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, String status, UUID venueId) {
+//        this.title = title;
+//        this.description = description;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.registrationDeadline = registrationDeadline;
+//        this.capacity = capacity;
+//        this.numOfParticipants = numOfParticipants;
+//        this.avgRating = avgRating;
+//        this.category = category;
+//        this.status = status;
+//        this.venueId = venueId;
+//    }
+//
+//    public Event(UUID organizerId, String title, String description, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime registrationDeadline, Integer capacity, Integer numOfParticipants, float avgRating, String category, UUID venueId, String status) {
+//        this.organizerId = organizerId;
+//        this.title = title;
+//        this.description = description;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.registrationDeadline = registrationDeadline;
+//        this.capacity = capacity;
+//        this.numOfParticipants = numOfParticipants;
+//        this.avgRating = avgRating;
+//        this.category = category;
+//        this.venueId = venueId;
+//        this.status = status;
+//    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
+    }
+
+    public UUID getOrganizerId() {
+        return organizerId;
+    }
+
+    public void setOrganizerId(UUID organizerId) {
+        this.organizerId = organizerId;
+    }
+
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
-        this.numOfParticipants = numOfParticipants;
+    }
+
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
-        this.category = category;
-        this.status = status;
+    }
+
+    public UUID getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(UUID venueId) {
+        this.venueId = venueId;
     }
 
     public LocalDateTime getStartTime() {

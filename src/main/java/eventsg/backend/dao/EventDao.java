@@ -4,6 +4,7 @@ import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface EventDao {
@@ -24,7 +25,7 @@ public interface EventDao {
 
     List<Event> getSavedEvent(UUID userId);
 
-    List<Event> getUpcomingEvent(UUID userId); // registered events
+    List<Event> getUpcomingEvent(UUID userId, Integer limit); // registered events
 
     List<Event> getPopularEvent(); // based on likes/saves
 

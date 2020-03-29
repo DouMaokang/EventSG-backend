@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("postgresVenue")
+@Repository("venueDao")
 public class VenueDataAccessService implements VenueDao{
+
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,12 +23,11 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * insert a new venue record into the postgres database with the sql statement
-     * @param venueId venueId
      * @param venue Venue object with the necessary values to be inserted
      * @return 1 if insertion is successful; else 0
      */
     @Override
-    public int addVenue(UUID venueId, Venue venue) { //tested
+    public int addVenue(Venue venue) {
         String sql = "" +
                 "INSERT INTO venue (" +
                 "venueId, " +
@@ -37,8 +37,10 @@ public class VenueDataAccessService implements VenueDao{
                 "rentalFee, " +
                 "area, " +
                 "description, " +
-                "location )" +
+                "venueName )" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        UUID venueId = UUID.randomUUID();
         return jdbcTemplate.update(
                 sql,
                 venueId,
@@ -81,7 +83,7 @@ public class VenueDataAccessService implements VenueDao{
                 "rentalFee = ?, " +
                 "area = ?, " +
                 "description = ?, " +
-                "location = ?" +
+                "venueName = ?" +
                 "WHERE venueId = ?";
         return jdbcTemplate.update(
                 sql,
@@ -138,7 +140,6 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
 
     }
-
     /**
      * get all venues with similar name
      * @param selectedVenueName venue name
@@ -183,4 +184,28 @@ public class VenueDataAccessService implements VenueDao{
                 new VenueRowMapper());
         return venues;
     }
+
+    @Override
+    public Venue getVenueByEventId(UUID eventId) {
+        final String sql = "SELECT * FROM event_venue_record " +
+                "JOIN venue ON venueId " +
+                "WHERE event_venue_record.eventId = ?";
+        Venue venue = jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{eventId},
+                new VenueRowMapper());
+        return venue;
+    }
+//
+//    @Override
+//    public int addEventVenue(UUID eventId, UUID venueId) {
+//        final String sql = "INSERT INTO event_venue_record (eventId, venueId) VALUES (?, ?)";
+//        return jdbcTemplate.update(sql, eventId, venueId);
+//    }
+//
+//    @Override
+//    public int changeEventVenue(UUID eventId, UUID newVenueID) {
+//        final String sql = "UPDATE event_venue_record SET venueId = ? WHERE eventId = ?";
+//        return jdbcTemplate.update(sql, newVenueID, eventId);
+//    }
 }

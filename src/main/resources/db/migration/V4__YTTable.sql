@@ -6,13 +6,13 @@ CREATE TABLE venue (
     rentalFee float not null,
     area float not null,
     description VARCHAR(600),
-    venueName VARCHAR(50) not null
+    venueName VARCHAR(64) not null
 );
 
 CREATE TABLE review (
     reviewId UUID not null primary key,
     reviewerId UUID not null,
     eventId UUID not null,
-    rating int not null,
+    rating float not null,
     content VARCHAR(600)
 );

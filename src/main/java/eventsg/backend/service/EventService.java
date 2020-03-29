@@ -22,7 +22,6 @@ public class EventService {
 
     public void postEvent(Event event) {
         eventDao.postEvent(event);
-
     }
 
     public void saveEvent(Event event) {
@@ -53,15 +52,16 @@ public class EventService {
         return eventDao.getSavedEvent(userId);
     }
 
-    public List<Event> getUpcomingEvent(UUID userId) // registered events
+    public List<Event> getUpcomingEvent(UUID userId, Integer limit) // registered events
     {
-        return eventDao.getUpcomingEvent(userId);
+        return eventDao.getUpcomingEvent(userId, limit);
     }
 
-    public List<Event> getPopularEvent() // based on likes/saves
-    {
-        return eventDao.getPopularEvent();
-    }
+//    public List<Event> getPopularEvent() // based on likes/saves
+//    {
+//        return eventDao.getPopularEvent();
+//    }
+
 
     public List<Event> getEventByCategory(String category) {
         return eventDao.getEventByCategory(category);

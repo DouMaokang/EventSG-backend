@@ -89,8 +89,9 @@ public class VenueController {
      */
     @GetMapping(path = "venueName/{venueName}")
     public List<Venue> getVenueByLocation(@PathVariable String venueName) {
-        return venueService.getVenueByLocation(venueName);
+        return venueService.getVenueByName(venueName);
     }
+
 
     /**
      * A method answering to the Http GET request with path as "area/{area}"
@@ -111,4 +112,6 @@ public class VenueController {
     public List<Venue> getVenueByBudget(@PathVariable double budget) {
         return venueService.getVenueByBudget(budget);
     }
+
+
 }
