@@ -88,4 +88,34 @@ public class ReviewDataAccessService implements ReviewDao{
                 new ReviewRowMapper());
         return reviews;
     }
+
+    @Override
+    public int deleteReviewById(UUID reviewId) {
+        final String sql = "" + "DELETE FROM review WHERE reviewId = ?";
+        return jdbcTemplate.update(sql, reviewId);
+    }
+
+    @Override
+    public int updateReviewById(UUID reviewId, Review review) {
+        String sql = "" +
+                "UPDATE review " +
+                "SET " +
+                "reviewId = ?, " +
+                "reviewerId = ?, " +
+                "eventId = ?, " +
+                "rating = ?, " +
+                "content = ? " +
+                "WHERE reviewId = ?";
+        return jdbcTemplate.update(
+                sql,
+                reviewId,
+                review.getReviewerId(),
+                review.getEventId(),
+                review.getRating(),
+                review.getContent(),
+                reviewId
+        );
+    }
+
+
 }

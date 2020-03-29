@@ -18,4 +18,8 @@ public interface ReviewDao {
 
     List<Review> getAllReviews();
 
+    int deleteReviewById(UUID reviewId);
+
+    int updateReviewById(UUID reviewId, Review review);
+
 }

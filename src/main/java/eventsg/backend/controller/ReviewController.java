@@ -62,4 +62,25 @@ public class ReviewController {
     public List<Review> getAllReviews() {
         return reviewService.getAllReviews();
     }
+
+    /**
+     * A method answering to Http DELETE request
+     * Deleting a record in the Review database which has the input reviewId
+     * @param reviewId the record with this reviewId would be deleted
+     */
+    @DeleteMapping(path = "{reviewId}")
+    public void deleteReviewById(@PathVariable("reviewId") UUID reviewId) {
+        reviewService.deleteReviewById(reviewId);
+    }
+
+    /**
+     * A method answering to Http PUT request with path as "{reviewId}"
+     * Updating the record in the Review database
+     * @param reviewId the record in the review database with this reviewId would be updated
+     * @param review the review info used to update the existing record in the database
+     */
+    @PutMapping(path = "{reviewId}")
+    public void updateReviewById(@PathVariable UUID reviewId, @Valid @NotNull @RequestBody Review review) {
+        reviewService.updateReviewById(reviewId, review);
+    }
 }

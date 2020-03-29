@@ -36,4 +36,12 @@ public class ReviewService {
         return reviewDao.getAllReviews();
     }
 
+    public int deleteReviewById(UUID reviewId) {
+        return reviewDao.deleteReviewById(reviewId);
+    }
+
+    public int updateReviewById(UUID reviewId, Review review) {
+        return reviewDao.updateReviewById(reviewId, review);
+    }
+
 }

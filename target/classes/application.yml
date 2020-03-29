@@ -5,3 +5,5 @@ app:
     password: password
     pool-size: 30
 
+# local host database
+# jdbc-url: jdbc:postgresql://localhost:5432/demodb
