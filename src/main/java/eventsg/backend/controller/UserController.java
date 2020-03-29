@@ -65,20 +65,21 @@ public class UserController {
     public List<String> getInterestedCategories(@PathVariable("id") UUID userId){
         return userService.getInterestedCategories(userId);
     }
-
-    @PostMapping(path = "saveEvent/{userId}/{eventId}")
-    public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
-        userService.saveEvent(userId, eventId);
-    };
-
-    @DeleteMapping(path = "unsaveEvent/{userId}/{eventId}")
-    public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
-        userService.unsaveEvent(userId, eventId);
-    };
-
-    @GetMapping(path = "getSavedEvents/{userId}")
-    public List<UUID> getSavedEvents(@PathVariable("userId") UUID userId){
-        return userService.getSavedEvents(userId);
-    }
+//
+//    Moved to event controller
+//    @PostMapping(path = "saveEvent/{userId}/{eventId}")
+//    public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
+//        userService.saveEvent(userId, eventId);
+//    };
+//
+//    @DeleteMapping(path = "unsaveEvent/{userId}/{eventId}")
+//    public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
+//        userService.unsaveEvent(userId, eventId);
+//    };
+//
+//    @GetMapping(path = "getSavedEvents/{userId}")
+//    public List<UUID> getSavedEvents(@PathVariable("userId") UUID userId){
+//        return userService.getSavedEvents(userId);
+//    }
 
 }
