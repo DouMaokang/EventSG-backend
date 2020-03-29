@@ -24,7 +24,7 @@ public class Review {
     /**
      * rating the user provided in this review
      */
-    private int rating;
+    private float rating;
 
     /**
      * text content the user provided in this review
@@ -32,7 +32,7 @@ public class Review {
     private String content;
 
     public Review(@JsonProperty("reviewId") UUID reviewId, @JsonProperty("reviewerId") UUID reviewerId,
-                  @JsonProperty("eventId") UUID eventId, @JsonProperty("rating") int rating,
+                  @JsonProperty("eventId") UUID eventId, @JsonProperty("rating") float rating,
                   @JsonProperty("content") String content) {
         this.reviewId = reviewId;
         this.reviewerId = reviewerId;
@@ -69,7 +69,7 @@ public class Review {
      * get rating of the instance
      * @return rating
      */
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
