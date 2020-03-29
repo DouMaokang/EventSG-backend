@@ -1,7 +1,15 @@
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/demodb
-    username: postgres
-    password: password
+    jdbc-url: jdbc:postgresql:///demodb?cloudSqlInstance=aerobic-pivot-270810:asia-southeast1:event-sg-db&socketFactory=com.google.cloud.sql.postgresql.SocketFactory&user=aceit&password=ntucz2006
+    username: aceit
+    password: ntucz2006
     pool-size: 30
 
+  cloud:
+    gcp:
+      sql:
+        instance-connection-name: aerobic-pivot-270810:asia-southeast1:event-sg-db
+        database-name: demodb
+
+# local host database
+# jdbc-url: jdbc:postgresql://localhost:5432/demodb

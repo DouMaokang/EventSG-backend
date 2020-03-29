@@ -74,6 +74,12 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>postgres-socket-factory</artifactId>
+			<version>1.0.15</version>
+		</dependency>
+
 
 	</dependencies>
 
