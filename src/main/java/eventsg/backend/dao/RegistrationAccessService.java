@@ -67,8 +67,6 @@ public class RegistrationAccessService implements RegistrationDao {
     @Override
     public boolean hasRegistered(UUID eventId, UUID userId) {
         final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = ? AND userId = ?";
-        System.out.println("eventId: " + eventId);
-        System.out.println("userId: " + userId);
         int count = jdbcTemplate.queryForObject(sql, new Object[]{eventId, userId}, Integer.class);
         return (count > 0);
     }

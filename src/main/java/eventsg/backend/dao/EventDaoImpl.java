@@ -181,4 +181,11 @@ public class EventDaoImpl implements EventDao {
         return jdbcTemplate.query(sql, new EventRowMapper());
 
     }
+
+    @Override
+    public boolean hasSavedEvent(UUID eventId, UUID userId) {
+        final String sql = "SELECT COUNT(*) FROM user_saved_event WHERE eventId = ? AND userId = ?";
+        int count = jdbcTemplate.queryForObject(sql, new Object[]{eventId, userId}, Integer.class);
+        return (count > 0);
+    }
 }

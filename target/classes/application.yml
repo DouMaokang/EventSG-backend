@@ -7,3 +7,4 @@ app:
 
 # local host database
 # jdbc-url: jdbc:postgresql://localhost:5432/demodb
+

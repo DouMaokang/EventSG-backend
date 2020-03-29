@@ -182,6 +182,32 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
+    @GetMapping(path = "has_saved/{eventId}/{userId}")
+    public boolean hasSavedEvent(@PathVariable("eventId") UUID eventId, @PathVariable("userId") UUID userId) {
+        return  eventService.hasSavedEvent(eventId, userId);
+    }
+
+
+    @PostMapping(path = "save_event/{userId}/{eventId}")
+    public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
+        userService.saveEvent(userId, eventId);
+    };
+
+    @DeleteMapping(path = "unsave_event/{userId}/{eventId}")
+    public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
+        userService.unsaveEvent(userId, eventId);
+    };
+
+    @GetMapping(path = "all_saved_events/{userId}")
+    public List<Map<String, Object>> getSavedEvents(@PathVariable("userId") UUID userId) {
+        List<UUID> eventIds = userService.getSavedEvents(userId);
+        List<Event> eventList = new ArrayList<>();
+        for (int i = 0; i < eventIds.size(); i++) {
+          eventList.add(eventService.getEventById(eventIds.get(i)));
+        }
+        return this.generateResponseList(eventList);
+    }
+
     private Map<String, Object> generateResponse(Event event) {
         UUID venueId = event.getVenueId();
         Venue venue;
@@ -213,6 +239,5 @@ public class EventController {
         }
         return responseList;
     }
-
 
 }

@@ -75,4 +75,8 @@ public class EventService {
 //    public void addReview(UUID eventId, Review review) {
 //    }
 
+    public boolean hasSavedEvent(UUID eventId, UUID userId) {
+        return eventDao.hasSavedEvent(eventId, userId);
+    }
+
 }
