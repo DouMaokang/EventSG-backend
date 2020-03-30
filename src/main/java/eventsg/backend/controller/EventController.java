@@ -133,16 +133,6 @@ public class EventController {
         return generateResponseList(eventList);
     }
 
-//    /**
-//     * Returns all events saved by a user.
-//     * @param userId the id of the user
-//     * @return a list of events
-//     */
-//    public List<Map<String, Object>> getSavedEvent(UUID userId) {
-//        List<Event> eventList = eventService.getSavedEvent(userId);
-//        return this.generateResponseList(eventList);
-//    }
-
 
     /**
      * Return a list of upcoming events which the user has registered.
@@ -157,11 +147,6 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
-
-//    public List<Event> getPopularEvent() // based on likes/saves
-//    {
-//        return eventService.getPopularEvent();
-//    }
 
     /**
      * Returns a list of events recommended based on the user's interests.

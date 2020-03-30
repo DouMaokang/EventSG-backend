@@ -33,11 +33,12 @@ public class EventRowMapper implements RowMapper<Event> {
         String category = resultSet.getString("category");
         String status = resultSet.getString("status");
         UUID venueId = UUID.fromString(resultSet.getString("venueId"));
+        String image = resultSet.getString("image");
 
 
         Event event = new Event(id, organizerId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating,
-                category, venueId, status);
+                category, venueId, status, image);
         return event;
     }
 

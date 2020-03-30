@@ -7,6 +7,7 @@ CREATE TABLE venue (
     area float not null,
     description VARCHAR(600),
     venueName VARCHAR(64) not null
+    image VARCHAR(256) DEFAULT 'assets/venue-1.jpg'
 );
 
 CREATE TABLE review (

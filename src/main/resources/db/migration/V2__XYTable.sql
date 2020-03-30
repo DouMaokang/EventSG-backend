@@ -8,7 +8,8 @@ CREATE TABLE users (
     birthday DATE NOT NULL,
     phoneNum INT UNIQUE,
     occupation VARCHAR(50) NOT NULL,
-    organization VARCHAR(50) NOT NULL
+    organization VARCHAR(50) NOT NULL,
+    image VARCHAR(256)  DEFAULT 'assets/female-1.jpg'
 );
 
 CREATE TABLE user_interested_category (

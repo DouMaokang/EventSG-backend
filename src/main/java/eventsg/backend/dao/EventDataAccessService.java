@@ -1,5 +1,6 @@
 package eventsg.backend.dao;
 
+import eventsg.backend.datasource.Assets;
 import eventsg.backend.mapper.EventRowMapper;
 import eventsg.backend.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,10 @@ public class EventDataAccessService implements EventDao {
                 "avgRating, " +
                 "category, " +
                 "status, " +
-                "venueId" +
+                "venueId, " +
+                "image" +
 
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         UUID eventId = UUID.randomUUID();
         UUID organizerId = event.getOrganizerId();
@@ -55,10 +57,12 @@ public class EventDataAccessService implements EventDao {
         String status = event.getStatus();
         UUID venueId = event.getVenueId();
 
+        String image = Assets.Assets().getEventImage();
+
         jdbcTemplate.update(sql,
                 eventId, organizerId, title, description, startTime, endTime,
                 registrationDeadline, capacity, numOfParticipants, avgRating, category,
-                status, venueId
+                status, venueId, image
         );
 
         return eventId;
@@ -133,7 +137,7 @@ public class EventDataAccessService implements EventDao {
 
     @Override
     public List<Event> getAllEvent() {
-        final String sql = "SELECT * FROM event";
+        final String sql = "SELECT * FROM event ORDER BY startTime";
         return jdbcTemplate.query(sql, new EventRowMapper());
     }
 
@@ -164,19 +168,19 @@ public class EventDataAccessService implements EventDao {
     public List<Event> getPopularEvent() {
         final String sql = "SELECT * FROM event WHERE eventId IN " +
                 "(SELECT eventId FROM savedEvent GROUP BY eventId HAVING COUNT(*) > 20" +
-                ")";
+                ") ORDER BY startTime";
         return jdbcTemplate.query(sql, new EventRowMapper());
     }
 
     @Override
     public List<Event> getEventByCategory(String category) {
-        final String sql = "SELECT * FROM event WHERE category = ?";
+        final String sql = "SELECT * FROM event WHERE category = ? ORDER BY startTime";
         return jdbcTemplate.query(sql, new Object[]{category}, new EventRowMapper());
     }
 
     @Override
     public List<Event> searchEventByTitle(String keyword) {
-        final String sql = "SELECT * FROM event WHERE title LIKE '%" + keyword + "%'";
+        final String sql = "SELECT * FROM event WHERE LOWER(title) LIKE '%" + keyword.toLowerCase() + "%' ORDER BY startTime";
         // return events whose title contains the keyword
         return jdbcTemplate.query(sql, new EventRowMapper());
 
@@ -195,7 +199,7 @@ public class EventDataAccessService implements EventDao {
 
     @Override
     public List<Event> getOrganizedEvent(UUID userId) {
-        final String sql =  "SELECT * FROM event WHERE organizerId = ?";
+        final String sql =  "SELECT * FROM event WHERE organizerId = ? ORDER BY startTime";
         return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
     }
 }
