@@ -80,3 +80,60 @@
 //        }
 //    }
 //}
+
+import eventsg.backend.model.Event;
+import eventsg.backend.model.Notification;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+public class NotificationServiceImpl {
+
+    private final RegistrationDao registrationDao;
+    private final EventDao eventDao;
+    private final NotificationDao notificationDao;
+
+    public NotificationServiceImpl(RegistrationDao registrationDao, EventDao eventDao, NotificationDao notificationDao) {
+        this.registrationDao = registrationDao;
+        this.eventDao = eventDao;
+        this.notificationDao = notificationDao;
+    }
+
+    public List<Notification> getNotificationList(UUID userId) {
+
+        List<Notification> notificationList = new ArrayList<>();
+        List<Event> organizedEvents=EventDao.getOrganizedEvents(userId);
+        List<Event> registeredEvents=RegistrationDao.getRegisteredEvents(userId);
+
+        for (Event event:organizedEvents) {
+            UUID eventId=event.eventId;
+            notificationList.add(notificationDao.getNotification(eventId,"review"));
+            notificationList.add(notificationDao.getNotification(eventId,"capacity"));
+        }
+
+        for (Event event:registeredEvents) {
+            UUID eventId=event.eventId;
+            notificationList.add(notificationDao.getNotification(eventId,"update"));
+        }
+
+        return notificationList;
+    }
+
+    //when add a review
+    public void addReviewNotification(UUID eventId, UUID reviewId) {
+        notificationDao.addNotification(new Notification(eventId,reviewId,LocalDateTime.now()));
+    }
+    //when register an event
+    public void addCapacityNotification(UUID eventId, int capacityLevel) {
+        notificationDao.addNotification(new Notification(eventId,capacityLevel,LocalDateTime.now()));
+    }
+    //when update an event
+    public void addUpdateNotification(UUID eventId) {
+        notificationDao.addNotification(new Notification(eventId,LocalDateTime.now()));
+    }
+}
