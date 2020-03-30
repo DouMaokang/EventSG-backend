@@ -69,7 +69,7 @@ public class ReviewController {
      */
     @GetMapping(path = "has_reviewed/{eventId}/{reviewerId}")
     public boolean checkIfReviewed(@PathVariable UUID eventId, @PathVariable UUID reviewerId) {
-        System.out.println(reviewService.checkIfReviewed(eventId, reviewerId));
+        // System.out.println(reviewService.checkIfReviewed(eventId, reviewerId));
         return reviewService.checkIfReviewed(eventId, reviewerId);
     }
 
