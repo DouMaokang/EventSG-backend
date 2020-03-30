@@ -15,7 +15,7 @@ public interface VenueDao {
 
     int updateVenueById(UUID venueId, Venue venue);
 
-    Optional<Venue> getVenueById(UUID venueId);
+    Venue getVenueById(UUID venueId);
 
     List<Venue> getAllVenues();
 

@@ -32,7 +32,7 @@ public class VenueService {
         return venueDao.updateVenueById(venueId, venue);
     }
 
-    public Optional<Venue> getVenueById(UUID venueId) {
+    public Venue getVenueById(UUID venueId) {
         return venueDao.getVenueById(venueId);
     }
 

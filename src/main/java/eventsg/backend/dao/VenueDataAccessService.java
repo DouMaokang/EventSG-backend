@@ -105,13 +105,13 @@ public class VenueDataAccessService implements VenueDao{
      * @return the venue if found, else return null
      */
     @Override
-    public Optional<Venue> getVenueById(UUID selectedVenueId) { // tested
+    public Venue getVenueById(UUID selectedVenueId) { // tested
         final String sql = "SELECT * FROM venue WHERE venueId = ?";
         Venue venue = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{selectedVenueId},
                 new VenueRowMapper());
-        return Optional.ofNullable(venue);
+        return venue;
     }
 
     /**

@@ -1,25 +1,27 @@
 package eventsg.backend.controller;
 
+import eventsg.backend.model.User;
 import eventsg.backend.model.Venue;
 import eventsg.backend.service.VenueService;
+import eventsg.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("api/venue")
 @RestController
 public class VenueController {
 
     private final VenueService venueService;
+    private final UserService userService;
 
     @Autowired
-    public VenueController(VenueService venueService) {
+    public VenueController(VenueService venueService, UserService userService) {
         this.venueService = venueService;
+        this.userService = userService;
     }
 
     /**
@@ -59,8 +61,9 @@ public class VenueController {
      * @return returning a Venue object; If no such record exists, the null value would be returned
      */
     @GetMapping(path = "venueId/{venueId}")
-    public Optional<Venue> getVenueById(@PathVariable UUID venueId) {
-        return venueService.getVenueById(venueId);
+    public Map<String, Object> getVenueById(@PathVariable UUID venueId) {
+        Venue venue = venueService.getVenueById(venueId);
+        return (generateResponse(venue));
     }
 
     /**
@@ -68,8 +71,9 @@ public class VenueController {
      * @return Returning all venue records in the database as a list of Venue objects
      */
     @GetMapping
-    public List<Venue> getAllVenues() {
-        return venueService.getAllVenues();
+    public List<Map<String, Object>> getAllVenues() {
+        List<Venue> venues =  venueService.getAllVenues();
+        return generateResponseList(venues);
     }
 
     /**
@@ -78,8 +82,9 @@ public class VenueController {
      * @return a list of Venue objects with the above mentioned ownerId
      */
     @GetMapping(path = "ownerId/{ownerId}")
-    public List<Venue> getVenuesByOwnerId(@PathVariable UUID ownerId) {
-        return venueService.getVenuesByOwnerId(ownerId);
+    public List<Map<String, Object>> getVenuesByOwnerId(@PathVariable UUID ownerId) {
+        List<Venue> venues = venueService.getVenuesByOwnerId(ownerId);
+        return generateResponseList(venues);
     }
 
     /**
@@ -88,8 +93,9 @@ public class VenueController {
      * @return Returning all selected venues as a list of Venue objects
      */
     @GetMapping(path = "venueName/{venueName}")
-    public List<Venue> getVenueByLocation(@PathVariable String venueName) {
-        return venueService.getVenueByName(venueName);
+    public List<Map<String, Object>> getVenueByName(@PathVariable String venueName) {
+        List<Venue> venues = venueService.getVenueByName(venueName);
+        return generateResponseList(venues);
     }
 
 
@@ -99,8 +105,9 @@ public class VenueController {
      * @return Returning all selected venues as a list of Venue objects
      */
     @GetMapping(path = "area/{area}")
-    public List<Venue> getVenueByArea(@PathVariable double area) {
-        return venueService.getVenueByArea(area);
+    public List<Map<String, Object>> getVenueByArea(@PathVariable double area) {
+        List<Venue> venues = venueService.getVenueByArea(area);
+        return generateResponseList(venues);
     }
 
     /**
@@ -109,9 +116,31 @@ public class VenueController {
      * @return Returning all selected venues as a list of Venue objects
      */
     @GetMapping(path = "budget/{budget}")
-    public List<Venue> getVenueByBudget(@PathVariable double budget) {
-        return venueService.getVenueByBudget(budget);
+    public List<Map<String, Object>> getVenueByBudget(@PathVariable double budget) {
+        List<Venue> venues = venueService.getVenueByBudget(budget);
+        return generateResponseList(venues);
     }
 
+
+    private Map<String, Object> generateResponse(Venue venue) {
+        User owner;
+        try {
+            owner = userService.getUserById(venue.getOwnerId()).orElse(null);
+        } catch (Exception e) {
+            owner = null;
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("venue", venue);
+        response.put("owner", owner);
+        return response;
+    }
+
+    private List<Map<String, Object>> generateResponseList (List<Venue> venueList) {
+        List<Map<String, Object>> responseList = new ArrayList<>();
+        for (Venue venue : venueList) {
+            responseList.add(generateResponse(venue));
+        }
+        return responseList;
+    }
 
 }
