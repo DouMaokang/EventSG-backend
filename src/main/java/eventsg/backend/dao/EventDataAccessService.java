@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository("eventDao")
-public class EventDaoImpl implements EventDao {
+public class EventDataAccessService implements EventDao {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public EventDaoImpl(JdbcTemplate jdbcTemplate) {
+    public EventDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -54,8 +54,6 @@ public class EventDaoImpl implements EventDao {
         String category = event.getCategory();
         String status = event.getStatus();
         UUID venueId = event.getVenueId();
-
-        System.out.println("XXXXX: " + venueId);
 
         jdbcTemplate.update(sql,
                 eventId, organizerId, title, description, startTime, endTime,
@@ -154,9 +152,9 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getUpcomingEvent(UUID userId, Integer limit) {
         final String sql = "SELECT * FROM event " +
-                "WHERE eventId IN (SELECT eventId FROM eventRegistration WHERE userId = ?) "+
-                "AND startTime < DATE(NOW()) + INTERVAL ? DAY AND startTime >= DATE(NOW())";
-        return jdbcTemplate.query(sql, new Object[]{userId, limit}, new EventRowMapper());
+                "WHERE eventId IN (SELECT eventId FROM registration WHERE userId = ?) "+
+                "AND startTime < (DATE(NOW()) + INTERVAL '7' DAY) AND startTime >= DATE(NOW())";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
     }
 
     // TODO: To have an additional attribute "numOfSaves"?
@@ -178,7 +176,20 @@ public class EventDaoImpl implements EventDao {
     public List<Event> searchEventByTitle(String keyword) {
         final String sql = "SELECT * FROM event WHERE title LIKE '%" + keyword + "%'";
         // return events whose title contains the keyword
-        return jdbcTemplate.query(sql, new Object[]{keyword}, new EventRowMapper());
+        return jdbcTemplate.query(sql, new EventRowMapper());
 
+    }
+
+    @Override
+    public boolean hasSavedEvent(UUID eventId, UUID userId) {
+        final String sql = "SELECT COUNT(*) FROM user_saved_event WHERE eventId = ? AND userId = ?";
+        int count = jdbcTemplate.queryForObject(sql, new Object[]{eventId, userId}, Integer.class);
+        return (count > 0);
+    }
+
+    @Override
+    public List<Event> getOrganizedEvent(UUID userId) {
+        final String sql =  "SELECT * FROM event WHERE organizerId = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
     }
 }

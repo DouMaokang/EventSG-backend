@@ -4,10 +4,7 @@ import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
 import eventsg.backend.model.Venue;
-import eventsg.backend.service.EventService;
-import eventsg.backend.service.ReviewService;
-import eventsg.backend.service.UserService;
-import eventsg.backend.service.VenueService;
+import eventsg.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +18,21 @@ public class EventController {
     private final VenueService venueService;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final RegistrationService registrationService;
+    private final NotificationService notificationService;
 
     @Autowired // It injects the actual service into the constructor
-    public EventController(EventService eventService, VenueService venueService, ReviewService reviewService, UserService userService) {
+    public EventController(EventService eventService, VenueService venueService,
+                           ReviewService reviewService, UserService userService,
+                           RegistrationService registrationService,
+                           NotificationService notificationService
+                           ) {
         this.eventService = eventService;
         this.venueService = venueService;
         this.reviewService = reviewService;
         this.userService = userService;
+        this.registrationService = registrationService;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -37,6 +42,20 @@ public class EventController {
     @RequestMapping(path = "add", method = RequestMethod.POST)
     public void postEvent(@RequestBody Event event) {
         eventService.postEvent(event);
+        UUID venueOwnerId = venueService.getVenueByEventId(event.getEventId()).getOwnerId();
+
+        // TODO: test notification
+        // Notify the venue owner that his/her venue is rented.
+        notificationService.addNotification("venue", event.getEventId(), venueOwnerId);
+        // Notify users who previously registered this organizer's events.
+        List<UUID> usersToNotify = new ArrayList<>();
+        List<Event> pastEvents = eventService.getOrganizedEvent(event.getOrganizerId());
+        for (Event pastEvent : pastEvents) {
+            usersToNotify.addAll(registrationService.getRegisteredUsers(pastEvent.getEventId()));
+        }
+        for (UUID uuid : usersToNotify) {
+            notificationService.addNotification("event", event.getEventId(), uuid);
+        }
     }
 
     /**
@@ -95,6 +114,21 @@ public class EventController {
     public Map<String, Object> getEventById(@PathVariable("eventId") UUID eventId) {
         Event event = eventService.getEventById(eventId);
         return generateResponse(event);
+    }
+
+    /**
+     * Returns all registration record of a user.
+     * @param userId the id of the user
+     * @return a list of registrations
+     */
+    @GetMapping(path = "registered/{userId}")
+    public List<Map<String, Object>> getRegisteredEvents(@PathVariable("userId") UUID userId){
+        List<UUID> eventIds = registrationService.getRegisteredEvents(userId);
+        List<Event> eventList = new ArrayList<>();
+        for (int i = 0; i < eventIds.size(); i++) {
+            eventList.add(eventService.getEventById(eventIds.get(i)));
+        }
+        return generateResponseList(eventList);
     }
 
 //    /**
@@ -165,6 +199,38 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
+    @GetMapping(path = "has_saved/{eventId}/{userId}")
+    public boolean hasSavedEvent(@PathVariable("eventId") UUID eventId, @PathVariable("userId") UUID userId) {
+        return  eventService.hasSavedEvent(eventId, userId);
+    }
+
+
+    @PostMapping(path = "save_event/{userId}/{eventId}")
+    public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
+        userService.saveEvent(userId, eventId);
+    };
+
+    @DeleteMapping(path = "unsave_event/{userId}/{eventId}")
+    public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
+        userService.unsaveEvent(userId, eventId);
+    };
+
+    @GetMapping(path = "all_saved_events/{userId}")
+    public List<Map<String, Object>> getSavedEvents(@PathVariable("userId") UUID userId) {
+        List<UUID> eventIds = userService.getSavedEvents(userId);
+        List<Event> eventList = new ArrayList<>();
+        for (int i = 0; i < eventIds.size(); i++) {
+          eventList.add(eventService.getEventById(eventIds.get(i)));
+        }
+        return this.generateResponseList(eventList);
+    }
+
+    @GetMapping(path = "organizer/{userId}")
+    public List<Map<String, Object>> getEventByOrganizer(@PathVariable("userId") UUID userId) {
+        List<Event> eventList = eventService.getOrganizedEvent(userId);
+        return this.generateResponseList(eventList);
+    }
+
     private Map<String, Object> generateResponse(Event event) {
         UUID venueId = event.getVenueId();
         Venue venue;
@@ -196,6 +262,5 @@ public class EventController {
         }
         return responseList;
     }
-
 
 }

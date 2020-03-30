@@ -35,5 +35,12 @@ public class RegistrationService {
         return registrationDao.getNumOfParticipants(eventId);
     }
 
+    public boolean hasRegistered(UUID eventId, UUID userId) {
+        return registrationDao.hasRegistered(eventId, userId);
+    }
+
+    public List<UUID> getRegisteredUsers(UUID eventId) {
+        return registrationDao.getRegisteredUsers(eventId);
+    }
 
 }
