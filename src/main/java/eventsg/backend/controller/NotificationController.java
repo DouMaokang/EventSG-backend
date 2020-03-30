@@ -28,5 +28,4 @@ public class NotificationController {
     public List<Notification> getNotificationList(@PathVariable("userId") UUID userId) {
         return notificationService.getNotification(userId, 7);
     }
-
 }
