@@ -39,4 +39,8 @@ public class RegistrationService {
         return registrationDao.hasRegistered(eventId, userId);
     }
 
+    public List<UUID> getRegisteredUsers(UUID eventId) {
+        return registrationDao.getRegisteredUsers(eventId);
+    }
+
 }

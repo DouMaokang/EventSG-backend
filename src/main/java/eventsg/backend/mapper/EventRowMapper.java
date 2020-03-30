@@ -23,9 +23,9 @@ public class EventRowMapper implements RowMapper<Event> {
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
         LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
-        LocalDateTime endTime = resultSet.getTimestamp("endTime").toLocalDateTime();;
+        LocalDateTime endTime = resultSet.getTimestamp("endTime").toLocalDateTime();
         LocalDateTime registrationDeadline =
-                resultSet.getTimestamp("registrationDeadline").toLocalDateTime();;
+                resultSet.getTimestamp("registrationDeadline").toLocalDateTime();
         Integer capacity = resultSet.getInt("capacity");
         Integer numOfParticipants = resultSet.getInt("numOfParticipants");
         float avgRating = resultSet.getFloat("avgRating");

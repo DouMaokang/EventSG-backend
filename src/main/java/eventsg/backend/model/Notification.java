@@ -3,47 +3,69 @@ package eventsg.backend.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Notification implements Comparable<Notification> {
+public class Notification {
 
-    //maybe can have event object for more information
+    private UUID notificationId;
+    /** Type can be "registration", "event" or "review". */
+    private String type;
+    private LocalDateTime timeCreated;
     private UUID eventId;
+    private UUID userId;
 
-    private LocalDateTime eventTime;
 
-    //range from 0 to 7
-    private int days;
-
-    //whether need to be notified today (only when first added or 0,1,3,7 days before the event)
-    private Boolean notify;
-
-    //attribute read or not should be done in frontend
-
-    public Notification(UUID eventId, LocalDateTime eventTime, int days, Boolean notify) {
+    public Notification(String type, LocalDateTime timeCreated, UUID eventId, UUID userId) {
+        this.type = type;
+        this.timeCreated = timeCreated;
         this.eventId = eventId;
-        this.eventTime = eventTime;
-        this.days = days;
-        this.notify = notify;
+        this.userId = userId;
     }
 
-    @Override
-    public int compareTo(Notification o) {
-        return this.eventTime.isBefore(o.getEventTime())?1:0;
+    public Notification(UUID notificationId, String type, LocalDateTime timeCreated, UUID eventId, UUID userId) {
+        this.notificationId = notificationId;
+        this.type = type;
+        this.timeCreated = timeCreated;
+        this.eventId = eventId;
+        this.userId = userId;
+
     }
 
-    public int getDays() {
-        return days;
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public UUID getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(UUID notificationId) {
+        this.notificationId = notificationId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(LocalDateTime timeCreated) {
+        this.timeCreated = timeCreated;
     }
 
     public UUID getEventId() {
         return eventId;
     }
 
-    public LocalDateTime getEventTime() {
-        return eventTime;
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
     }
-
-    public Boolean getNotify() {
-        return notify;
-    }
-
 }

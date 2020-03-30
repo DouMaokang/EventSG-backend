@@ -2,7 +2,9 @@ package eventsg.backend.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eventsg.backend.model.Event;
+import eventsg.backend.model.Notification;
 import eventsg.backend.service.EventService;
+import eventsg.backend.service.NotificationService;
 import eventsg.backend.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +21,14 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
     private final EventService eventService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService, EventService eventService) {
+    public RegistrationController(RegistrationService registrationService, EventService eventService,
+                                  NotificationService notificationService) {
         this.registrationService = registrationService;
         this.eventService = eventService;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -37,6 +42,7 @@ public class RegistrationController {
         Event event = eventService.getEventById(eventId);
         event.setNumOfParticipants(event.getNumOfParticipants() + 1);
         eventService.updateEvent(eventId, event);
+        notificationService.addNotification("registration", eventId, eventService.getEventById(eventId).getOrganizerId());
     }
 
     /**
@@ -50,6 +56,7 @@ public class RegistrationController {
         Event event = eventService.getEventById(eventId);
         event.setNumOfParticipants(event.getNumOfParticipants() - 1);
         eventService.updateEvent(eventId, event);
+        notificationService.addNotification("deregistration", eventId, eventService.getEventById(eventId).getOrganizerId());
 
     }
 

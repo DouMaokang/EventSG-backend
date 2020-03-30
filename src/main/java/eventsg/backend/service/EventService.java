@@ -79,4 +79,8 @@ public class EventService {
         return eventDao.hasSavedEvent(eventId, userId);
     }
 
+    public List<Event> getOrganizedEvent(UUID userId) {
+        return eventDao.getOrganizedEvent(userId);
+    }
+
 }
