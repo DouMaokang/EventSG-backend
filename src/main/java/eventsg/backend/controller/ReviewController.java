@@ -1,25 +1,32 @@
 package eventsg.backend.controller;
 
+import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
+import eventsg.backend.model.User;
 import eventsg.backend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import eventsg.backend.service.EventService;
+import eventsg.backend.service.UserService;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("api/review")
 @RestController
 public class ReviewController {
 
-    public final ReviewService reviewService;
+    private final ReviewService reviewService;
+    private final EventService eventService;
+    private final UserService userService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService) {
         this.reviewService = reviewService;
+        this.eventService = eventService;
+        this.userService = userService;
     }
 
     /**
@@ -50,8 +57,9 @@ public class ReviewController {
      * @return return a list of Review objects
      */
     @GetMapping(path = "event/{eventId}")
-    public List<Review> getReviewsByEventId(@PathVariable UUID eventId) {
-        return reviewService.getReviewsByEventId(eventId);
+    public List<Map<String, Object>> getReviewsByEventId(@PathVariable UUID eventId) {
+        List<Review> reviewList = reviewService.getReviewsByEventId(eventId);
+        return generateResponseList(reviewList);
     }
 
     /**
@@ -59,8 +67,9 @@ public class ReviewController {
      * @return Return a list of all Review objects currently in the database
      */
     @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewService.getAllReviews();
+    public List<Map<String, Object>> getAllReviews() {
+        List<Review> reviewList = reviewService.getAllReviews();
+        return generateResponseList(reviewList);
     }
 
     /**
@@ -82,5 +91,35 @@ public class ReviewController {
     @PutMapping(path = "{reviewId}")
     public void updateReviewById(@PathVariable UUID reviewId, @Valid @NotNull @RequestBody Review review) {
         reviewService.updateReviewById(reviewId, review);
+    }
+
+
+    private Map<String, Object> generateResponse(Review review) {
+        UUID reviewerId = review.getReviewerId();
+        User reviewer;
+        try {
+            reviewer = userService.getUserById(reviewerId).orElse(null);
+        } catch (Exception e) {
+            reviewer = null;
+        }
+        Event event;
+        try {
+            event = eventService.getEventById(review.getEventId());
+        } catch (Exception e) {
+            event = null;
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("review", review);
+        response.put("reviewer", reviewer);
+        response.put("event", event);
+        return  response;
+    }
+
+    private List<Map<String, Object>> generateResponseList (List<Review> reviewList) {
+        List<Map<String, Object>> responseList = new ArrayList<>();
+        for (Review review : reviewList) {
+            responseList.add(generateResponse(review));
+        }
+        return responseList;
     }
 }
