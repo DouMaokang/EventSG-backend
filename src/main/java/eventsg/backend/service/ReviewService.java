@@ -28,6 +28,9 @@ public class ReviewService {
         return reviewDao.getReviewById(selectedReviewId);
     }
 
+    public boolean checkIfReviewed(UUID selectedEventId, UUID selectedReviewerId) {
+        return reviewDao.checkIfReviewed(selectedEventId, selectedReviewerId);
+    }
     public List<Review> getReviewsByEventId(UUID selectedEventId) {
         return reviewDao.getReviewsByEventId(selectedEventId);
     }

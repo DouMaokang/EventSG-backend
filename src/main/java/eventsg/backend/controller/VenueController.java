@@ -29,7 +29,7 @@ public class VenueController {
      * Adding a new Venue into the database
      * @param venue the venue to be added
      */
-    @PostMapping
+    @PostMapping(path = "add")
     public void addVenue(@Valid @NotNull @RequestBody Venue venue) {
         venueService.addVenue(venue);
     }
@@ -39,7 +39,7 @@ public class VenueController {
      * Deleting a record in the Venue database which has the input venueId
      * @param venueId the record with this venueId would be deleted
      */
-    @DeleteMapping(path = "{venueId}")
+    @DeleteMapping(path = "delete/{venueId}")
     public void deleteVenueById(@PathVariable("venueId") UUID venueId) {
         venueService.deleteVenueById(venueId);
     }
@@ -50,7 +50,7 @@ public class VenueController {
      * @param venueId the record in the venue database with this venueId would be updated
      * @param venue the venue info used to update the existing record in the database
      */
-    @PutMapping(path = "{venueId}")
+    @PutMapping(path = "update/{venueId}")
     public void updateVenueById(@PathVariable UUID venueId, @Valid @NotNull @RequestBody Venue venue) {
         venueService.updateVenueById(venueId, venue);
     }

@@ -34,7 +34,7 @@ public class ReviewController {
      * Add a new Review to the database
      * @param review Review to be added
      */
-    @PostMapping
+    @PostMapping(path = "add")
     public void addReview(@Valid @NotNull @RequestBody Review review) {
         reviewService.addReview(review);
     }
@@ -63,6 +63,18 @@ public class ReviewController {
     }
 
     /**
+     * only used to check whether the user has provided review
+     * @param reviewerId reviewer
+     * @return null if not reviewed, the review if reviewed
+     */
+    @GetMapping(path = "has_reviewed/{eventId}/{reviewerId}")
+    public boolean checkIfReviewed(@PathVariable UUID eventId, @PathVariable UUID reviewerId) {
+        System.out.println(reviewService.checkIfReviewed(eventId, reviewerId));
+        return reviewService.checkIfReviewed(eventId, reviewerId);
+    }
+
+
+    /**
      * Answeing an Http GET request
      * @return Return a list of all Review objects currently in the database
      */
@@ -77,7 +89,7 @@ public class ReviewController {
      * Deleting a record in the Review database which has the input reviewId
      * @param reviewId the record with this reviewId would be deleted
      */
-    @DeleteMapping(path = "{reviewId}")
+    @DeleteMapping(path = "delete/{reviewId}")
     public void deleteReviewById(@PathVariable("reviewId") UUID reviewId) {
         reviewService.deleteReviewById(reviewId);
     }
@@ -88,7 +100,7 @@ public class ReviewController {
      * @param reviewId the record in the review database with this reviewId would be updated
      * @param review the review info used to update the existing record in the database
      */
-    @PutMapping(path = "{reviewId}")
+    @PutMapping(path = "update/{reviewId}")
     public void updateReviewById(@PathVariable UUID reviewId, @Valid @NotNull @RequestBody Review review) {
         reviewService.updateReviewById(reviewId, review);
     }

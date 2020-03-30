@@ -61,6 +61,16 @@ public class ReviewDataAccessService implements ReviewDao{
         return Optional.ofNullable(review);
     }
 
+
+    public boolean checkIfReviewed(UUID selectedEventId, UUID selectedReviewerId) {
+        final String sql = "SELECT * FROM review WHERE eventId = ? AND reviewerId = ?";
+        List<Review> reviews = jdbcTemplate.query(
+                sql,
+                new Object[]{selectedEventId, selectedReviewerId},
+                new ReviewRowMapper());
+        return reviews.size() != 0;
+    }
+
     /**
      * Get all the review records related to the input eventId as a list of Review objects
      * @param selectedEventId eventId to be selected
