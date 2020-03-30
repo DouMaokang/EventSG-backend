@@ -20,8 +20,8 @@ public class EventService {
         this.eventDao = eventDao;
     }
 
-    public void postEvent(Event event) {
-        eventDao.postEvent(event);
+    public UUID postEvent(Event event) {
+        return eventDao.postEvent(event);
     }
 
     public void saveEvent(Event event) {
@@ -77,6 +77,10 @@ public class EventService {
 
     public boolean hasSavedEvent(UUID eventId, UUID userId) {
         return eventDao.hasSavedEvent(eventId, userId);
+    }
+
+    public List<Event> getOrganizedEvent(UUID userId) {
+        return eventDao.getOrganizedEvent(userId);
     }
 
 }

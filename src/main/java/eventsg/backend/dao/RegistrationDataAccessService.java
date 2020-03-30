@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Repository("registrationDao")
 
-public class RegistrationAccessService implements RegistrationDao {
+public class RegistrationDataAccessService implements RegistrationDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RegistrationAccessService(JdbcTemplate jdbcTemplate) {
+    public RegistrationDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
     /**
@@ -69,6 +69,18 @@ public class RegistrationAccessService implements RegistrationDao {
         final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = ? AND userId = ?";
         int count = jdbcTemplate.queryForObject(sql, new Object[]{eventId, userId}, Integer.class);
         return (count > 0);
+    }
+
+    @Override
+    public List<UUID> getRegisteredUsers(UUID eventId) {
+        final String sql = "SELECT userId FROM registration WHERE eventId = ?";
+        return jdbcTemplate.query(
+                sql,
+                new Object[]{eventId},
+                (resultSet, i) -> {
+                    UUID userId  = UUID.fromString(resultSet.getString("userId"));
+                    return userId;
+                });
     }
 
 }

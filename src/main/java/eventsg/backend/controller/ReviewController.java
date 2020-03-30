@@ -2,7 +2,12 @@ package eventsg.backend.controller;
 
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
+
 import eventsg.backend.model.User;
+
+import eventsg.backend.service.EventService;
+import eventsg.backend.service.NotificationService;
+
 import eventsg.backend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +25,17 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final EventService eventService;
+
     private final UserService userService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService) {
+    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService, NotificationService notificationService) {
         this.reviewService = reviewService;
         this.eventService = eventService;
         this.userService = userService;
+        this.notificationService = notificationService;
+
     }
 
     /**
@@ -37,6 +46,7 @@ public class ReviewController {
     @PostMapping(path = "add")
     public void addReview(@Valid @NotNull @RequestBody Review review) {
         reviewService.addReview(review);
+        notificationService.addNotification("review", review.getEventId(), eventService.getEventById(review.getEventId()).getOrganizerId());
     }
 
     /**

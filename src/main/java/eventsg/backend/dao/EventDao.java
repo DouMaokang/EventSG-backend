@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface EventDao {
 
-    void postEvent(Event event);
+    UUID postEvent(Event event);
 
     void saveEvent(Event event);
 
@@ -35,6 +35,7 @@ public interface EventDao {
 
     boolean hasSavedEvent(UUID eventId, UUID userId);
 
+    List<Event> getOrganizedEvent(UUID userId);
 
     /** TODO: Review related functions
         void addReview(UUID eventId, Review review);

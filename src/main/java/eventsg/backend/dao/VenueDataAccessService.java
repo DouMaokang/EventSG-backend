@@ -187,9 +187,7 @@ public class VenueDataAccessService implements VenueDao{
 
     @Override
     public Venue getVenueByEventId(UUID eventId) {
-        final String sql = "SELECT * FROM event_venue_record " +
-                "JOIN venue ON venueId " +
-                "WHERE event_venue_record.eventId = ?";
+        final String sql = "SELECT * FROM event INNER JOIN venue ON event.venueId = venue.venueId WHERE eventId = ?";
         Venue venue = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{eventId},

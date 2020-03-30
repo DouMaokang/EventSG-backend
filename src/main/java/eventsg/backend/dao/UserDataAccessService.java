@@ -176,12 +176,12 @@ public class UserDataAccessService implements UserDao {
     /**
      * Add a record of (userId, eventId) into user_saved_event table.
      * @param userId UUID
-     * @param eventid UUID
+     * @param eventId UUID
      * @return 0 or 1
      */
     @Override
-    public int saveEvent(UUID userId, UUID eventid) {
-        return jdbcTemplate.update("INSERT INTO user_saved_event(userId, eventId) VALUES(?,?)", userId, eventid);
+    public int saveEvent(UUID userId, UUID eventId) {
+        return jdbcTemplate.update("INSERT INTO user_saved_event(userId, eventId) VALUES(?,?)", userId, eventId);
     }
 
 

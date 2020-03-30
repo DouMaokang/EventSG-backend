@@ -17,23 +17,6 @@ CREATE TABLE event (
     venueId UUID NOT NULL
 );
 
-CREATE TABLE savedEvent (
-    eventId UUID NOT NULL,
-    userId UUID NOT NULL,
-    timeCreated TIMESTAMP NOT NULL DEFAULT DATE(NOW()),
-    PRIMARY KEY(eventId, userId)
-);
-
-CREATE TABLE eventRegistration (
-
-    eventId UUID NOT NULL,
-    userId UUID NOT NULL,
-    timeCreated TIMESTAMP NOT NULL DEFAULT DATE(NOW()),
-    PRIMARY KEY(eventId, userId)
-);
-
-
-
 
 
 
