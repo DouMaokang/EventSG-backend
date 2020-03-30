@@ -21,7 +21,7 @@ public class EventDataAccessService implements EventDao {
     }
 
     @Override
-    public void postEvent(Event event) {
+    public UUID postEvent(Event event) {
         final String sql = "INSERT INTO event " +
                 "(" +
                 "eventId, " +
@@ -60,6 +60,8 @@ public class EventDataAccessService implements EventDao {
                 registrationDeadline, capacity, numOfParticipants, avgRating, category,
                 status, venueId
         );
+
+        return eventId;
 
     }
 
@@ -184,6 +186,10 @@ public class EventDataAccessService implements EventDao {
     public boolean hasSavedEvent(UUID eventId, UUID userId) {
         final String sql = "SELECT COUNT(*) FROM user_saved_event WHERE eventId = ? AND userId = ?";
         int count = jdbcTemplate.queryForObject(sql, new Object[]{eventId, userId}, Integer.class);
+        System.out.println("eventId: " + eventId);
+        System.out.println("userId: " + userId);
+        System.out.println(count);
+
         return (count > 0);
     }
 

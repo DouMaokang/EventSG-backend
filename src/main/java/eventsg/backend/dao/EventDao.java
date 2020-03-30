@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface EventDao {
 
-    void postEvent(Event event);
+    UUID postEvent(Event event);
 
     void saveEvent(Event event);
 

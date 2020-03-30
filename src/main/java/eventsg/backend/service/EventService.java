@@ -20,8 +20,8 @@ public class EventService {
         this.eventDao = eventDao;
     }
 
-    public void postEvent(Event event) {
-        eventDao.postEvent(event);
+    public UUID postEvent(Event event) {
+        return eventDao.postEvent(event);
     }
 
     public void saveEvent(Event event) {
