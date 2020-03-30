@@ -35,6 +35,7 @@ public interface EventDao {
 
     boolean hasSavedEvent(UUID eventId, UUID userId);
 
+    List<Event> getOrganizedEvent(UUID userId);
 
     /** TODO: Review related functions
         void addReview(UUID eventId, Review review);

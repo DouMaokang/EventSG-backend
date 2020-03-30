@@ -1,8 +1,7 @@
 CREATE TABLE notification (
-       notificationId UUID NOT NULL PRIMARY KEY,
-       eventId UUID NOT NULL FOREIGN KEY REFERENCES event(eventId),
-       type VARCHAR(32) NOT NULL,
-       reviewId UUID FOREIGN KEY  REFERENCES review(reviewId),
-       capacityId INT,
-       time TIMESTAMP NOT NULL,
+        userId UUID NOT NULL,
+        notificationId UUID NOT NULL PRIMARY KEY,
+        type VARCHAR(32) NOT NULL,
+        timeCreated TIMESTAMP NOT NULL,
+        eventId UUID NOT NULL
 );

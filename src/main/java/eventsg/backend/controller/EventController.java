@@ -1,6 +1,5 @@
 package eventsg.backend.controller;
 
-import eventsg.backend.dao.RegistrationDao;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
@@ -19,17 +18,21 @@ public class EventController {
     private final VenueService venueService;
     private final ReviewService reviewService;
     private final UserService userService;
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
+    private final NotificationService notificationService;
 
     @Autowired // It injects the actual service into the constructor
     public EventController(EventService eventService, VenueService venueService,
                            ReviewService reviewService, UserService userService,
-                           RegistrationService registrationService) {
+                           RegistrationService registrationService,
+                           NotificationService notificationService
+                           ) {
         this.eventService = eventService;
         this.venueService = venueService;
         this.reviewService = reviewService;
         this.userService = userService;
         this.registrationService = registrationService;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -39,6 +42,20 @@ public class EventController {
     @RequestMapping(path = "add", method = RequestMethod.POST)
     public void postEvent(@RequestBody Event event) {
         eventService.postEvent(event);
+        UUID venueOwnerId = venueService.getVenueByEventId(event.getEventId()).getOwnerId();
+
+        // TODO: test notification
+        // Notify the venue owner that his/her venue is rented.
+        notificationService.addNotification("venue", event.getEventId(), venueOwnerId);
+        // Notify users who previously registered this organizer's events.
+        List<UUID> usersToNotify = new ArrayList<>();
+        List<Event> pastEvents = eventService.getOrganizedEvent(event.getOrganizerId());
+        for (Event pastEvent : pastEvents) {
+            usersToNotify.addAll(registrationService.getRegisteredUsers(pastEvent.getEventId()));
+        }
+        for (UUID uuid : usersToNotify) {
+            notificationService.addNotification("event", event.getEventId(), uuid);
+        }
     }
 
     /**
@@ -205,6 +222,12 @@ public class EventController {
         for (int i = 0; i < eventIds.size(); i++) {
           eventList.add(eventService.getEventById(eventIds.get(i)));
         }
+        return this.generateResponseList(eventList);
+    }
+
+    @GetMapping(path = "organizer/{userId}")
+    public List<Map<String, Object>> getEventByOrganizer(@PathVariable("userId") UUID userId) {
+        List<Event> eventList = eventService.getOrganizedEvent(userId);
         return this.generateResponseList(eventList);
     }
 

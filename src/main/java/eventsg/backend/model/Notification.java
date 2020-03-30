@@ -1,87 +1,71 @@
 package eventsg.backend.model;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public class Notification {
 
     private UUID notificationId;
-
-    //maybe can have event object for more information
-    private UUID eventId;
-
-    //type 1,2,3 for review, update and capacity notification respectively
+    /** Type can be "registration", "event" or "review". */
     private String type;
+    private LocalDateTime timeCreated;
+    private UUID eventId;
+    private UUID userId;
 
-    //only for review notification
-    private UUID reviewId;
 
-    //only for capacity notification, 1 for 80%, 2 for 100%
-    private int capacityLevel;
-
-    private LocalDateTime time;
-
-    public Notification(UUID notificationId, UUID eventId, String type, UUID reviewId, int capacityLevel, LocalDateTime time) {
-        this.notificationId = notificationId;
-        this.eventId = eventId;
+    public Notification(String type, LocalDateTime timeCreated, UUID eventId, UUID userId) {
         this.type = type;
-        this.reviewId = reviewId;
-        this.capacityLevel = capacityLevel;
-        this.time = time;
+        this.timeCreated = timeCreated;
+        this.eventId = eventId;
+        this.userId = userId;
     }
 
-    //review notification
-    public Notification(UUID eventId, UUID reviewId, LocalDateTime time) {
-        this.notificationId = UUID.randomUUID();
+    public Notification(UUID notificationId, String type, LocalDateTime timeCreated, UUID eventId, UUID userId) {
+        this.notificationId = notificationId;
+        this.type = type;
+        this.timeCreated = timeCreated;
         this.eventId = eventId;
-        this.type = "review";
-        this.reviewId = reviewId;
-        this.capacityLevel = 0;
-        this.time = time;
+        this.userId = userId;
+
     }
 
-    //update notification
-    public Notification(UUID eventId, LocalDateTime time) {
-        this.notificationId = UUID.randomUUID();
-        this.eventId = eventId;
-        this.type = "update";
-        this.reviewId = null;
-        this.capacityLevel = 0;
-        this.time = time;
+    public UUID getUserId() {
+        return userId;
     }
 
-    //capacity notification
-    public Notification(UUID eventId, int capacityLevel, LocalDateTime time) {
-        this.notificationId = UUID.randomUUID();
-        this.eventId = eventId;
-        this.type = "capacity";
-        this.reviewId = null;
-        this.capacityLevel = capacityLevel;
-        this.time = time;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public UUID getNotificationId() {
         return notificationId;
     }
 
-    public UUID getEventId() {
-        return eventId;
+    public void setNotificationId(UUID notificationId) {
+        this.notificationId = notificationId;
     }
 
     public String getType() {
         return type;
     }
 
-    public UUID getReviewId() {
-        return reviewId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public int getCapacityLevel() {
-        return capacityLevel;
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public void setTimeCreated(LocalDateTime timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+
+    public UUID getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
     }
 }

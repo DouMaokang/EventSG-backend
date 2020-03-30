@@ -9,6 +9,6 @@ public interface NotificationDao {
 
     void addNotification(Notification notification);
 
-    List<Notification> getNotification(UUID eventId,String type);
+    List<Notification> getNotification(UUID userId, Integer dayLimit);
 
 }

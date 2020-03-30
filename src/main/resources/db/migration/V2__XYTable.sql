@@ -32,3 +32,8 @@ CREATE TABLE user_saved_event (
     eventID UUID not null,
     primary key(userId, eventID)
 );
+
+CREATE TABLE registration (
+       personId UUID not null,
+       eventId UUID not null
+);
