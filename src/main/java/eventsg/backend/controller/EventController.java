@@ -223,9 +223,10 @@ public class EventController {
 
     private Map<String, Object> generateResponse(Event event) {
         UUID venueId = event.getVenueId();
-        Venue venue;
+        Map<String, Object> venue = new HashMap<>();
         try {
-            venue = venueService.getVenueById(venueId);
+            venue.put("venue", venueService.getVenueById(venueId));
+            venue.put("owner", userService.getUserById(venueService.getVenueById(venueId).getOwnerId()));
         } catch (Exception e) {
             venue = null; // todo i removed the Optional from VenueDao
         }
