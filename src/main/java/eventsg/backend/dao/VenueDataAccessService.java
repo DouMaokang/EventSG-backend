@@ -1,5 +1,6 @@
 package eventsg.backend.dao;
 
+import eventsg.backend.datasource.Assets;
 import eventsg.backend.mapper.VenueRowMapper;
 import eventsg.backend.model.Venue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository("venueDao")
-public class VenueDataAccessService implements VenueDao{
+public class VenueDataAccessService implements VenueDao {
 
 
     private final JdbcTemplate jdbcTemplate;
@@ -23,6 +24,7 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * insert a new venue record into the postgres database with the sql statement
+     *
      * @param venue Venue object with the necessary values to be inserted
      * @return 1 if insertion is successful; else 0
      */
@@ -37,10 +39,13 @@ public class VenueDataAccessService implements VenueDao{
                 "rentalFee, " +
                 "area, " +
                 "description, " +
-                "venueName )" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "venueName, " +
+                "image" +
+                ")" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         UUID venueId = UUID.randomUUID();
+        String image = Assets.Assets().getVenueImage();
         return jdbcTemplate.update(
                 sql,
                 venueId,
@@ -50,12 +55,14 @@ public class VenueDataAccessService implements VenueDao{
                 venue.getRentalFee(),
                 venue.getArea(),
                 venue.getDescription(),
-                venue.getVenueName()
+                venue.getVenueName(),
+                image
         );
     }
 
     /**
      * delete a venue record from the postgres database
+     *
      * @param venueId venueId
      * @return 1 if deletion is successful; else 0
      */
@@ -67,8 +74,9 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * update a record in the database
+     *
      * @param venueId venueId
-     * @param venue Venue object with the necessary values used to perform update
+     * @param venue   Venue object with the necessary values used to perform update
      * @return 1 if update is successful; else 0
      */
     @Override
@@ -101,6 +109,7 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * get the venue record with the venueId
+     *
      * @param selectedVenueId venueId
      * @return the venue if found, else return null
      */
@@ -116,6 +125,7 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * get all the venues in the database
+     *
      * @return a list of Venue objects
      */
     @Override
@@ -127,6 +137,7 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * return all the venues belonging to a certain owner
+     *
      * @param selectedOwnerId onwerId
      * @return a list of Venue objects
      */
@@ -140,6 +151,7 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
 
     }
+
     /**
      * get all venues with similar name
      * @param selectedVenueName venue name
@@ -155,8 +167,10 @@ public class VenueDataAccessService implements VenueDao{
         return venues;
     }
 
+
     /**
      * get all venues that have area close to the input area
+     *
      * @param selectedArea the demanded area
      * @return a list of Venue objects
      */
@@ -172,6 +186,7 @@ public class VenueDataAccessService implements VenueDao{
 
     /**
      * get all venues with prices around the specified budget
+     *
      * @param budget budget
      * @return a list of Venue objects
      */
@@ -187,25 +202,11 @@ public class VenueDataAccessService implements VenueDao{
 
     @Override
     public Venue getVenueByEventId(UUID eventId) {
-        final String sql = "SELECT * FROM event_venue_record " +
-                "JOIN venue ON venueId " +
-                "WHERE event_venue_record.eventId = ?";
+        final String sql = "SELECT * FROM event INNER JOIN venue ON event.venueId = venue.venueId WHERE eventId = ?";
         Venue venue = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{eventId},
                 new VenueRowMapper());
         return venue;
     }
-//
-//    @Override
-//    public int addEventVenue(UUID eventId, UUID venueId) {
-//        final String sql = "INSERT INTO event_venue_record (eventId, venueId) VALUES (?, ?)";
-//        return jdbcTemplate.update(sql, eventId, venueId);
-//    }
-//
-//    @Override
-//    public int changeEventVenue(UUID eventId, UUID newVenueID) {
-//        final String sql = "UPDATE event_venue_record SET venueId = ? WHERE eventId = ?";
-//        return jdbcTemplate.update(sql, newVenueID, eventId);
-//    }
 }

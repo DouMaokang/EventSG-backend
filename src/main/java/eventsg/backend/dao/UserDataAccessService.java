@@ -1,5 +1,6 @@
 package eventsg.backend.dao;
 
+import eventsg.backend.datasource.Assets;
 import eventsg.backend.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,10 +26,13 @@ public class UserDataAccessService implements UserDao {
      */
     @Override
     public int addUser(User user) {
+        String image = Assets.Assets().getUserImage();
         return this.jdbcTemplate.update("INSERT INTO users(userId, userName, firstName, lastName, email, password, " +
-                        "birthday,phoneNum, occupation, organization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", UUID.randomUUID(),
-                user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),
-                user.getBirthday(), user.getPhoneNum(), user.getOccupation(), user.getOrganization());
+                        "birthday, phoneNum, occupation, organization, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                UUID.randomUUID(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(),
+                user.getPassword(), user.getBirthday(), user.getPhoneNum(), user.getOccupation(), user.getOrganization(),
+                image
+        );
     }
 
     @Override
@@ -42,13 +46,14 @@ public class UserDataAccessService implements UserDao {
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
                     String email = resultSet.getString("email");
-                    String password = resultSet.getString("password");
+//                    String password = resultSet.getString("password");
                     LocalDate birthday = resultSet.getObject("birthday", LocalDate.class);
                     int phoneNum = Integer.parseInt(resultSet.getString("phoneNum"));
                     String occupation = resultSet.getString("occupation");
                     String organization = resultSet.getString("organization");
-                    return new User(userId, userName, firstName, lastName, email, password, birthday,
-                            phoneNum, occupation, organization);
+                    String image = resultSet.getString("image");
+                    return new User(userId, userName, firstName, lastName, email, birthday,
+                            phoneNum, occupation, organization, image);
                 });
         return userList;
     }
@@ -92,13 +97,15 @@ public class UserDataAccessService implements UserDao {
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
                     String email = resultSet.getString("email");
-                    String password = resultSet.getString("password");
+//                    String password = resultSet.getString("password");
                     LocalDate birthday = resultSet.getObject("birthday", LocalDate.class);
                     int phoneNum = Integer.parseInt(resultSet.getString("phoneNum"));
                     String occupation = resultSet.getString("occupation");
                     String organization = resultSet.getString("organization");
-                    return new User(userId, userName, firstName, lastName, email, password, birthday,
-                            phoneNum, occupation, organization);
+                    String image = resultSet.getString("image");
+
+                    return new User(userId, userName, firstName, lastName, email, birthday,
+                            phoneNum, occupation, organization, image);
                 });
         return Optional.ofNullable(user);
     }
@@ -176,12 +183,12 @@ public class UserDataAccessService implements UserDao {
     /**
      * Add a record of (userId, eventId) into user_saved_event table.
      * @param userId UUID
-     * @param eventid UUID
+     * @param eventId UUID
      * @return 0 or 1
      */
     @Override
-    public int saveEvent(UUID userId, UUID eventid) {
-        return jdbcTemplate.update("INSERT INTO user_saved_event(userId, eventId) VALUES(?,?)", userId, eventid);
+    public int saveEvent(UUID userId, UUID eventId) {
+        return jdbcTemplate.update("INSERT INTO user_saved_event(userId, eventId) VALUES(?,?)", userId, eventId);
     }
 
 

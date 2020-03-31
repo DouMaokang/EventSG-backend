@@ -46,9 +46,11 @@ public class Venue {
      */
     private String venueName;
 
+    private String image;
+
     public Venue(@JsonProperty("venueId") UUID venueId, @JsonProperty("address") String address, @JsonProperty("postalCode") int postalCode,
                  @JsonProperty("ownerId") UUID ownerId, @JsonProperty("rentalFee") double rentalFee, @JsonProperty("area") double area,
-                 @JsonProperty("description") String description, @JsonProperty("venueName") String venueName) {
+                 @JsonProperty("description") String description, @JsonProperty("venueName") String venueName, @JsonProperty("image") String image) {
         this.venueId = venueId;
         this.address = address;
         this.postalCode = postalCode;
@@ -57,6 +59,39 @@ public class Venue {
         this.area = area;
         this.description = description;
         this.venueName = venueName;
+        this.image = image;
+    }
+
+    public void setVenueId(UUID venueId) {
+        this.venueId = venueId;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setOwnerId(UUID ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     /**

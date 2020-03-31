@@ -41,12 +41,14 @@ public class EventController {
      */
     @RequestMapping(path = "add", method = RequestMethod.POST)
     public void postEvent(@RequestBody Event event) {
-        eventService.postEvent(event);
-        UUID venueOwnerId = venueService.getVenueByEventId(event.getEventId()).getOwnerId();
+        UUID eventId = eventService.postEvent(event);
+        System.out.println(event.getVenueId());
+        System.out.println(event.getEventId());
+        UUID venueOwnerId = venueService.getVenueByEventId(eventId).getOwnerId();
 
         // TODO: test notification
         // Notify the venue owner that his/her venue is rented.
-        notificationService.addNotification("venue", event.getEventId(), venueOwnerId);
+        notificationService.addNotification("venue", eventId, venueOwnerId);
         // Notify users who previously registered this organizer's events.
         List<UUID> usersToNotify = new ArrayList<>();
         List<Event> pastEvents = eventService.getOrganizedEvent(event.getOrganizerId());
@@ -54,7 +56,7 @@ public class EventController {
             usersToNotify.addAll(registrationService.getRegisteredUsers(pastEvent.getEventId()));
         }
         for (UUID uuid : usersToNotify) {
-            notificationService.addNotification("event", event.getEventId(), uuid);
+            notificationService.addNotification("event", eventId, uuid);
         }
     }
 
@@ -131,16 +133,6 @@ public class EventController {
         return generateResponseList(eventList);
     }
 
-//    /**
-//     * Returns all events saved by a user.
-//     * @param userId the id of the user
-//     * @return a list of events
-//     */
-//    public List<Map<String, Object>> getSavedEvent(UUID userId) {
-//        List<Event> eventList = eventService.getSavedEvent(userId);
-//        return this.generateResponseList(eventList);
-//    }
-
 
     /**
      * Return a list of upcoming events which the user has registered.
@@ -155,11 +147,6 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
-
-//    public List<Event> getPopularEvent() // based on likes/saves
-//    {
-//        return eventService.getPopularEvent();
-//    }
 
     /**
      * Returns a list of events recommended based on the user's interests.
@@ -199,23 +186,23 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
-    @GetMapping(path = "has_saved/{eventId}/{userId}")
+    @GetMapping(path = "has_saved/eventId={eventId}/userId={userId}")
     public boolean hasSavedEvent(@PathVariable("eventId") UUID eventId, @PathVariable("userId") UUID userId) {
         return  eventService.hasSavedEvent(eventId, userId);
     }
 
 
-    @PostMapping(path = "save_event/{userId}/{eventId}")
+    @PostMapping(path = "save_event/eventId={eventId}/userId={userId}")
     public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
         userService.saveEvent(userId, eventId);
     };
 
-    @DeleteMapping(path = "unsave_event/{userId}/{eventId}")
+    @DeleteMapping(path = "unsave_event/eventId={eventId}/userId={userId}")
     public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
         userService.unsaveEvent(userId, eventId);
     };
 
-    @GetMapping(path = "all_saved_events/{userId}")
+    @GetMapping(path = "all_saved_events/userId={userId}")
     public List<Map<String, Object>> getSavedEvents(@PathVariable("userId") UUID userId) {
         List<UUID> eventIds = userService.getSavedEvents(userId);
         List<Event> eventList = new ArrayList<>();
@@ -225,7 +212,7 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
-    @GetMapping(path = "organizer/{userId}")
+    @GetMapping(path = "organizer/userId={userId}")
     public List<Map<String, Object>> getEventByOrganizer(@PathVariable("userId") UUID userId) {
         List<Event> eventList = eventService.getOrganizedEvent(userId);
         return this.generateResponseList(eventList);

@@ -22,13 +22,13 @@ public class NotificationDataAccessService implements NotificationDao {
     @Override
     public void addNotification(Notification n) {
 
-        final String sql = "INSERT INTO event " +
+        final String sql = "INSERT INTO notification " +
                 "(" +
                 "notificationId, " +
                 "type, " +
                 "timeCreated, " +
                 "eventId, " +
-                "userId, " +
+                "userId" +
                 ") VALUES (?, ?, ?, ?, ?)";
 
         UUID notificationId = UUID.randomUUID();

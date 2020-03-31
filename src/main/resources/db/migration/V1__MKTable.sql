@@ -14,16 +14,9 @@ CREATE TABLE event (
     avgRating FLOAT DEFAULT 0,
     category VARCHAR(32),
     status VARCHAR(32),
-    venueId UUID NOT NULL
+    venueId UUID NOT NULL,
+    image VARCHAR(256) DEFAULT 'assets/event-1.jpg'
 );
-
-CREATE TABLE savedEvent (
-    eventId UUID NOT NULL,
-    userId UUID NOT NULL,
-    timeCreated TIMESTAMP NOT NULL DEFAULT DATE(NOW()),
-    PRIMARY KEY(eventId, userId)
-);
-
 
 
 

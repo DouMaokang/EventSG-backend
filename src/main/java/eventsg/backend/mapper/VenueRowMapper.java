@@ -27,6 +27,7 @@ public class VenueRowMapper implements RowMapper<Venue> {
         double area = Double.parseDouble(resultSet.getString("area"));
         String description = resultSet.getString("description");
         String venueName = resultSet.getString("venueName");
-        return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, venueName);
+        String image = resultSet.getString("image");
+        return new Venue(venueId, address, postalCode, ownerId, rentalFee, area, description, venueName, image);
     }
 }

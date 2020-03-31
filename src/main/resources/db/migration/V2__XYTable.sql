@@ -1,13 +1,3 @@
--- CREATE TABLE event (
---     id UUID not null primary key,
---     title VARCHAR(256) not null,
---     description VARCHAR(256) not null,
---     maxCapacity int not null,
---     numOfParticipants int,
---     overallRating float default (0.0),
---     attendanceRate float default (0.0)
--- );
-
 CREATE TABLE users (
     userId UUID NOT NULL PRIMARY KEY,
     userName VARCHAR(50) UNIQUE,
@@ -18,7 +8,8 @@ CREATE TABLE users (
     birthday DATE NOT NULL,
     phoneNum INT UNIQUE,
     occupation VARCHAR(50) NOT NULL,
-    organization VARCHAR(50) NOT NULL
+    organization VARCHAR(50) NOT NULL,
+    image VARCHAR(256)  DEFAULT 'assets/female-1.jpg'
 );
 
 CREATE TABLE user_interested_category (
@@ -29,11 +20,11 @@ CREATE TABLE user_interested_category (
 
 CREATE TABLE user_saved_event (
     userId UUID not null,
-    eventID UUID not null,
-    primary key(userId, eventID)
+    eventId UUID not null,
+    primary key(userId, eventId)
 );
 
 CREATE TABLE registration (
-       personId UUID not null,
+       userId UUID not null,
        eventId UUID not null
 );
