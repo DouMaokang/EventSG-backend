@@ -45,6 +45,8 @@ public class Event {
 
     private UUID venueId;
 
+    private  String image;
+
     /**
      * The status of the event, including posted, cancelled.
      */
@@ -62,7 +64,9 @@ public class Event {
                  @JsonProperty("avgRating") float avgRating,
                  @JsonProperty("category") String category,
                  @JsonProperty("venueId") UUID venueId,
-                 @JsonProperty("status") String status) {
+                 @JsonProperty("status") String status,
+                 @JsonProperty("image") String image
+                 ) {
         this.eventId = eventId;
         this.organizerId = organizerId;
         this.title = title;
@@ -76,6 +80,15 @@ public class Event {
         this.category = category;
         this.venueId = venueId;
         this.status = status;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setEventId(UUID eventId) {

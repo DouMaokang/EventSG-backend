@@ -62,6 +62,8 @@ public class User {
 //    private List<String> interestedEventCategories; // separate table needed: userid vs category
 //    private List<UUID> savedEvents; // separate table needed: userid vs event id
 
+    private String image;
+
 
     public User(@JsonProperty("userId") UUID userId,
                 @JsonProperty("userName") String userName,
@@ -85,6 +87,76 @@ public class User {
         this.organization = organization;
 //        this.interestedEventCategories = new ArrayList<>();
 //        this.savedEvents = new ArrayList<>();
+    }
+
+    /**
+     * Returns the user object with image but without password.
+     * @param userId
+     * @param userName
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param birthday
+     * @param phoneNum
+     * @param occupation
+     * @param organization
+     * @param image
+     */
+    public User(UUID userId, String userName, String firstName, String lastName, String email, LocalDate birthday, int phoneNum, String occupation, String organization, String image) {
+        this.userId = userId;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.phoneNum = phoneNum;
+        this.occupation = occupation;
+        this.organization = organization;
+        this.image = image;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setPhoneNum(int phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public UUID getUserId() {

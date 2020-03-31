@@ -25,17 +25,16 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final EventService eventService;
-
     private final UserService userService;
     private final NotificationService notificationService;
 
     @Autowired
+
     public ReviewController(ReviewService reviewService, EventService eventService, UserService userService, NotificationService notificationService) {
         this.reviewService = reviewService;
         this.eventService = eventService;
         this.userService = userService;
         this.notificationService = notificationService;
-
     }
 
     /**
