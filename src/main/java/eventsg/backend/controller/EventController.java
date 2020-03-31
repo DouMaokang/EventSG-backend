@@ -56,7 +56,7 @@ public class EventController {
             usersToNotify.addAll(registrationService.getRegisteredUsers(pastEvent.getEventId()));
         }
         for (UUID uuid : usersToNotify) {
-            notificationService.addNotification("event", event.getEventId(), uuid);
+            notificationService.addNotification("event", eventId, uuid);
         }
     }
 
