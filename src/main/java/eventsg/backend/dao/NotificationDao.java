@@ -11,4 +11,5 @@ public interface NotificationDao {
 
     List<Notification> getNotification(UUID userId, Integer dayLimit);
 
+    List<Notification> getAllNotifications();
 }

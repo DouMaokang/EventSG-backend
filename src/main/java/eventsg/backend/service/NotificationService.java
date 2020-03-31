@@ -32,4 +32,8 @@ public class NotificationService {
         notificationDao.addNotification(new Notification(type, timeCreated, eventId, userId));
     }
 
+    public List<Notification> getAllNotifications() {
+        return notificationDao.getAllNotifications();
+    }
+
 }

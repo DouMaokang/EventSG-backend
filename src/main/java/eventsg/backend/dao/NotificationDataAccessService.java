@@ -38,9 +38,16 @@ public class NotificationDataAccessService implements NotificationDao {
     @Override
     public List<Notification> getNotification(UUID userId, Integer dayLimit) {
         final String sql = "SELECT * FROM notification WHERE userId = ? " +
-                "AND startTime < (DATE(NOW()) + INTERVAL '7' DAY) " +
-                "AND startTime >= DATE(NOW())";
+
+                "AND timeCreated > (DATE(NOW()) - INTERVAL '7' DAY) ";
         return jdbcTemplate.query(sql, new Object[]{userId}, new NotificationRowMapper());
+    }
+
+    @Override
+    public List<Notification> getAllNotifications() {
+        final String sql = "SELECT * FROM notification";
+        return jdbcTemplate.query(sql, new NotificationRowMapper());
+
     }
 
 
