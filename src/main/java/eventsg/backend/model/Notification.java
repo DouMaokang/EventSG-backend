@@ -1,5 +1,7 @@
 package eventsg.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ public class Notification {
     private UUID notificationId;
     /** Type can be "registration", "event" or "review". */
     private String type;
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     private LocalDateTime timeCreated;
     private UUID eventId;
     private UUID userId;

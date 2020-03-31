@@ -29,7 +29,8 @@ public class ReviewController {
     private final NotificationService notificationService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService， NotificationService notificationService) {
+
+    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService, NotificationService notificationService) {
         this.reviewService = reviewService;
         this.eventService = eventService;
         this.userService = userService;
@@ -78,6 +79,7 @@ public class ReviewController {
     @GetMapping(path = "has_reviewed/{eventId}/{reviewerId}")
     public boolean checkIfReviewed(@PathVariable UUID eventId, @PathVariable UUID reviewerId) {
         System.out.println(reviewService.checkIfReviewed(eventId, reviewerId));
+        System.out.println("event" + eventId.toString() + "reviewer" + reviewerId.toString());
         return reviewService.checkIfReviewed(eventId, reviewerId);
     }
 
