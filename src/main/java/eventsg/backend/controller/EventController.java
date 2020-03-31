@@ -3,7 +3,6 @@ package eventsg.backend.controller;
 import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
 import eventsg.backend.model.User;
-import eventsg.backend.model.Venue;
 import eventsg.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

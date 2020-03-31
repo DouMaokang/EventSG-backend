@@ -144,7 +144,11 @@ public class EventDataAccessService implements EventDao {
     @Override
     public Event getEventById(UUID eventId) {
         final String sql = "SELECT * FROM event WHERE eventId = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{eventId}, new EventRowMapper());
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{eventId}, new EventRowMapper());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
