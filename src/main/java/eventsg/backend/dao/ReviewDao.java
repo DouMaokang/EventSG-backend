@@ -14,8 +14,15 @@ public interface ReviewDao {
 
     // not needed List<Review> getAllReviews(); update and delete are not required as well
 
+    boolean checkIfReviewed(UUID eventId, UUID reviewerId);
+
     List<Review> getReviewsByEventId(UUID selectedEventId);
 
     List<Review> getAllReviews();
+
+    int deleteReviewById(UUID reviewId);
+
+    int updateReviewById(UUID reviewId, Review review);
+
 
 }

@@ -222,9 +222,9 @@ public class EventController {
         UUID venueId = event.getVenueId();
         Venue venue;
         try {
-            venue = venueService.getVenueById(venueId).orElse(null);
+            venue = venueService.getVenueById(venueId);
         } catch (Exception e) {
-            venue = null;
+            venue = null; // todo i removed the Optional from VenueDao
         }
         List<Review> reviewList = reviewService.getReviewsByEventId(event.getEventId());
         User organizer;

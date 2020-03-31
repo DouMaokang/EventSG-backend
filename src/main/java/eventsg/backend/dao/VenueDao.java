@@ -15,13 +15,13 @@ public interface VenueDao {
 
     int updateVenueById(UUID venueId, Venue venue);
 
-    Optional<Venue> getVenueById(UUID venueId);
+    Venue getVenueById(UUID venueId);
 
     List<Venue> getAllVenues();
 
     List<Venue> getVenuesByOwnerId(UUID ownerId);
 
-//    List<Venue> getVenueByLocation(String location);
+    List<Venue> getVenueByName(String venueName);
 
     List<Venue> getVenueByArea(double area);
 

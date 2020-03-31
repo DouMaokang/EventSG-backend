@@ -21,7 +21,7 @@ public class ReviewRowMapper implements RowMapper<Review> {
         UUID reviewId = UUID.fromString(resultSet.getString("reviewId"));
         UUID reviewerId = UUID.fromString(resultSet.getString("reviewerId"));
         UUID eventId = UUID.fromString(resultSet.getString("eventId"));
-        int rating = Integer.parseInt(resultSet.getString("rating"));
+        float rating = Float.parseFloat(resultSet.getString("rating"));
         String content = resultSet.getString("content");
         return new Review(reviewId, reviewerId, eventId, rating, content);
     }

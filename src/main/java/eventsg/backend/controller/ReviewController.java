@@ -1,17 +1,23 @@
 package eventsg.backend.controller;
 
+import eventsg.backend.model.Event;
 import eventsg.backend.model.Review;
+
+import eventsg.backend.model.User;
+
 import eventsg.backend.service.EventService;
 import eventsg.backend.service.NotificationService;
+
 import eventsg.backend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import eventsg.backend.service.EventService;
+import eventsg.backend.service.UserService;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("api/review")
 @RestController
@@ -19,14 +25,15 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final EventService eventService;
+    private final UserService userService;
     private final NotificationService notificationService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, NotificationService notificationService,
-                            EventService eventService) {
+    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService， NotificationService notificationService) {
         this.reviewService = reviewService;
-        this.notificationService = notificationService;
         this.eventService = eventService;
+        this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -34,7 +41,7 @@ public class ReviewController {
      * Add a new Review to the database
      * @param review Review to be added
      */
-    @PostMapping
+    @PostMapping(path = "add")
     public void addReview(@Valid @NotNull @RequestBody Review review) {
         reviewService.addReview(review);
         notificationService.addNotification("review", review.getEventId(), eventService.getEventById(review.getEventId()).getOrganizerId());
@@ -58,16 +65,81 @@ public class ReviewController {
      * @return return a list of Review objects
      */
     @GetMapping(path = "event/{eventId}")
-    public List<Review> getReviewsByEventId(@PathVariable UUID eventId) {
-        return reviewService.getReviewsByEventId(eventId);
+    public List<Map<String, Object>> getReviewsByEventId(@PathVariable UUID eventId) {
+        List<Review> reviewList = reviewService.getReviewsByEventId(eventId);
+        return generateResponseList(reviewList);
     }
+
+    /**
+     * only used to check whether the user has provided review
+     * @param reviewerId reviewer
+     * @return null if not reviewed, the review if reviewed
+     */
+    @GetMapping(path = "has_reviewed/{eventId}/{reviewerId}")
+    public boolean checkIfReviewed(@PathVariable UUID eventId, @PathVariable UUID reviewerId) {
+        System.out.println(reviewService.checkIfReviewed(eventId, reviewerId));
+        return reviewService.checkIfReviewed(eventId, reviewerId);
+    }
+
 
     /**
      * Answeing an Http GET request
      * @return Return a list of all Review objects currently in the database
      */
     @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewService.getAllReviews();
+    public List<Map<String, Object>> getAllReviews() {
+        List<Review> reviewList = reviewService.getAllReviews();
+        return generateResponseList(reviewList);
+    }
+
+    /**
+     * A method answering to Http DELETE request
+     * Deleting a record in the Review database which has the input reviewId
+     * @param reviewId the record with this reviewId would be deleted
+     */
+    @DeleteMapping(path = "delete/{reviewId}")
+    public void deleteReviewById(@PathVariable("reviewId") UUID reviewId) {
+        reviewService.deleteReviewById(reviewId);
+    }
+
+    /**
+     * A method answering to Http PUT request with path as "{reviewId}"
+     * Updating the record in the Review database
+     * @param reviewId the record in the review database with this reviewId would be updated
+     * @param review the review info used to update the existing record in the database
+     */
+    @PutMapping(path = "update/{reviewId}")
+    public void updateReviewById(@PathVariable UUID reviewId, @Valid @NotNull @RequestBody Review review) {
+        reviewService.updateReviewById(reviewId, review);
+    }
+
+
+    private Map<String, Object> generateResponse(Review review) {
+        UUID reviewerId = review.getReviewerId();
+        User reviewer;
+        try {
+            reviewer = userService.getUserById(reviewerId).orElse(null);
+        } catch (Exception e) {
+            reviewer = null;
+        }
+        Event event;
+        try {
+            event = eventService.getEventById(review.getEventId());
+        } catch (Exception e) {
+            event = null;
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("review", review);
+        response.put("reviewer", reviewer);
+        response.put("event", event);
+        return  response;
+    }
+
+    private List<Map<String, Object>> generateResponseList (List<Review> reviewList) {
+        List<Map<String, Object>> responseList = new ArrayList<>();
+        for (Review review : reviewList) {
+            responseList.add(generateResponse(review));
+        }
+        return responseList;
     }
 }

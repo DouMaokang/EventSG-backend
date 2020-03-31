@@ -32,7 +32,7 @@ public class VenueService {
         return venueDao.updateVenueById(venueId, venue);
     }
 
-    public Optional<Venue> getVenueById(UUID venueId) {
+    public Venue getVenueById(UUID venueId) {
         return venueDao.getVenueById(venueId);
     }
 
@@ -44,9 +44,11 @@ public class VenueService {
         return venueDao.getVenuesByOwnerId(ownerId);
     }
 
-//    public List<Venue> getVenueByLocation(String location) {
-//        return venueDao.getVenueByLocation(location);
-//    }
+
+    public List<Venue> getVenueByName(String venueName) {
+        return venueDao.getVenueByName(venueName);
+    }
+
 
     public List<Venue> getVenueByArea(double area) {
         return venueDao.getVenueByArea(area);

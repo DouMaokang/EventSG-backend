@@ -114,13 +114,13 @@ public class VenueDataAccessService implements VenueDao {
      * @return the venue if found, else return null
      */
     @Override
-    public Optional<Venue> getVenueById(UUID selectedVenueId) { // tested
+    public Venue getVenueById(UUID selectedVenueId) { // tested
         final String sql = "SELECT * FROM venue WHERE venueId = ?";
         Venue venue = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{selectedVenueId},
                 new VenueRowMapper());
-        return Optional.ofNullable(venue);
+        return venue;
     }
 
     /**
@@ -150,6 +150,21 @@ public class VenueDataAccessService implements VenueDao {
                 new VenueRowMapper());
         return venues;
 
+    }
+
+    /**
+     * get all venues with similar name
+     * @param selectedVenueName venue name
+     * @return list of Venue objects
+     */
+    @Override
+    public List<Venue> getVenueByName(String selectedVenueName) {  // tested
+        final String sql = "SELECT * FROM venue WHERE venueName LIKE '%?%'?";
+        List<Venue> venues = jdbcTemplate.query(
+                sql,
+                new Object[]{selectedVenueName},
+                new VenueRowMapper());
+        return venues;
     }
 
 

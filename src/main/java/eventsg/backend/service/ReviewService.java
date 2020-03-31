@@ -28,12 +28,23 @@ public class ReviewService {
         return reviewDao.getReviewById(selectedReviewId);
     }
 
+    public boolean checkIfReviewed(UUID selectedEventId, UUID selectedReviewerId) {
+        return reviewDao.checkIfReviewed(selectedEventId, selectedReviewerId);
+    }
     public List<Review> getReviewsByEventId(UUID selectedEventId) {
         return reviewDao.getReviewsByEventId(selectedEventId);
     }
 
     public List<Review> getAllReviews() {
         return reviewDao.getAllReviews();
+    }
+
+    public int deleteReviewById(UUID reviewId) {
+        return reviewDao.deleteReviewById(reviewId);
+    }
+
+    public int updateReviewById(UUID reviewId, Review review) {
+        return reviewDao.updateReviewById(reviewId, review);
     }
 
 }

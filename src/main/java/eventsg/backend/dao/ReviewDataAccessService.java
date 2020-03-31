@@ -61,6 +61,16 @@ public class ReviewDataAccessService implements ReviewDao{
         return Optional.ofNullable(review);
     }
 
+
+    public boolean checkIfReviewed(UUID selectedEventId, UUID selectedReviewerId) {
+        final String sql = "SELECT * FROM review WHERE eventId = ? AND reviewerId = ?";
+        List<Review> reviews = jdbcTemplate.query(
+                sql,
+                new Object[]{selectedEventId, selectedReviewerId},
+                new ReviewRowMapper());
+        return reviews.size() != 0;
+    }
+
     /**
      * Get all the review records related to the input eventId as a list of Review objects
      * @param selectedEventId eventId to be selected
@@ -88,4 +98,34 @@ public class ReviewDataAccessService implements ReviewDao{
                 new ReviewRowMapper());
         return reviews;
     }
+
+    @Override
+    public int deleteReviewById(UUID reviewId) {
+        final String sql = "" + "DELETE FROM review WHERE reviewId = ?";
+        return jdbcTemplate.update(sql, reviewId);
+    }
+
+    @Override
+    public int updateReviewById(UUID reviewId, Review review) {
+        String sql = "" +
+                "UPDATE review " +
+                "SET " +
+                "reviewId = ?, " +
+                "reviewerId = ?, " +
+                "eventId = ?, " +
+                "rating = ?, " +
+                "content = ? " +
+                "WHERE reviewId = ?";
+        return jdbcTemplate.update(
+                sql,
+                reviewId,
+                review.getReviewerId(),
+                review.getEventId(),
+                review.getRating(),
+                review.getContent(),
+                reviewId
+        );
+    }
+
+
 }

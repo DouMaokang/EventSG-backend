@@ -1,25 +1,27 @@
 package eventsg.backend.controller;
 
+import eventsg.backend.model.User;
 import eventsg.backend.model.Venue;
 import eventsg.backend.service.VenueService;
+import eventsg.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("api/venue")
 @RestController
 public class VenueController {
 
     private final VenueService venueService;
+    private final UserService userService;
 
     @Autowired
-    public VenueController(VenueService venueService) {
+    public VenueController(VenueService venueService, UserService userService) {
         this.venueService = venueService;
+        this.userService = userService;
     }
 
     /**
@@ -27,7 +29,7 @@ public class VenueController {
      * Adding a new Venue into the database
      * @param venue the venue to be added
      */
-    @PostMapping
+    @PostMapping(path = "add")
     public void addVenue(@Valid @NotNull @RequestBody Venue venue) {
         venueService.addVenue(venue);
     }
@@ -37,7 +39,7 @@ public class VenueController {
      * Deleting a record in the Venue database which has the input venueId
      * @param venueId the record with this venueId would be deleted
      */
-    @DeleteMapping(path = "{venueId}")
+    @DeleteMapping(path = "delete/{venueId}")
     public void deleteVenueById(@PathVariable("venueId") UUID venueId) {
         venueService.deleteVenueById(venueId);
     }
@@ -48,7 +50,7 @@ public class VenueController {
      * @param venueId the record in the venue database with this venueId would be updated
      * @param venue the venue info used to update the existing record in the database
      */
-    @PutMapping(path = "{venueId}")
+    @PutMapping(path = "update/{venueId}")
     public void updateVenueById(@PathVariable UUID venueId, @Valid @NotNull @RequestBody Venue venue) {
         venueService.updateVenueById(venueId, venue);
     }
@@ -59,8 +61,9 @@ public class VenueController {
      * @return returning a Venue object; If no such record exists, the null value would be returned
      */
     @GetMapping(path = "venueId/{venueId}")
-    public Optional<Venue> getVenueById(@PathVariable UUID venueId) {
-        return venueService.getVenueById(venueId);
+    public Map<String, Object> getVenueById(@PathVariable UUID venueId) {
+        Venue venue = venueService.getVenueById(venueId);
+        return (generateResponse(venue));
     }
 
     /**
@@ -68,8 +71,9 @@ public class VenueController {
      * @return Returning all venue records in the database as a list of Venue objects
      */
     @GetMapping
-    public List<Venue> getAllVenues() {
-        return venueService.getAllVenues();
+    public List<Map<String, Object>> getAllVenues() {
+        List<Venue> venues =  venueService.getAllVenues();
+        return generateResponseList(venues);
     }
 
     /**
@@ -78,19 +82,22 @@ public class VenueController {
      * @return a list of Venue objects with the above mentioned ownerId
      */
     @GetMapping(path = "ownerId/{ownerId}")
-    public List<Venue> getVenuesByOwnerId(@PathVariable UUID ownerId) {
-        return venueService.getVenuesByOwnerId(ownerId);
+    public List<Map<String, Object>> getVenuesByOwnerId(@PathVariable UUID ownerId) {
+        List<Venue> venues = venueService.getVenuesByOwnerId(ownerId);
+        return generateResponseList(venues);
     }
-//
-//    /**
-//     * A method answering to the Http GET request with path as "venueName/{venueName}"
-//     * @param venueName the venueName used as the searching criteria
-//     * @return Returning all selected venues as a list of Venue objects
-//     */
-//    @GetMapping(path = "venueName/{venueName}")
-//    public List<Venue> getVenueByLocation(@PathVariable String venueName) {
-//        return venueService.getVenueByLocation(venueName);
-//    }
+
+    /**
+     * A method answering to the Http GET request with path as "venueName/{venueName}"
+     * @param venueName the venue name used as the searching criteria
+     * @return Returning all selected venues as a list of Venue objects
+     */
+    @GetMapping(path = "venueName/{venueName}")
+    public List<Map<String, Object>> getVenueByName(@PathVariable String venueName) {
+        List<Venue> venues = venueService.getVenueByName(venueName);
+        return generateResponseList(venues);
+    }
+
 
     /**
      * A method answering to the Http GET request with path as "area/{area}"
@@ -98,8 +105,9 @@ public class VenueController {
      * @return Returning all selected venues as a list of Venue objects
      */
     @GetMapping(path = "area/{area}")
-    public List<Venue> getVenueByArea(@PathVariable double area) {
-        return venueService.getVenueByArea(area);
+    public List<Map<String, Object>> getVenueByArea(@PathVariable double area) {
+        List<Venue> venues = venueService.getVenueByArea(area);
+        return generateResponseList(venues);
     }
 
     /**
@@ -108,9 +116,31 @@ public class VenueController {
      * @return Returning all selected venues as a list of Venue objects
      */
     @GetMapping(path = "budget/{budget}")
-    public List<Venue> getVenueByBudget(@PathVariable double budget) {
-        return venueService.getVenueByBudget(budget);
+    public List<Map<String, Object>> getVenueByBudget(@PathVariable double budget) {
+        List<Venue> venues = venueService.getVenueByBudget(budget);
+        return generateResponseList(venues);
     }
 
+
+    private Map<String, Object> generateResponse(Venue venue) {
+        User owner;
+        try {
+            owner = userService.getUserById(venue.getOwnerId()).orElse(null);
+        } catch (Exception e) {
+            owner = null;
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("venue", venue);
+        response.put("owner", owner);
+        return response;
+    }
+
+    private List<Map<String, Object>> generateResponseList (List<Venue> venueList) {
+        List<Map<String, Object>> responseList = new ArrayList<>();
+        for (Venue venue : venueList) {
+            responseList.add(generateResponse(venue));
+        }
+        return responseList;
+    }
 
 }

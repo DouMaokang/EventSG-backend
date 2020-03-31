@@ -42,7 +42,7 @@ public class Venue {
     private String description;
 
     /**
-     * venueName of the venue; as in the neighborhood;
+     * name of the venue;
      */
     private String venueName;
 
@@ -167,7 +167,7 @@ public class Venue {
     }
 
     /**
-     * get venueName of the instance
+     * get venue name of the instance
      * @return venueName
      */
     public String getVenueName() {
