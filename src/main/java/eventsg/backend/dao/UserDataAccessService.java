@@ -69,13 +69,8 @@ public class UserDataAccessService implements UserDao {
     public Optional<UUID> login(String email, String password) {
         final String sql = "SELECT userId FROM users WHERE email = ? AND password = ? ";
 
-        UUID uuid = jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{email, password},
-                (resultSet, i) -> {
-                    UUID userId = UUID.fromString(resultSet.getString("userId"));
-                    return userId;
-                });
+        UUID uuid = jdbcTemplate.queryForObject(sql,
+                new Object[]{email, password}, UUID.class);
         return Optional.ofNullable(uuid);
     }
 
@@ -109,6 +104,8 @@ public class UserDataAccessService implements UserDao {
                 });
         return Optional.ofNullable(user);
     }
+
+
 
     /**
      * Update user account info.

@@ -31,6 +31,7 @@ public class UserService {
         return userDao.getUserById(id);
     }
 
+
     public List<User> getAllUser(){
         return userDao.getAllUser();
     }
