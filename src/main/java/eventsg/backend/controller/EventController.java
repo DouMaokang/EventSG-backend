@@ -233,7 +233,7 @@ public class EventController {
         List<Review> reviewList = reviewService.getReviewsByEventId(event.getEventId());
         User organizer;
         try {
-            organizer = userService.getUserById(event.getOrganizerId()).orElse(null);
+            organizer = userService.getUserById(event.getOrganizerId());
         } catch (Exception e) {
             organizer = null;
         }

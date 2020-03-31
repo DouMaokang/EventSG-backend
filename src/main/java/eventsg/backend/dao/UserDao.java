@@ -3,7 +3,6 @@ package eventsg.backend.dao;
 import eventsg.backend.model.User;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface UserDao {
@@ -11,9 +10,9 @@ public interface UserDao {
     int addUser(User user);
 
     // Basic account operations
-    Optional<UUID> login(String email, String password);
+    UUID login(String email, String password);
 
-    Optional<User> getUserById(UUID id);
+    User getUserById(UUID id);
 
     List<User> getAllUser();
 

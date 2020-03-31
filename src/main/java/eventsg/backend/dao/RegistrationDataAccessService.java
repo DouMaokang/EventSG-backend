@@ -53,7 +53,7 @@ public class RegistrationDataAccessService implements RegistrationDao {
                 sql,
                 new Object[]{userId},
                 (resultSet, i) -> {
-                    UUID eventId  = UUID.fromString(resultSet.getString("eventId"));
+                    UUID eventId  = UUID.fromString(resultSet.getString("userId"));
                     return eventId;
                 });
     }

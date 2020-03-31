@@ -23,11 +23,11 @@ public class UserService {
         return userDao.addUser(user);
     }
 
-    public Optional<UUID> login(String email, String password){
+    public UUID login(String email, String password){
         return userDao.login(email, password);
     }
 
-    public Optional<User> getUserById(UUID id){
+    public User getUserById(UUID id){
         return userDao.getUserById(id);
     }
 

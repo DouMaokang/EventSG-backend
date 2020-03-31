@@ -125,7 +125,7 @@ public class VenueController {
     private Map<String, Object> generateResponse(Venue venue) {
         User owner;
         try {
-            owner = userService.getUserById(venue.getOwnerId()).orElse(null);
+            owner = userService.getUserById(venue.getOwnerId());
         } catch (Exception e) {
             owner = null;
         }

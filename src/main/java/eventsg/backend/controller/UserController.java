@@ -26,14 +26,12 @@ public class UserController {
 
     @GetMapping(path = "login/{email}/{password}")
     public UUID login(@PathVariable("email") String emailAddress, @PathVariable("password") String password){
-        return userService.login(emailAddress, password)
-                .orElse(null);
+        return userService.login(emailAddress, password);
     }
 
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") UUID id){
-        return userService.getUserById(id)
-                .orElse(null);
+        return userService.getUserById(id);
     }
 
     @GetMapping

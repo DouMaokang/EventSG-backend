@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository("userDao")
@@ -66,12 +65,17 @@ public class UserDataAccessService implements UserDao {
      * @return If successful, returns a UUID, otherwise returns null.
      */
     @Override
-    public Optional<UUID> login(String email, String password) {
-        final String sql = "SELECT userId FROM users WHERE email = ? AND password = ? ";
+    public UUID login(String email, String password) {
+        final String sql = "SELECT userId FROM users WHERE LOWER(email) = ? AND password = ? ";
 
-        UUID uuid = jdbcTemplate.queryForObject(sql,
-                new Object[]{email, password}, UUID.class);
-        return Optional.ofNullable(uuid);
+        UUID uuid;
+                try {
+                    uuid = jdbcTemplate.queryForObject(sql,
+                            new Object[]{email, password}, UUID.class);
+                } catch (Exception e) {
+                    uuid = null;
+                }
+        return uuid;
     }
 
     /**
@@ -80,29 +84,34 @@ public class UserDataAccessService implements UserDao {
      * @return if a matching user is found, return found User; else return null.
      */
     @Override
-    public Optional<User> getUserById(UUID id) {
+    public User getUserById(UUID id) {
         final String sql = "SELECT * FROM users WHERE userId = ?";
 
-        User user = jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{id},
-                (resultSet, i) -> {
-                    UUID userId = UUID.fromString(resultSet.getString("userId"));
-                    String userName = resultSet.getString("userName");
-                    String firstName = resultSet.getString("firstName");
-                    String lastName = resultSet.getString("lastName");
-                    String email = resultSet.getString("email");
+        User user;
+        try {
+            user = jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{id},
+                    (resultSet, i) -> {
+                        UUID userId = UUID.fromString(resultSet.getString("userId"));
+                        String userName = resultSet.getString("userName");
+                        String firstName = resultSet.getString("firstName");
+                        String lastName = resultSet.getString("lastName");
+                        String email = resultSet.getString("email");
 //                    String password = resultSet.getString("password");
-                    LocalDate birthday = resultSet.getObject("birthday", LocalDate.class);
-                    int phoneNum = Integer.parseInt(resultSet.getString("phoneNum"));
-                    String occupation = resultSet.getString("occupation");
-                    String organization = resultSet.getString("organization");
-                    String image = resultSet.getString("image");
+                        LocalDate birthday = resultSet.getObject("birthday", LocalDate.class);
+                        int phoneNum = Integer.parseInt(resultSet.getString("phoneNum"));
+                        String occupation = resultSet.getString("occupation");
+                        String organization = resultSet.getString("organization");
+                        String image = resultSet.getString("image");
 
-                    return new User(userId, userName, firstName, lastName, email, birthday,
-                            phoneNum, occupation, organization, image);
-                });
-        return Optional.ofNullable(user);
+                        return new User(userId, userName, firstName, lastName, email, birthday,
+                                phoneNum, occupation, organization, image);
+                    });
+        } catch (Exception e) {
+            user = null;
+        }
+        return user;
     }
 
 

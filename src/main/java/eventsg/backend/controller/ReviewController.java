@@ -119,7 +119,7 @@ public class ReviewController {
         UUID reviewerId = review.getReviewerId();
         User reviewer;
         try {
-            reviewer = userService.getUserById(reviewerId).orElse(null);
+            reviewer = userService.getUserById(reviewerId);
         } catch (Exception e) {
             reviewer = null;
         }
