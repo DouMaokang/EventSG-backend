@@ -29,7 +29,7 @@ public class ReviewController {
     private final NotificationService notificationService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService， NotificationService notificationService) {
+    public ReviewController(ReviewService reviewService, EventService eventService, UserService userService, NotificationService notificationService) {
         this.reviewService = reviewService;
         this.eventService = eventService;
         this.userService = userService;

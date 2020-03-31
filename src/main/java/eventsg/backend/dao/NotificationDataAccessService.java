@@ -40,7 +40,7 @@ public class NotificationDataAccessService implements NotificationDao {
         final String sql = "SELECT * FROM notification WHERE userId = ? " +
                 "AND startTime < (DATE(NOW()) + INTERVAL '7' DAY) " +
                 "AND startTime >= DATE(NOW())";
-        return jdbcTemplate.query(sql, new Object[]{userId, dayLimit}, new NotificationRowMapper());
+        return jdbcTemplate.query(sql, new Object[]{userId}, new NotificationRowMapper());
     }
 
 
