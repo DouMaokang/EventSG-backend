@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("api/notification")
@@ -27,5 +28,10 @@ public class NotificationController {
     @RequestMapping(value="{userId}",method=RequestMethod.GET)
     public List<Notification> getNotificationList(@PathVariable("userId") UUID userId) {
         return notificationService.getNotification(userId, 7);
+    }
+
+    @GetMapping
+    public List<Notification> getAllReviews() {
+        return notificationService.getAllNotifications();
     }
 }
