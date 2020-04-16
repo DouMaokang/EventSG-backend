@@ -21,6 +21,11 @@ public class EventDataAccessService implements EventDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Add the event to the database and returns the event UUID.
+     * @param event An event object.
+     * @return UUID of the posted event.
+     */
     @Override
     public UUID postEvent(Event event) {
         final String sql = "INSERT INTO event " +
@@ -69,6 +74,10 @@ public class EventDataAccessService implements EventDao {
 
     }
 
+    /**
+     * Save the draft of an event that is created but not yet posted.
+     * @param event An event object.
+     */
     @Override
     public void saveEvent(Event event) {
 
@@ -119,12 +128,20 @@ public class EventDataAccessService implements EventDao {
         );
     }
 
+    /**
+     * Delete an event if the event is not published/cancelled
+     * @param eventId UUID of event to be deleted.
+     */
     @Override
     public void deleteEvent(UUID eventId) {
         final String sql = "DELETE FROM event WHERE eventId = ?";
         jdbcTemplate.update(sql, eventId);
     }
 
+    /**
+     * Cancel a posted event
+     * @param eventId UUID of event to be cancelled.
+     */
     @Override
     public void cancelEvent(UUID eventId) {
         final String sql = "UPDATE event " +
@@ -135,12 +152,21 @@ public class EventDataAccessService implements EventDao {
         jdbcTemplate.update(sql, "cancelled", eventId);
     }
 
+    /**
+     * Get all events from the database.
+     * @return A list of events.
+     */
     @Override
     public List<Event> getAllEvent() {
         final String sql = "SELECT * FROM event ORDER BY startTime";
         return jdbcTemplate.query(sql, new EventRowMapper());
     }
 
+    /**
+     * Get a single event by its UUID.
+     * @param eventId UUID of the event.
+     * @return An event object.
+     */
     @Override
     public Event getEventById(UUID eventId) {
         final String sql = "SELECT * FROM event WHERE eventId = ?";
@@ -151,6 +177,11 @@ public class EventDataAccessService implements EventDao {
         }
     }
 
+    /**
+     * Return a list of events liked/saved by the user.
+     * @param userId UUID of the queried user.
+     * @return A list of event objects.
+     */
     @Override
     public List<Event> getSavedEvent(UUID userId) {
         final String sql = "SELECT * FROM event WHERE eventId IN " +
@@ -159,6 +190,12 @@ public class EventDataAccessService implements EventDao {
         return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
     }
 
+    /**
+     * Get all events registered by the user that will occur in a number of days sepcified.
+     * @param userId UUID of user
+     * @param limit the number of days.
+     * @return a list of event objects.
+     */
     @Override
     public List<Event> getUpcomingEvent(UUID userId, Integer limit) {
         final String sql = "SELECT * FROM event " +
@@ -167,6 +204,10 @@ public class EventDataAccessService implements EventDao {
         return jdbcTemplate.query(sql, new Object[]{userId}, new EventRowMapper());
     }
 
+    /**
+     * Get a list of popular events based on number of likes.
+     * @return a list of objects.
+     */
     // TODO: To have an additional attribute "numOfSaves"?
     @Override
     public List<Event> getPopularEvent() {
@@ -176,12 +217,22 @@ public class EventDataAccessService implements EventDao {
         return jdbcTemplate.query(sql, new EventRowMapper());
     }
 
+    /**
+     * Get all events belonging to the category specified.
+     * @param category the name of the category.
+     * @return a list of events.
+     */
     @Override
     public List<Event> getEventByCategory(String category) {
         final String sql = "SELECT * FROM event WHERE category = ? ORDER BY startTime";
         return jdbcTemplate.query(sql, new Object[]{category}, new EventRowMapper());
     }
 
+    /**
+     * Search for events that have matching keywords in their title.
+     * @param keyword keywords for search.
+     * @return a list of matching events.
+     */
     @Override
     public List<Event> searchEventByTitle(String keyword) {
         final String sql = "SELECT * FROM event WHERE LOWER(title) LIKE '%" + keyword.toLowerCase() + "%' ORDER BY startTime";
@@ -190,6 +241,12 @@ public class EventDataAccessService implements EventDao {
 
     }
 
+    /**
+     * Check whether the user has liked the event or not.
+     * @param eventId event to be checked.
+     * @param userId user to be checked.
+     * @return True if user has saved the event.
+     */
     @Override
     public boolean hasSavedEvent(UUID eventId, UUID userId) {
         final String sql = "SELECT COUNT(*) FROM user_saved_event WHERE eventId = ? AND userId = ?";
@@ -201,6 +258,11 @@ public class EventDataAccessService implements EventDao {
         return (count > 0);
     }
 
+    /**
+     * Get all events organised by the user.
+     * @param userId the UUID of the user.
+     * @return all organised events organised by the user.
+     */
     @Override
     public List<Event> getOrganizedEvent(UUID userId) {
         final String sql =  "SELECT * FROM event WHERE organizerId = ? ORDER BY startTime";

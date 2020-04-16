@@ -61,7 +61,12 @@ public class ReviewDataAccessService implements ReviewDao{
         return Optional.ofNullable(review);
     }
 
-
+    /**
+     * Check if the user has reviewed the event or not.
+     * @param selectedEventId UUID of the event.
+     * @param selectedReviewerId UUID of the user.
+     * @return True if the user has reviewed the event.
+     */
     public boolean checkIfReviewed(UUID selectedEventId, UUID selectedReviewerId) {
         final String sql = "SELECT * FROM review WHERE eventId = ? AND reviewerId = ?";
         List<Review> reviews = jdbcTemplate.query(
@@ -99,12 +104,23 @@ public class ReviewDataAccessService implements ReviewDao{
         return reviews;
     }
 
+    /**
+     * Delete the review by given UUID.
+     * @param reviewId UUID of the review.
+     * @return 0 or 1.
+     */
     @Override
     public int deleteReviewById(UUID reviewId) {
         final String sql = "" + "DELETE FROM review WHERE reviewId = ?";
         return jdbcTemplate.update(sql, reviewId);
     }
 
+    /**
+     * Update review with the provided review.
+     * @param reviewId UUID of the review to be updated.
+     * @param review review to replace the old review.
+     * @return 0 or 1.
+     */
     @Override
     public int updateReviewById(UUID reviewId, Review review) {
         String sql = "" +

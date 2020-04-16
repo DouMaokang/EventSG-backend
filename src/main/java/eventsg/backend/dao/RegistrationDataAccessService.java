@@ -15,13 +15,13 @@ public class RegistrationDataAccessService implements RegistrationDao {
     public RegistrationDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     /**
      * Add a record of (userId, eventId) into user_registered_event table.
      * @param userId UUID
      * @param eventId UUID
      * @return 0 or 1
      */
-
     @Override
     public int registerEvent(UUID userId, UUID eventId) {
         return jdbcTemplate.update("INSERT INTO registration(userId, eventId) VALUES(?,?)", userId, eventId);
@@ -35,9 +35,8 @@ public class RegistrationDataAccessService implements RegistrationDao {
      * @return 0 or 1
      */
     @Override
-        public int deregisterEvent(UUID userId, UUID eventId) {
+    public int deregisterEvent(UUID userId, UUID eventId) {
             return jdbcTemplate.update("DELETE FROM registration WHERE userId = ? AND eventId = ?", userId, eventId);
-
     }
 
 
@@ -58,12 +57,23 @@ public class RegistrationDataAccessService implements RegistrationDao {
                 });
     }
 
+    /**
+     * Get number of users who have registered.
+     * @param eventId UUID of the event.
+     * @return the number of participants.
+     */
     @Override
     public int getNumOfParticipants(UUID eventId) {
         final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = " + eventId;
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
+    /**
+     * Check whether the user has registered for the event.
+     * @param eventId UUID of the event.
+     * @param userId UUID of the user.
+     * @return True of the user has registered.
+     */
     @Override
     public boolean hasRegistered(UUID eventId, UUID userId) {
         final String sql = "SELECT COUNT(*) FROM registration WHERE eventId = ? AND userId = ?";
@@ -71,6 +81,11 @@ public class RegistrationDataAccessService implements RegistrationDao {
         return (count > 0);
     }
 
+    /**
+     * Get users who have registered for the event.
+     * @param eventId UUID of the event.
+     * @return A list of users who have registered.
+     */
     @Override
     public List<UUID> getRegisteredUsers(UUID eventId) {
         final String sql = "SELECT userId FROM registration WHERE eventId = ?";
