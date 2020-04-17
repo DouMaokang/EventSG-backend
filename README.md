@@ -31,6 +31,11 @@ EventSG is a newly developed application for iOS devices. It is created for ever
 The fronend of EventSG is developed using Google's **Flutter framework**. We have applied the "Business Logic Component" (**Bloc**) pattern for state management within the app.
 The backend of EventSG is developed using Java's **Spring Boot** framework.
 
+<p align="center">
+  <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.32.07%20PM.png" width="600">
+</p>
+
+
 ## Photo Gallery
 <p align="center">
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/IMG_2286.PNG" width="250">
