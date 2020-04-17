@@ -45,9 +45,10 @@ EventSG is a newly developed application for iOS devices. It is created for ever
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.36.26%20PM.png" width="600">
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.32.07%20PM.png" width="600">
 </p>
+
+## Documentations
 - A complete Software Requirement Specification can be found [here](https://docs.google.com/document/d/18AbES_UrQ_l121a2KnHh4DlEHX2NLyUiwxRn3jxHhT4/edit#)
 - Other design document can be found [here](https://drive.google.com/drive/u/0/folders/1RQpQ3lKQejkSNtzZeYBBFs6WtdJpb7DV)
-
 
 ## Future development
 Our team is currently working on deploying the backend service to Google Cloud Platform and publishing the app to Google Play and App Store
