@@ -200,6 +200,11 @@ public class VenueDataAccessService implements VenueDao {
         return venues;
     }
 
+    /**
+     * Get the venue of an event by eventID
+     * @param eventId UUID of event.
+     * @return the venue.
+     */
     @Override
     public Venue getVenueByEventId(UUID eventId) {
         final String sql = "SELECT * FROM event INNER JOIN venue ON event.venueId = venue.venueId WHERE eventId = ?";

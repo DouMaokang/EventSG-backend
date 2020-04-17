@@ -19,6 +19,10 @@ public class NotificationDataAccessService implements NotificationDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Add notification to the database.
+     * @param n the notification to be added.
+     */
     @Override
     public void addNotification(Notification n) {
 
@@ -35,6 +39,12 @@ public class NotificationDataAccessService implements NotificationDao {
         jdbcTemplate.update(sql, notificationId, n.getType(), n.getTimeCreated(), n.getEventId(), n.getUserId());
     }
 
+    /**
+     * Get a list of notifications which should be sent to users.
+     * @param userId UUID of user.
+     * @param dayLimit number of days in which events are going to take place.
+     * @return
+     */
     @Override
     public List<Notification> getNotification(UUID userId, Integer dayLimit) {
         final String sql = "SELECT * FROM notification WHERE userId = ? " +
@@ -43,6 +53,10 @@ public class NotificationDataAccessService implements NotificationDao {
         return jdbcTemplate.query(sql, new Object[]{userId}, new NotificationRowMapper());
     }
 
+    /**
+     * Get all notifications.
+     * @return all notifications.
+     */
     @Override
     public List<Notification> getAllNotifications() {
         final String sql = "SELECT * FROM notification";
