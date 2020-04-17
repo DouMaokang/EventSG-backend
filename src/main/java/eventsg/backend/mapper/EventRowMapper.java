@@ -15,6 +15,13 @@ import java.util.UUID;
 
 public class EventRowMapper implements RowMapper<Event> {
 
+    /**
+     * Maps a database record into an Event object.
+     * @param resultSet the database record
+     * @param rowNum the number of rows
+     * @return event object
+     * @throws SQLException
+     */
     @Override
     public Event mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         UUID id = UUID.fromString(resultSet.getString("eventId"));
@@ -29,7 +36,6 @@ public class EventRowMapper implements RowMapper<Event> {
         Integer capacity = resultSet.getInt("capacity");
         Integer numOfParticipants = resultSet.getInt("numOfParticipants");
         float avgRating = resultSet.getFloat("avgRating");
-//        List<Review> reviewList = null;
         String category = resultSet.getString("category");
         String status = resultSet.getString("status");
         UUID venueId = UUID.fromString(resultSet.getString("venueId"));

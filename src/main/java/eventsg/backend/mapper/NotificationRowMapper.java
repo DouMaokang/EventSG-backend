@@ -11,6 +11,13 @@ import java.util.UUID;
 
 public class NotificationRowMapper implements RowMapper<Notification> {
 
+    /**
+     * Maps a database record into a Notification object.
+     * @param resultSet the database record
+     * @param i the number of rows
+     * @return notification object
+     * @throws SQLException
+     */
     @Override
     public Notification mapRow(ResultSet resultSet, int i) throws SQLException {
 
