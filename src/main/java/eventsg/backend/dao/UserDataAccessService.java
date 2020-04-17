@@ -34,6 +34,10 @@ public class UserDataAccessService implements UserDao {
         );
     }
 
+    /**
+     * Get all users in the database.
+     * @return a list of users.
+     */
     @Override
     public List<User> getAllUser() {
         final String sql = "SELECT * FROM users";
@@ -170,15 +174,15 @@ public class UserDataAccessService implements UserDao {
 
     /**
      * Get a list of categories that user of userid is insterested in.
-     * @param userid UUID
+     * @param userId UUID
      * @return a list of categories
      */
     @Override
-    public List<String> getInterestedCategories(UUID userid) {
+    public List<String> getInterestedCategories(UUID userId) {
         final String sql = "SELECT category FROM user_interested_category WHERE userId = ?";
         return jdbcTemplate.query(
                 sql,
-                new Object[]{userid},
+                new Object[]{userId},
                 (resultSet, i) -> {
                     String category = resultSet.getString("category");
                     return category;
@@ -201,12 +205,12 @@ public class UserDataAccessService implements UserDao {
     /**
      * Delete a record of (userId, eventId) from user_saved_event table.
      * @param userId UUID
-     * @param eventid UUID
+     * @param eventId UUID
      * @return 0 or 1
      */
     @Override
-    public int unsaveEvent(UUID userId, UUID eventid) {
-        return jdbcTemplate.update("DELETE FROM user_saved_event WHERE userId = ? AND eventId = ?", userId, eventid);
+    public int unsaveEvent(UUID userId, UUID eventId) {
+        return jdbcTemplate.update("DELETE FROM user_saved_event WHERE userId = ? AND eventId = ?", userId, eventId);
 
     }
 
