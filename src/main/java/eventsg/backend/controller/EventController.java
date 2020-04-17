@@ -188,22 +188,42 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
+    /**
+     * Checks whether a event is saved by a particular user.
+     * @param eventId the id of the event
+     * @param userId the id of the user
+     * @return true if the event is saved by the user
+     */
     @GetMapping(path = "has_saved/eventId={eventId}/userId={userId}")
     public boolean hasSavedEvent(@PathVariable("eventId") UUID eventId, @PathVariable("userId") UUID userId) {
         return  eventService.hasSavedEvent(eventId, userId);
     }
 
-
+    /**
+     * Saves an event into a user's account.
+     * @param userId the id of the user
+     * @param eventId the id of the event to be saved
+     */
     @PostMapping(path = "save_event/eventId={eventId}/userId={userId}")
     public void saveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId") UUID eventId){
         userService.saveEvent(userId, eventId);
-    };
+    }
 
+    /**
+     * Delete from saved events of an user.
+     * @param userId the id of the user
+     * @param eventId the id of the event
+     */
     @DeleteMapping(path = "unsave_event/eventId={eventId}/userId={userId}")
     public void unsaveEvent(@PathVariable("userId") UUID userId, @PathVariable("eventId")UUID eventId){
         userService.unsaveEvent(userId, eventId);
-    };
+    }
 
+    /**
+     * Returns all events saved by a user.
+     * @param userId the id of the user
+     * @return a list of events saved by a user
+     */
     @GetMapping(path = "all_saved_events/userId={userId}")
     public List<Map<String, Object>> getSavedEvents(@PathVariable("userId") UUID userId) {
         List<UUID> eventIds = userService.getSavedEvents(userId);
@@ -214,6 +234,11 @@ public class EventController {
         return this.generateResponseList(eventList);
     }
 
+    /**
+     * Returns a list of events organized by a user.
+     * @param userId the id of the user
+     * @return a list of events organized by the user
+     */
     @GetMapping(path = "organizer/userId={userId}")
     public List<Map<String, Object>> getEventByOrganizer(@PathVariable("userId") UUID userId) {
         List<Event> eventList = eventService.getOrganizedEvent(userId);

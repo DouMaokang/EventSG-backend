@@ -84,7 +84,7 @@ public class ReviewController {
 
 
     /**
-     * Answeing an Http GET request
+     * Answering an Http GET request
      * @return Return a list of all Review objects currently in the database
      */
     @GetMapping

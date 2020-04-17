@@ -60,30 +60,16 @@ public class RegistrationController {
 
     }
 
+    /**
+     * Checks whether a user has registered a particular event.
+     * @param eventId the id of the event
+     * @param userId the id of the user
+     * @return true if the user has registered the event
+     */
     @GetMapping(path = "check/{eventId}/{userId}")
     public boolean hasRegistered(@PathVariable("eventId") UUID eventId, @PathVariable("userId")UUID userId) {
         return registrationService.hasRegistered(eventId, userId);
     }
-
-    // Moved into event controller
-//    /**
-//     * Returns all registration record of a user.
-//     * @param userId the id of the user
-//     * @return a list of registrations
-//     */
-//    @GetMapping(path = "userId/{userId}")
-//    public List<UUID> getRegisteredEvents(@PathVariable("userId") UUID userId){
-//        return registrationService.getRegisteredEvents(userId);
-//    }
-
-
-// TODO: update the no. of participants in the database
-
-//    @GetMapping(path = "getNumOfParticipants/{eventId}")
-//    public int getNumOfParticipants(@PathVariable("eventId") UUID eventId){
-//        return registrationService.getNumOfParticipants(eventId);
-//    }
-
 
 
 }
