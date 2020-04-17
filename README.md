@@ -27,15 +27,6 @@ EventSG is a newly developed application for iOS devices. It is created for ever
 - A user registers or deregisters an event
 - A user can check his/her profile page, which includes his avatar, username, saved events, created events and etc.
 
-## Tech Details
-The fronend of EventSG is developed using Google's **Flutter framework**. We have applied the "Business Logic Component" (**Bloc**) pattern for state management within the app.
-The backend of EventSG is developed using Java's **Spring Boot** framework.
-
-<p align="center">
-  <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.32.07%20PM.png" width="600">
-</p>
-
-
 ## Photo Gallery
 <p align="center">
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/IMG_2286.PNG" width="250">
@@ -45,6 +36,18 @@ The backend of EventSG is developed using Java's **Spring Boot** framework.
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/IMG_2311.PNG" width="250">
   <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/IMG_2299.PNG" width="250">
 </p>
+
+## Tech Details
+- The fronend of EventSG is developed using Google's **Flutter framework**. We have applied the "Business Logic Component" (**Bloc**) pattern for state management within the app.
+- The backend of EventSG is developed using Java's **Spring Boot** framework.
+- System architecture
+<p align="center">
+  <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.36.26%20PM.png" width="600">
+  <img src="https://github.com/DouMaokang/EventSG/blob/master/doc/Screen%20Shot%202020-04-17%20at%204.32.07%20PM.png" width="600">
+</p>
+- A complete Software Requirement Specification can be found [here](https://docs.google.com/document/d/18AbES_UrQ_l121a2KnHh4DlEHX2NLyUiwxRn3jxHhT4/edit#)
+- Other design document can be found [here](https://drive.google.com/drive/u/0/folders/1RQpQ3lKQejkSNtzZeYBBFs6WtdJpb7DV)
+
 
 ## Future development
 Our team is currently working on deploying the backend service to Google Cloud Platform and publishing the app to Google Play and App Store
